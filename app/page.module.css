@@ -51,6 +51,9 @@
   z-index: 11;
   transform-origin: center top;
   left: 10%;
+  /* Ensure logo-large starts slightly larger to cover logo-small better */
+  width: 85%; /* Slightly larger initial width */
+  transition: all 0.3s ease; /* Smooth transition for better visual effect */
 }
 
 .imageSection {

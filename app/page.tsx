@@ -14,23 +14,24 @@ export default function Home() {
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       const navHeight = 80;
-      const targetWidth = 200;
-      const targetHeight = 50;
+      const targetWidth = 200; // Target width for logo-big after animation
+      const targetHeight = 50; // Target height for logo-big after animation
       const targetTop = (navHeight - targetHeight) / 2;
       const targetLeft = (viewportWidth - targetWidth) / 2;
 
-      const initialWidth = viewportWidth * 0.8;
-      const initialHeight = initialWidth * (300 / 1200);
-      const initialLeft = viewportWidth * 0.1;
+      const initialWidth = viewportWidth * 0.8; // Initial larger width
+      const initialHeight = initialWidth * (300 / 1200); // Initial larger height
+      const initialLeft = viewportWidth * 0.1; // Initial left position
       const initialTop = navHeight + (viewportHeight - initialHeight) / 2;
 
-      const maxScroll = viewportHeight;
+      const maxScroll = viewportHeight * 0.7; // Adjust max scroll to complete earlier
       let progress = Math.min(1, scrollY / maxScroll);
 
-      const currentWidth = initialWidth + progress * (targetWidth - initialWidth);
-      const currentHeight = initialHeight + progress * (targetHeight - initialHeight);
-      const currentLeft = initialLeft + progress * (targetLeft - initialLeft);
-      const currentTop = initialTop - scrollY + progress * (scrollY + targetTop - initialTop);
+      // Adjust scaling to ensure overlap
+      const currentWidth = initialWidth - (initialWidth - targetWidth) * progress;
+      const currentHeight = initialHeight - (initialHeight - targetHeight) * progress;
+      const currentLeft = initialLeft + (targetLeft - initialLeft) * progress;
+      const currentTop = initialTop - scrollY + (targetTop - initialTop) * progress;
 
       if (logoLargeRef.current) {
         logoLargeRef.current.style.width = `${currentWidth}px`;
@@ -40,7 +41,8 @@ export default function Home() {
       }
 
       if (logoSmallRef.current) {
-        logoSmallRef.current.style.opacity = progress >= 1 ? '0' : '1';
+        // Hide logo-small more aggressively as logo-large scales down
+        logoSmallRef.current.style.opacity = progress >= 0.8 ? '0' : '1'; // Start hiding earlier
       }
 
       if (parallaxImageRef.current) {
