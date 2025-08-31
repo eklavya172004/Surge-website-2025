@@ -79,17 +79,11 @@ export default function Home() {
             viewBox="0 0 200 50"
             className={styles.logoSmall}
           >
-            <g fill="navy" transform="translate(75 5) scale(0.5)">
-              <circle cx="50" cy="10" r="5" />
-              <rect x="40" y="15" width="20" height="20" rx="10" />
-              <rect x="35" y="35" width="10" height="5" />
-              <rect x="35" y="40" width="30" height="5" />
-            </g>
             <text x="100" y="25" textAnchor="middle" fill="navy" fontSize="30" fontWeight="bold">
-              2026
+              SURGE
             </text>
             <text x="100" y="40" textAnchor="middle" fill="navy" fontSize="10" fontWeight="bold">
-              SURGE
+              2025
             </text>
           </svg>
         </div>
@@ -117,17 +111,11 @@ export default function Home() {
       >
         <mask id="text-mask">
           <rect width="1200" height="300" fill="black" />
-          <g fill="white" transform="translate(540 20) scale(4)">
-            <circle cx="20" cy="10" r="5" />
-            <rect x="10" y="15" width="20" height="20" rx="10" />
-            <rect x="15" y="35" width="10" height="5" />
-            <rect x="5" y="40" width="30" height="5" />
-          </g>
           <text x="600" y="180" textAnchor="middle" fill="white" fontSize="200" fontWeight="bold">
-            2026
+            SURGE
           </text>
           <text x="600" y="270" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold">
-            SURGE
+            2025
           </text>
         </mask>
         <foreignObject width="1200" height="300" mask="url(#text-mask)">
