@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import styles from './page.module.css';
+import './image_grid.css';
 
 export default function Home() {
   const logoLargeRef = useRef<SVGSVGElement>(null);
@@ -129,6 +130,77 @@ export default function Home() {
           ></video>
         </foreignObject>
       </svg>
+
+    {/* sukhraj-put this here */}
+    <section className='image_grid'>
+
+        <div className="grid">
+
+        <div className="grid-item text-box">
+            <span>STAY</span>
+            <span>UPDATED</span>
+        </div>
+
+
+        <div className="grid-item">
+          <img src="/img_start/basm.webp" />
+        </div>
+
+
+        <div className="grid-item">
+        </div>
+
+        {/* sukhraj-put this here */}{/* sukhraj-put this here */}{/* sukhraj-put this here */}{/* sukhraj-put this here */}
+
+
+        <div className="grid-item">
+          <img src="/img_start/chess.webp" />
+        </div>
+
+        <div className="grid-item">
+          <img src="/img_start/ttm.webp"/>
+        </div>
+
+
+
+        <div className="grid-item">
+        </div>
+
+   
+
+        <div className="grid-item">
+          <img src="/img_start/valorant.webp" />
+        </div>
+
+        <div className="grid-item">
+          <img src="/img_start/woten.webp" />
+        </div>
+
+
+         <div className="grid-item">
+        </div>
+
+
+        <div className="grid-item">
+          <img src="/img_start/cricMen.webp/" />
+        </div>
+
+         <div className="grid-item">
+        </div>
+
+  </div>
+
+
+  </section>
+
+
+  <section className={'footer'}>
+    <h1>Footer</h1>
+
+    </section>
+
+
+
     </>
   );
 }
