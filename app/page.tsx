@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import styles from './page.module.css';
-import './image_grid.css';
-
+import Navbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import LogoLarge from './components/LogoLarge';
+import ImageSection from './components/ImageSection';
+import SportsGrid from './components/SportsGrid';
+import Footer from './components/Footer';
 
 export default function Home() {
   const logoLargeRef = useRef<SVGSVGElement>(null);
@@ -16,20 +19,19 @@ export default function Home() {
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       const navHeight = 80;
-      const targetWidth = 200; // Target width for logo-big after animation
-      const targetHeight = 50; // Target height for logo-big after animation
+      const targetWidth = 200;
+      const targetHeight = 50;
       const targetTop = (navHeight - targetHeight) / 2;
       const targetLeft = (viewportWidth - targetWidth) / 2;
 
-      const initialWidth = viewportWidth * 0.8; // Initial larger width
-      const initialHeight = initialWidth * (300 / 1200); // Initial larger height
-      const initialLeft = viewportWidth * 0.1; // Initial left position
+      const initialWidth = viewportWidth * 0.8;
+      const initialHeight = initialWidth * (300 / 1200);
+      const initialLeft = viewportWidth * 0.1;
       const initialTop = navHeight + (viewportHeight - initialHeight) / 2;
 
-      const maxScroll = viewportHeight * 0.7; // Adjust max scroll to complete earlier
+      const maxScroll = viewportHeight * 0.7;
       let progress = Math.min(1, scrollY / maxScroll);
 
-      // Adjust scaling to ensure overlap
       const currentWidth = initialWidth - (initialWidth - targetWidth) * progress;
       const currentHeight = initialHeight - (initialHeight - targetHeight) * progress;
       const currentLeft = initialLeft + (targetLeft - initialLeft) * progress;
@@ -43,8 +45,7 @@ export default function Home() {
       }
 
       if (logoSmallRef.current) {
-        // Hide logo-small more aggressively as logo-large scales down
-        logoSmallRef.current.style.opacity = progress >= 0.8 ? '0' : '1'; // Start hiding earlier
+        logoSmallRef.current.style.opacity = progress >= 0.8 ? '0' : '1';
       }
 
       if (parallaxImageRef.current) {
@@ -66,157 +67,12 @@ export default function Home() {
 
   return (
     <>
-      <nav className={styles.nav}>
-        <ul>
-          <li>ABOUT</li>
-          <li>SCHEDULE</li>
-          <li>VENUES</li>
-        </ul>
-        <div className={styles.logoPlaceholder}>
-          <svg
-            ref={logoSmallRef}
-            id="logo-small"
-            width="200"
-            height="50"
-            viewBox="0 0 200 50"
-            className={styles.logoSmall}
-          >
-            <text x="100" y="25" textAnchor="middle" fill="navy" fontSize="30" fontWeight="bold">
-              SURGE
-            </text>
-            <text x="100" y="40" textAnchor="middle" fill="navy" fontSize="10" fontWeight="bold">
-              2025
-            </text>
-          </svg>
-        </div>
-        <ul>
-          <li>NEWS</li>
-          <li>CONTACT</li>
-          <li>FIFA</li>
-          <li>SHOP</li>
-        </ul>
-      </nav>
-      <div className={styles.heroContainer}></div>
-      <section className={styles.imageSection}>
-        <div
-          ref={parallaxImageRef}
-          className={styles.parallaxImage}
-        ></div>
-      </section>
-      <svg
-        ref={logoLargeRef}
-        id="logo-large"
-        width="80%"
-        height="auto"
-        viewBox="0 0 1200 300"
-        className={styles.logoLarge}
-      >
-        <mask id="text-mask">
-          <rect width="1200" height="300" fill="black" />
-          <text x="600" y="180" textAnchor="middle" fill="white" fontSize="200" fontWeight="bold">
-            SURGE
-          </text>
-          <text x="600" y="270" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold">
-            2025
-          </text>
-        </mask>
-        <foreignObject width="1200" height="300" mask="url(#text-mask)">
-          <video
-            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          ></video>
-        </foreignObject>
-      </svg>
-
-          {/* SUKHRAJ'S PART STARTS  */}
-
-    <section className='image_grid'>
-
-        <div className="grid">
-
-          <div className="stay_updated">ALL<br></br>EVENTS</div>
-
-          <div className="sports_grid">
-
-            <div className="column1">
-              <div className='Images'>
-
-                <div className="image-wrapper">
-  
-                  <img src="/sports/atheletics.png"/>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <div className="overlay-text-small">Atheltics</div>
-                </div>
-                <div className="image-wrapper">
-                  <img src="/sports/basketball.png"/>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <div className="overlay-text-small">Basketball</div>
-                  
-                </div>
-                <div className="image-wrapper">
-                  <div className="overlay-text-small">Badminton</div>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <img src="/sports/badminton.png" />
-                </div>
-                <div className="image-wrapper">
-                  <div className="overlay-text-small">Chess</div>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <img src="/sports/chess.png" />
-                </div>
-                <div className="image-wrapper">
-                  <div className="overlay-text-small">Cricket</div>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <img src="/sports/cricket.png" />
-                </div>
-                <div className="image-wrapper">
-                  <div className="overlay-text-small">Football</div>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <img src="/sports/football.png" />
-                
-                </div>
-                <div className="image-wrapper">
-                  <div className="overlay-text-small">Futsal</div>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <img src="/sports/futsal.png" />
-                  
-                </div>
-                <div className="image-wrapper">
-                  <div className="overlay-text-small">Powerlifting</div>
-                  <img src="/sports/gradient.png" className="gradient" />
-                  <img src="/sports/powerlift.png" />
-                </div>
-                 </div>
-            </div>
-
-            <div className="column2">
-              <div className="image-wrapper">
-                <img src="/sports/more.png" />
-                <div className="overlay-text">MORE</div>
-              </div>
-            </div>
-            
-            
-          </div>
-
-
-          </div>
-
-
-  </section>
-
-      {/* SUKHRAJ'S PART ENDS  */}
-
-  <section className={'footer'}>
-    <h1>Footer</h1>
-
-    </section>
-
-
-
+      <Navbar logoSmallRef={logoSmallRef} />
+      <HeroSection />
+      <ImageSection parallaxImageRef={parallaxImageRef} />
+      <LogoLarge logoLargeRef={logoLargeRef} />
+      <SportsGrid />
+      <Footer />
     </>
   );
 }
