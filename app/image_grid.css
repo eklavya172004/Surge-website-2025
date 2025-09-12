@@ -1,62 +1,169 @@
-.image_grid{
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
+@font-face {
+    font-family: "Anton";
+    src: url("/fonts/Anton/Anton-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url("/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.image_grid {
+
+    background: white;
     margin: 0;
     padding: 20px;
 }
 
+
+
 .grid {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
+.stay_updated {
+    margin-top: 10%;
+    font-family: "Anton", sans-serif;
+    background-color: white;
+    font-size: 7rem;
+    color: black;
+    margin-bottom: 20px;
+    line-height: 1;
+    /* reduce vertical gap */
+    letter-spacing: 4px;
 
-
-.grid-item {
-    background: #f2f2f2;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    height: 350px;
-    min-height: 200px;
-    transition: transform 0.4s ease;
-    cursor: pointer;
-    transform-style: preserve-3d;
+    /* display: inline-block; */
+    /* needed for transform scaling */
 }
 
+.sports_grid {
+
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    /* center everything horizontally */
+    gap: 20px;
+    /* space between columns */
+    padding: 20px;
 
 
-.grid-item img {
+}
+
+.column1 {
+    flex: 1;
+}
+
+.Images {
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 30px;
+
+
+}
+
+.Images img {
+
+    width: 100%;
+    /* stretch to fill the grid cell width */
+    height: 100%;
+    /* stretch to fill the grid cell height */
+    object-fit: cover;
+    /* crop if needed */
+    display: block;
+
+}
+
+.column2 {
+
+    display: flex;
+    align-items: stretch;
+
+    /* stretch the img vertically */
+}
+
+.column2 img {
     width: 100%;
     height: 100%;
-    border-radius: 15px;
     object-fit: cover;
+    border-radius: 8px;
+    /* or 'cover' if you want it to crop */
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.image-wrapper img {
     display: block;
+    width: 100%;
+    height: auto;
+    height: 100%
 }
 
-.grid-item.text-box {
-    grid-column: span 2;
-    padding-top: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    font-size: 4rem;
-    font-weight: 900;
-    color: #02023a;
-    line-height: 1.1;
-    letter-spacing: 0.1rem;
+/* gradient image on top of base image */
+/* gradient only at bottom */
+.image-wrapper .gradient {
+    position: absolute;
+    bottom: 0;
+    /* stick to bottom */
+    left: 0;
+    height: 50%;
+    /* adjust how tall the gradient should be */
+    opacity: 0.4;
+    /* lighter look */
+    pointer-events: none;
+    border-radius: 0 0 8px 8px;
+    /* if you want rounded bottom corners */
+    z-index: 1;
 }
 
-.grid-item.text-box span {
-    transform: scaleY(1.2);
-    /* stretch text vertically */
-    display: inline-block;
-    /* required for transform */
+/* text on top of gradient */
+.overlay-text {
+    font-family: "Anton", sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    line-height: 0.9;
+    letter-spacing: 4px;
+    font-size: 7rem;
+    text-align: center;
+
+    /* ensures text is above everything */
+}
+
+.gradient {
+    z-index: 1;
+    border-radius: 8px;
+    /* gradient above base image */
+}
+
+.image-wrapper img:first-child {
+    z-index: 0;
+    /* base image */
+}
+
+.overlay-text-small {
+    font-family: "Poppins", sans-serif;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* centers perfectly */
+    color: white;
+    font-size: 1.3rem;
+    text-align: center;
+    z-index: 2;
 }

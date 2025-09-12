@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import styles from './page.module.css';
 import './image_grid.css';
 
+
 export default function Home() {
   const logoLargeRef = useRef<SVGSVGElement>(null);
   const logoSmallRef = useRef<SVGSVGElement>(null);
@@ -131,68 +132,83 @@ export default function Home() {
         </foreignObject>
       </svg>
 
-    {/* sukhraj-put this here */}
+          {/* SUKHRAJ'S PART STARTS  */}
+
     <section className='image_grid'>
 
         <div className="grid">
 
-        <div className="grid-item text-box">
-            <span>STAY</span>
-            <span>UPDATED</span>
-        </div>
+          <div className="stay_updated">ALL<br></br>EVENTS</div>
+
+          <div className="sports_grid">
+
+            <div className="column1">
+              <div className='Images'>
+
+                <div className="image-wrapper">
+  
+                  <img src="/sports/atheletics.png"/>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <div className="overlay-text-small">Atheltics</div>
+                </div>
+                <div className="image-wrapper">
+                  <img src="/sports/basketball.png"/>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <div className="overlay-text-small">Basketball</div>
+                  
+                </div>
+                <div className="image-wrapper">
+                  <div className="overlay-text-small">Badminton</div>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <img src="/sports/badminton.png" />
+                </div>
+                <div className="image-wrapper">
+                  <div className="overlay-text-small">Chess</div>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <img src="/sports/chess.png" />
+                </div>
+                <div className="image-wrapper">
+                  <div className="overlay-text-small">Cricket</div>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <img src="/sports/cricket.png" />
+                </div>
+                <div className="image-wrapper">
+                  <div className="overlay-text-small">Football</div>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <img src="/sports/football.png" />
+                
+                </div>
+                <div className="image-wrapper">
+                  <div className="overlay-text-small">Futsal</div>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <img src="/sports/futsal.png" />
+                  
+                </div>
+                <div className="image-wrapper">
+                  <div className="overlay-text-small">Powerlifting</div>
+                  <img src="/sports/gradient.png" className="gradient" />
+                  <img src="/sports/powerlift.png" />
+                </div>
+                 </div>
+            </div>
+
+            <div className="column2">
+              <div className="image-wrapper">
+                <img src="/sports/more.png" />
+                <div className="overlay-text">MORE</div>
+              </div>
+            </div>
+            
+            
+          </div>
 
 
-        <div className="grid-item">
-          <img src="/img_start/basm.webp" />
-        </div>
-
-
-        <div className="grid-item">
-        </div>
-
-        {/* sukhraj-put this here */}{/* sukhraj-put this here */}{/* sukhraj-put this here */}{/* sukhraj-put this here */}
-
-
-        <div className="grid-item">
-          <img src="/img_start/chess.webp" />
-        </div>
-
-        <div className="grid-item">
-          <img src="/img_start/ttm.webp"/>
-        </div>
-
-
-
-        <div className="grid-item">
-        </div>
-
-   
-
-        <div className="grid-item">
-          <img src="/img_start/valorant.webp" />
-        </div>
-
-        <div className="grid-item">
-          <img src="/img_start/woten.webp" />
-        </div>
-
-
-         <div className="grid-item">
-        </div>
-
-
-        <div className="grid-item">
-          <img src="/img_start/cricMen.webp/" />
-        </div>
-
-         <div className="grid-item">
-        </div>
-
-  </div>
+          </div>
 
 
   </section>
 
+      {/* SUKHRAJ'S PART ENDS  */}
 
   <section className={'footer'}>
     <h1>Footer</h1>
