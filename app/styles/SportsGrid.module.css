@@ -75,7 +75,7 @@
 .column2 img {
   width: 100%;
   height: 100%;
-  /* ✅ was auto, now fills parent */
+  
   object-fit: cover;
   border-radius: 8px;
 }
@@ -87,14 +87,14 @@
   position: relative;
   width: 100%;
   height: 100%;
-  /* ✅ now matches column2 height */
+
 }
 
 .image_wrapper img {
   display: block;
   width: 100%;
   height: 100%;
-  /* ✅ fill wrapper instead of auto */
+
   object-fit: cover;
   border-radius: 8px;
 }
