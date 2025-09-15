@@ -1,5 +1,204 @@
 .footer {
-  background: white;
-  padding: 20px;
-  text-align: center;
+  width: 1526px;
+  height: 512px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Upper Section */
+.footerTop {
+  height: 160px;
+  background-color: #304FFE;
+  border: 0.5px solid #5871fc;
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  left: 67px;  /* X position */
+  top: 62px;   /* Y position */
+}
+
+/* Lower Section */
+.footerBottom {
+  height: 350px;
+  background-color: #304FFE;
+  border: 0.5px solid #5871fc;
+  position: relative;  
+}
+
+@font-face {
+  font-family: "Anton";
+  src: url("/font/Anton-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.subscribeText {
+  position: absolute;
+  left: 67px;   /* X */
+  top: 65px;    /* Y */
+  width: 436px;
+  height: 70x;
+  color: white;
+  font-size: 48px;   /* adjust */
+  line-height: 70px;
+  font-family: "Anton", sans-serif;
+}
+
+.newsletterText {
+  position: absolute;
+  left: 67px;   /* Same X */
+  top: 120px;   /* Below subscribe */
+  width: 415px;
+  height: 65px;
+  color: white;
+  font-size: 46px;   /* Same size */
+  line-height: 65px;
+  font-family: "Anton", sans-serif;
+}
+
+.emailInput {
+  position: absolute;
+  left: 67px;             /* X fixed */
+  top: 195px;             /* Below "NEWSLETTER" */
+  width: 300px;           /* Adjust as needed */
+  height: 35px;
+  background-color: transparent;
+  border: 1px solid #687fff;  /* Same as footer border */
+  border-radius: 12px;    /* Rounded edges */
+  padding: 0 15px;
+  color: #687fff;         /* Typed email text */
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.emailInput::placeholder {
+  color: #687fff;   /* Placeholder in #5871fc */
+  opacity: 1;       /* Fully visible */
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/font/Poppins-Regular.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+.subscribeButton {
+  position: absolute;
+  left: 372px;
+  top: 195px;
+  width: 93px;
+  height: 33px;
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  color: #304ffe;
+  font-size: 14px;
+  font-weight: 100;
+  font-family: "Poppins", sans-serif;  /* ✅ Use Poppins */
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.subscribeButton:hover {
+  transform: scale(1.05);
+}
+
+.navigationHeading {
+  position: absolute;
+  left: 830px;   
+  top: 65px;     /* align with SUBSCRIBE TO OUR */
+  color: #9baaff;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "Poppins", sans-serif;
+}
+
+.navigationLinks {
+  position: absolute;
+  left: 830px;   /* match heading */
+  top: 100px;    /* reduced gap (was 110px → now 100px) */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navigationLinks a {
+  color: white;
+  font-weight: 85;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.navigationLinks a:hover {
+  color: #95a4ff;
+}
+
+.socialHeading {
+  position: absolute;
+  left: 1040px;   /* Adjust this to place it to the right of navigation */
+  top: 65px;      /* Align with "SUBSCRIBE TO OUR" and navigationHeading */
+  color: #9baaff;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "Poppins", sans-serif;
+}
+
+.socialLinks {
+  position: absolute;
+  left: 1040px;   /* match heading */
+  top: 100px;     /* same top as navigationLinks */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.socialLinks a {
+  color: white;
+  font-weight: 85;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.socialLinks a:hover {
+  color: #95a4ff;
+}
+
+.policyHeading {
+  position: absolute;
+  left: 1250px;   /* adjust distance from Social Media (same gap as before) */
+  top: 65px;      /* align with other headings */
+  color: #9baaff;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "Poppins", sans-serif;
+}
+
+.policyLinks {
+  position: absolute;
+  left: 1250px;   /* match heading */
+  top: 100px;     /* align with other links */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.policyLinks a {
+  color: white;
+  font-weight: 85;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.policyLinks a:hover {
+  color: #95a4ff;
 }
