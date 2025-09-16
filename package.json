@@ -12,6 +12,7 @@
     "@next-auth/prisma-adapter": "^1.0.7",
     "@supabase/supabase-js": "^2.57.0",
     "@trpc/client": "^11.5.1",
+    "@trpc/react-query": "^11.5.1",
     "@trpc/server": "^11.5.1",
     "bcryptjs": "^3.0.2",
     "drizzle-orm": "^0.44.5",

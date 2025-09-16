@@ -35,6 +35,21 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        // Dummy credentials for testing (by Akshat Sharma)
+        // if (
+        //     credentials?.email === "test@example.com" &&
+        //     credentials?.password === "password123"
+        //   ) {
+        //     return {
+        //       id: "fake-user-1",
+        //       name: "Test User",
+        //       email: "test@example.com",
+        //       collegeName: "Fake College",
+        //       rollNumber: "123456",
+        //       phone: "9876543210",
+        //       emailVerified: new Date(),
+        //     };
+        //   }
         if (!credentials) throw new Error("No credentials provided");
 
         const user = await db.user.findUnique({
