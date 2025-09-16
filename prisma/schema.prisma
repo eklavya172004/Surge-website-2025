@@ -25,7 +25,7 @@ model User {
 
 model VerificationToken {
   id         String   @id @default(cuid())
-  identifier String   @unique
+  identifier String
   token      String   @unique
   expires    DateTime
   userId     String?
