@@ -72,6 +72,10 @@ model TeamMember {
   teamId     String
   createdAt  DateTime                 @default(now())
   isVerified PlayerVerificationStatus @default(NOT_VERIFIED)
+<<<<<<< HEAD
+=======
+  Documents  Document[]
+>>>>>>> 38f272bf37cfe446cd233eff3c4ca587ddf0085a
   Team       Team                     @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
@@ -144,6 +148,20 @@ model GateLog {
   timestamp DateTime    @default(now())
 }
 
+<<<<<<< HEAD
+=======
+model Document {
+  id               String       @id @default(cuid())
+  fileUrl          String       @db.VarChar(255)
+  originalFileName String       @db.VarChar(255)
+  uploadStatus     UploadStatus @default(PENDING)
+  uploadedAt       DateTime     @default(now())
+  documentType     DocumentType
+  teamMemberId     String
+  TeamMember       TeamMember   @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+}
+
+>>>>>>> 38f272bf37cfe446cd233eff3c4ca587ddf0085a
 model MultiPlayerEventData {
   id        String @id
   team1     String
@@ -221,3 +239,7 @@ enum DocumentType {
   FEE_PROOF
   COLLEGE_ID
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 38f272bf37cfe446cd233eff3c4ca587ddf0085a
