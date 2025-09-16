@@ -11,6 +11,7 @@ model User {
   id                 String              @id @default(uuid())
   email              String              @unique @db.VarChar(100)
   password           String              @db.VarChar(255)
+  verified           Boolean             @default(false)
   name               String              @db.VarChar(100)
   collegeName        String              @db.VarChar(100)
   rollNumber         String              @db.VarChar(100)
