@@ -4,6 +4,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { MatchData, SinglePlayerEvent, MultiPlayerEvent } from "@/types/types";
+import type { Team, EventSummary } from "@/types/eventTypes";
 
 // These types are inferred from your Prisma schema.
 // You should have similar types available, or you can generate them.
@@ -86,7 +87,7 @@ export const eventRouter = createTRPCRouter({
       },
     });
 
-    return teams;
+    return teams as Team[];
   }),
 
   getSportFixtures: publicProcedure.query(async ({ ctx }) => {
@@ -159,6 +160,6 @@ export const eventRouter = createTRPCRouter({
       },
     });
 
-    return events;
+    return events as EventSummary[];
   }),
 });

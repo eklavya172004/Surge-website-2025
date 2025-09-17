@@ -4,6 +4,7 @@ import { trpc } from "@/utils/trpc";
 import styles from "../styles/SportsGrid.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import type { EventSummary } from "@/types/eventTypes";
 
 export default function AllEventsGrid() {
   const { data: events, isLoading, error } = trpc.event.getAllEvents.useQuery();
@@ -28,7 +29,7 @@ export default function AllEventsGrid() {
         <div className={styles.sports_grid}>
           <div className={styles.column1}>
             <div className={styles.Images}>
-              {mainEvents.map((ev) => (
+              {mainEvents.map((ev: EventSummary) => (
                 <Link
                   href={`/events/${ev.slug}`}
                   key={ev.id}
