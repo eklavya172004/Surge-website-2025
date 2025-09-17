@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { redirect } from "next/navigation";
-import DashboardClientPage from "./client-page";
+import AllEventsGrid from "./AllEventsGrid"; // Client component for displaying events
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -16,6 +16,6 @@ export default async function DashboardPage() {
     redirect("/auth/verify-request");
   }
 
-  // Pass session data to client component
-  return <DashboardClientPage />;
+  // Pass session data to client component if needed
+  return <AllEventsGrid />;
 }
