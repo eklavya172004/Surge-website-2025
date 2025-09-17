@@ -2,8 +2,10 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type DefaultSession, type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
 import { db } from "./db";
 import bcrypt from "bcryptjs";
+import { sendVerificationRequest } from "@/server/verfiy";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -18,6 +20,7 @@ declare module "next-auth" {
 
   interface User {
     id: string;
+
     collegeName?: string | null;
     rollNumber?: string | null;
     phone?: string | null;
@@ -35,7 +38,9 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) throw new Error("No credentials provided");
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
         const user = await db.user.findUnique({
           where: { email: credentials.email },
@@ -51,16 +56,38 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (!user?.password) throw new Error("Invalid email or password");
+        if (!user?.password) {
+          return null;
+        }
 
         const isValid = await bcrypt.compare(
           credentials.password,
           user.password,
         );
-        if (!isValid) throw new Error("Invalid email or password");
+        if (!isValid) {
+          return null;
+        }
 
-        return user;
+        // Check if user is verified
+        if (!user.emailVerified) {
+          throw new Error("Please verify your email before logging in");
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          collegeName: user.collegeName,
+          rollNumber: user.rollNumber,
+          phone: user.phone,
+        };
       },
+    }),
+    EmailProvider({
+      server: "", // Not needed with Resend, but required by NextAuth
+      from: process.env.EMAIL_FROM,
+      sendVerificationRequest,
     }),
   ],
   session: { strategy: "jwt" },
@@ -86,6 +113,11 @@ export const authOptions: NextAuthOptions = {
       };
       return session;
     },
+  },
+  pages: {
+    signIn: '/auth/login',
+    verifyRequest: '/auth/verify-request',
+    error: '/auth/error'
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

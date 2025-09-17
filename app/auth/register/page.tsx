@@ -36,9 +36,10 @@ export default function RegisterPage() {
         const data = await res.json();
         setError(data.message || "Something went wrong");
       } else {
-        router.push("/login"); // redirect after register
+        // Redirect to verification request page with email as parameter
+        router.push(`/auth/verify-request?email=${encodeURIComponent(form.email)}`);
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Internal server error");
     } finally {
       setLoading(false);
@@ -57,6 +58,7 @@ export default function RegisterPage() {
             placeholder="Name"
             className="w-full rounded-lg border px-4 py-2"
             onChange={handleChange}
+            required
           />
           <input
             name="email"
@@ -64,6 +66,7 @@ export default function RegisterPage() {
             placeholder="Email"
             className="w-full rounded-lg border px-4 py-2"
             onChange={handleChange}
+            required
           />
           <input
             name="password"
@@ -71,24 +74,28 @@ export default function RegisterPage() {
             placeholder="Password"
             className="w-full rounded-lg border px-4 py-2"
             onChange={handleChange}
+            required
           />
           <input
             name="collegeName"
             placeholder="College Name"
             className="w-full rounded-lg border px-4 py-2"
             onChange={handleChange}
+            required
           />
           <input
             name="rollNumber"
             placeholder="Roll Number"
             className="w-full rounded-lg border px-4 py-2"
             onChange={handleChange}
+            required
           />
           <input
             name="phone"
             placeholder="Phone"
             className="w-full rounded-lg border px-4 py-2"
             onChange={handleChange}
+            required
           />
 
           <button
