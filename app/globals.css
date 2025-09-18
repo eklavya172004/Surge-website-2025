@@ -14,6 +14,17 @@
   }
 }
 
+@font-face {
+  font-family: "Anton";
+  src: url("/fonts/Anton-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
