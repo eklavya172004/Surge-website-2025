@@ -4,10 +4,10 @@ import { useEffect, useRef } from 'react';
 import Navbar from './Navbar';
 import HeroSection from './HeroSection';
 import LogoLarge from './LogoLarge';
-import ImageSection from './ImageSection';
 import BallSection from './BlueBall';
 import SportsGrid from './SportsGrid';
 import Footer from './Footer';
+import Timer from './Timer';
 
 export default function LandingPage() {
   const logoLargeRef = useRef<SVGSVGElement>(null);
@@ -67,14 +67,15 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <>
+    <div className='bg-white'>
       <Navbar logoSmallRef={logoSmallRef} />
       <HeroSection />
       <BallSection/>
-      <ImageSection parallaxImageRef={parallaxImageRef} />
+      {/* <ImageSection parallaxImageRef={parallaxImageRef} /> */}
       <LogoLarge logoLargeRef={logoLargeRef} />
       <SportsGrid />
+      <Timer/>
       <Footer />
-    </>
+    </div>
   );
 }
