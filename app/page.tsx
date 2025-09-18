@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import BlueBall from './components/blue_ball'; 
 import LogoLarge from './components/LogoLarge';
 import ImageSection from './components/ImageSection';
 import SportsGrid from './components/SportsGrid';
@@ -69,6 +70,7 @@ export default function Home() {
     <>
       <Navbar logoSmallRef={logoSmallRef} />
       <HeroSection />
+      <BlueBall />
       <ImageSection parallaxImageRef={parallaxImageRef} />
       <LogoLarge logoLargeRef={logoLargeRef} />
       <SportsGrid />
