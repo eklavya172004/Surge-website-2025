@@ -19,10 +19,10 @@ export default function HomeClient() {
               </p>
               <div className="space-y-3">
                 <Link 
-                  href="/dashboard" 
+                  href="/" 
                   className="block w-full rounded-lg bg-blue-600 py-2 text-white text-center hover:bg-blue-700"
                 >
-                  Go to Dashboard
+                  Go to Home Page
                 </Link>
                 <Link 
                   href="/profile" 
