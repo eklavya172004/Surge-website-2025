@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import HeroSection from './HeroSection';
 import LogoLarge from './LogoLarge';
 import ImageSection from './ImageSection';
+import BallSection from './BlueBall';
 import SportsGrid from './SportsGrid';
 import Footer from './Footer';
 
@@ -69,6 +70,7 @@ export default function LandingPage() {
     <>
       <Navbar logoSmallRef={logoSmallRef} />
       <HeroSection />
+      <BallSection/>
       <ImageSection parallaxImageRef={parallaxImageRef} />
       <LogoLarge logoLargeRef={logoLargeRef} />
       <SportsGrid />
