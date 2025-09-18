@@ -1,34 +1,31 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/server/auth";
+import { NextAuthSessionProvider } from "@/components/session-provider";
+import TRPCProvider from "./components/TRPCProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FIFA 2026 New York New Jersey Animation",
-  description: "FIFA 2026 New York New Jersey Animation Showcase",
+  title: "Surge - Authentication System",
+  description: "A Next.js application with verification-based authentication",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const session = await getServerSession(authOptions);
+  
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{ margin: 0, padding: 0, overflowX: "hidden" }}
-      >
-        {children}
+      <body className={inter.className}>
+        <NextAuthSessionProvider session={session}>
+          <TRPCProvider>{children}</TRPCProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

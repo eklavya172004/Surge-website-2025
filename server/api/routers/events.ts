@@ -4,6 +4,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { MatchData, SinglePlayerEvent, MultiPlayerEvent } from "@/types/types";
+import type { Team, EventSummary } from "@/types/eventTypes";
 
 // These types are inferred from your Prisma schema.
 // You should have similar types available, or you can generate them.
@@ -30,7 +31,63 @@ type PrismaSinglePlayerEventData = {
 
 export const eventRouter = createTRPCRouter({
   getMyEvents: protectedProcedure.query(async ({ ctx }) => {
-    // ... (rest of your code)
+    const userId = ctx.session.user.id;
+
+    // fetch teams registered by this user and include related event & members
+    const teams = await ctx.db.team.findMany({
+      where: {
+        registeredById: userId,
+      },
+      select: {
+        id: true,
+        eventId: true,
+        // avoid exposing internal tokens/ids unless needed
+        paymentDetailsId: true,
+        accommodationPaymentId: true,
+        // Event summary
+        Event: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            venue: true,
+            dateFrom: true,
+            dateTo: true,
+            pricePerPlayer: true,
+            eventImg: true,
+            category: true,
+            minPlayers: true,
+            maxPlayers: true,
+          },
+        },
+        // Team members
+        TeamMembers: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+            rollNumber: true,
+            playerType: true,
+            isVerified: true,
+            createdAt: true,
+          },
+        },
+        // small accommodation summary (if any)
+        AccommodationDetails: {
+          select: {
+            id: true,
+            startDate: true,
+            endDate: true,
+            maleCount: true,
+            femaleCount: true,
+            isAlloted: true,
+          },
+        },
+      },
+    });
+
+    return teams as Team[];
   }),
 
   getSportFixtures: publicProcedure.query(async ({ ctx }) => {
@@ -82,5 +139,27 @@ export const eventRouter = createTRPCRouter({
     });
 
     return matchData;
+  }),
+  getAllEvents: publicProcedure.query(async ({ ctx }) => {
+    const events = await ctx.db.event.findMany({
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        venue: true,
+        dateFrom: true,
+        dateTo: true,
+        pricePerPlayer: true,
+        eventImg: true,
+        category: true,
+        minPlayers: true,
+        maxPlayers: true,
+      },
+      orderBy: {
+        dateFrom: "asc",
+      },
+    });
+
+    return events as EventSummary[];
   }),
 });

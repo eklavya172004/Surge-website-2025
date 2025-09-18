@@ -1,42 +1,33 @@
 {
-  description = "Prisma development environment";
+  description = "Prisma development environment with Qwen3 AI tools";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-ai-tools.url = "github:numtide/nix-ai-tools";
   };
 
-  outputs = {nixpkgs, ...}: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config = {
-        permittedInsecurePackages = ["openssl-1.1.1w"];
-        allowUnfree = true;
+  outputs = { self, nixpkgs, nix-ai-tools }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          nodejs
+          prisma
+          prisma-engines
+          openssl
+          nix-ai-tools.packages.${system}.qwen-code
+        ];
+        shellHook = with pkgs; ''
+          export PKG_CONFIG_PATH=${openssl.dev}/lib/pkgconfig
+          export PRISMA_MIGRATION_ENGINE_BINARY="${prisma-engines}/bin/migration-engine"
+          export PRISMA_QUERY_ENGINE_BINARY="${prisma-engines}/bin/query-engine"
+          export PRISMA_QUERY_ENGINE_LIBRARY="${prisma-engines}/lib/libquery_engine.node"
+          export PRISMA_INTROSPECTION_ENGINE_BINARY="${prisma-engines}/bin/introspection-engine"
+          export PRISMA_FMT_BINARY="${prisma-engines}/bin/prisma-fmt"
+          echo "Prisma dev environment and Qwen3 AI tool ready"
+        '';
       };
     };
-  in {
-    devShells.${system}.default = pkgs.mkShell {
-      buildInputs = with pkgs; [
-        nodejs
-        prisma
-        prisma-engines
-        openssl_1_1
-      ];
-
-      shellHook = ''
-        export PKG_CONFIG_PATH=${pkgs.openssl_1_1.dev}/lib/pkgconfig
-        export PRISMA_SCHEMA_ENGINE_BINARY=${pkgs.prisma-engines}/bin/schema-engine
-        export PRISMA_QUERY_ENGINE_BINARY=${pkgs.prisma-engines}/bin/query-engine
-        export PRISMA_QUERY_ENGINE_LIBRARY=${pkgs.prisma-engines}/lib/libquery_engine.node
-        export PRISMA_FMT_BINARY=${pkgs.prisma-engines}/bin/prisma-fmt
-        # Ignore missing Prisma engine checksum errors (necessary on NixOS)
-        export PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
-
-        echo "🚀 Prisma development environment ready!"
-        echo "📦 Node.js: $(node --version)"
-        echo "🔒 OpenSSL: Using openssl_1_1 (insecure package allowed)"
-        echo "💾 Prisma engines configured and ready"
-      '';
-    };
-  };
 }

@@ -1,69 +1,122 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import styles from "../../styles/Login.module.css";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const msg = searchParams.get("message");
+    if (msg) setMessage(msg);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setMessage("");
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
 
-    if (res?.error) {
-      setError("Invalid email or password");
-    } else {
-      router.push("/dashboard"); // change to your protected page
+      if (res?.error) {
+        if (res.error.toLowerCase().includes("verify")) {
+          setError(
+            "Please verify your email before logging in. Check your inbox for the verification email."
+          );
+        } else {
+          setError("Invalid email or password");
+        }
+      } else {
+        // fetch session to check emailVerified (server must return that in /api/auth/session)
+        const sessionRes = await fetch("/api/auth/session");
+        if (sessionRes.ok) {
+          const session = await sessionRes.json();
+          if (session?.user?.emailVerified) {
+            router.push("/dashboard");
+          } else {
+            router.push(`/auth/verify-request?email=${encodeURIComponent(email)}`);
+          }
+        } else {
+          // if session endpoint failed, fallback to dashboard
+          router.push("/dashboard");
+        }
+      }
+    } catch (err) {
+      setError("An unexpected error occurred");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-md">
-        <h1 className="mb-6 text-center text-2xl font-bold">Login</h1>
-        {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Login</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {message && (
+          <p className={styles.info} role="status" aria-live="polite">
+            {message}
+          </p>
+        )}
+
+        {error && (
+          <p className={styles.error} role="alert" aria-live="assertive">
+            {error}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="email"
+            name="email"
             placeholder="Email"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="email"
+            aria-label="Email"
           />
+
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="current-password"
+            aria-label="Password"
           />
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+            className={`${styles.button} ${loading ? styles.buttonDisabled : ""}`}
+            aria-busy={loading}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Don’t have an account?{" "}
-          <a href="/auth/register" className="text-blue-600 hover:underline">
+        <p className={styles.footer}>
+          Don&apos;t have an account?{" "}
+          <a href="/auth/register" className={styles.link}>
             Register
           </a>
         </p>

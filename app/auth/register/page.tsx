@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "../../styles/Register.module.css";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -33,10 +34,11 @@ export default function RegisterPage() {
       });
 
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         setError(data.message || "Something went wrong");
       } else {
-        router.push("/login"); // redirect after register
+        // redirect to verification request page with email param
+        router.push(`/auth/verify-request?email=${encodeURIComponent(form.email)}`);
       }
     } catch (err) {
       setError("Internal server error");
@@ -46,63 +48,98 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-md">
-        <h1 className="mb-6 text-center text-2xl font-bold">Register</h1>
-        {error && <p className="mb-4 text-sm text-red-500">{error}</p>}
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Register</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
+        {error && (
+          <p className={styles.error} role="alert" aria-live="assertive">
+            {error}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className={styles.form}>
           <input
             name="name"
             placeholder="Name"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             onChange={handleChange}
+            value={form.name}
+            required
+            autoComplete="name"
+            aria-label="Name"
           />
+
           <input
             name="email"
             type="email"
             placeholder="Email"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             onChange={handleChange}
+            value={form.email}
+            required
+            autoComplete="email"
+            aria-label="Email"
           />
+
           <input
             name="password"
             type="password"
             placeholder="Password"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             onChange={handleChange}
+            value={form.password}
+            required
+            autoComplete="new-password"
+            aria-label="Password"
           />
+
           <input
             name="collegeName"
             placeholder="College Name"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             onChange={handleChange}
+            value={form.collegeName}
+            required
+            autoComplete="organization"
+            aria-label="College Name"
           />
+
           <input
             name="rollNumber"
             placeholder="Roll Number"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             onChange={handleChange}
+            value={form.rollNumber}
+            required
+            autoComplete="off"
+            aria-label="Roll Number"
           />
+
           <input
             name="phone"
             placeholder="Phone"
-            className="w-full rounded-lg border px-4 py-2"
+            className={styles.input}
             onChange={handleChange}
+            value={form.phone}
+            required
+            autoComplete="tel"
+            aria-label="Phone"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-green-600 py-2 text-white hover:bg-green-700 disabled:opacity-50"
+            className={`${styles.button} ${loading ? styles.buttonDisabled : ""}`}
+            aria-busy={loading}
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <p className={styles.footer}>
           Already have an account?{" "}
-          <a href="/auth/login" className="text-blue-600 hover:underline">
+          <a href="/auth/login" className={styles.link}>
             Login
           </a>
         </p>
