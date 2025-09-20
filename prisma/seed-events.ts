@@ -30,7 +30,7 @@ async function main() {
       maxPlayers: 7,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/badminton.png",
+      eventImg: "/sports/badminton.png",
     },
     {
       title: "Badminton (Women)",
@@ -64,7 +64,7 @@ async function main() {
       maxPlayers: 12,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/basketball.png",
+      eventImg: "/sports/basketball.png",
     },
     {
       title: "Basketball (Women)",
@@ -98,7 +98,7 @@ async function main() {
       maxPlayers: 15,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/cricket.png",
+      eventImg: "/sports/cricket.png",
     },
     {
       title: "Cricket (Women)",
@@ -132,7 +132,7 @@ async function main() {
       maxPlayers: 16,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/football.png",
+      eventImg: "/sports/football.png",
     },
     {
       title: "Futsal (Women)",
@@ -149,7 +149,7 @@ async function main() {
       maxPlayers: 10,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/futsal.png",
+      eventImg: "/sports/futsal.png",
     },
     {
       title: "Squash (Men)",
@@ -336,7 +336,7 @@ async function main() {
       maxPlayers: 7,
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/chess.png",
+      eventImg: "/sports/chess.png",
     },
     {
       title: "Valorant",
@@ -369,7 +369,7 @@ async function main() {
       maxPlayers: 1,
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/athletics.png",
+      eventImg: "/sports/atheletics.png",
     },
     {
       title: "200m (Men)",
