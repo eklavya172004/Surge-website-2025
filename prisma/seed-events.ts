@@ -1,44 +1,15 @@
-import {
-  PrismaClient,
-  Categories,
-  Locations,
-  DocumentType,
-} from "@prisma/client";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+import { PrismaClient, Categories, Locations } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
-const docDescriptions: { [key in DocumentType]: string } = {
-  [DocumentType.PHOTO]: "Upload a recent passport-sized photograph",
-  [DocumentType.AADHAR_CARD]:
-    "Upload your Aadhar card or passport if you're not an Indian citizen",
-  [DocumentType.MARKSHEET]: "Upload your latest academic marksheet",
-  [DocumentType.FEE_PROOF]:
-    "Upload proof of fee payment for the current semester",
-  [DocumentType.COLLEGE_ID]: "Upload your valid college ID card",
-};
 
 async function main() {
   // Clear the event and related tables before seeding
   await prisma.team.deleteMany();
-  await prisma.requiredDocument.deleteMany();
   await prisma.event.deleteMany();
 
   // Create the required documents
-  const requiredDocuments = await Promise.all(
-    Object.entries(docDescriptions).map(([documentType, description]) =>
-      prisma.requiredDocument.create({
-        data: {
-          documentType: documentType as DocumentType,
-          description,
-        },
-      }),
-    ),
-  );
-
-  // Function to get required documents by type
-  const getDocumentsByTypes = (types: DocumentType[]) => {
-    return requiredDocuments.filter((doc) => types.includes(doc.documentType));
-  };
 
   const athleticsDescription =
     "This event will follow standard athletic competition rules as defined by the Athletics Federation.";
@@ -59,13 +30,7 @@ async function main() {
       maxPlayers: 7,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/badminton.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/badminton.png",
     },
     {
       title: "Badminton (Women)",
@@ -83,12 +48,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/badminton.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Basketball (Men)",
@@ -105,13 +64,7 @@ async function main() {
       maxPlayers: 12,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/basketball.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/basketball.png",
     },
     {
       title: "Basketball (Women)",
@@ -129,12 +82,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/basketball.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Cricket (Men)",
@@ -151,13 +98,7 @@ async function main() {
       maxPlayers: 15,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/cricket.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/cricket.png",
     },
     {
       title: "Cricket (Women)",
@@ -175,12 +116,6 @@ async function main() {
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/cricket.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Football (Men)",
@@ -197,13 +132,7 @@ async function main() {
       maxPlayers: 16,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/football.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/football.png",
     },
     {
       title: "Futsal (Women)",
@@ -220,13 +149,7 @@ async function main() {
       maxPlayers: 10,
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/futsal.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/futsal.png",
     },
     {
       title: "Squash (Men)",
@@ -244,12 +167,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/squash.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Squash (Women)",
@@ -267,12 +184,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/squash.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Table Tennis (Men)",
@@ -290,12 +201,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/table_tennis.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Table Tennis (Women)",
@@ -313,12 +218,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/table_tennis.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Tennis (Men)",
@@ -336,12 +235,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/lawn_tennis.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Tennis (Women)",
@@ -359,12 +252,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/lawn_tennis.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Volleyball (Men)",
@@ -382,12 +269,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/volleyball.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Volleyball (Women)",
@@ -405,12 +286,6 @@ async function main() {
       pricePerPlayer: 775,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/volleyball.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Powerlifting (Men)",
@@ -428,12 +303,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/powerlifting.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Powerlifting (Women)",
@@ -451,12 +320,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/powerlifting.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Chess",
@@ -473,13 +336,7 @@ async function main() {
       maxPlayers: 7,
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/chess.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/chess.png",
     },
     {
       title: "Valorant",
@@ -497,7 +354,6 @@ async function main() {
       pricePerPlayer: 600,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/valorant.png",
-      requiredDocumentTypes: [DocumentType.PHOTO],
     },
     {
       title: "100m (Men)",
@@ -513,13 +369,7 @@ async function main() {
       maxPlayers: 1,
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
-      eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
+      eventImg: "/sports/atheletics.png",
     },
     {
       title: "200m (Men)",
@@ -536,12 +386,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "400m (Men)",
@@ -558,12 +402,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "800m (Men)",
@@ -580,12 +418,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "1500m (Men)",
@@ -602,12 +434,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "5000m (Men)",
@@ -624,12 +450,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "4x100m Relay (Men)",
@@ -646,12 +466,6 @@ async function main() {
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "4x400m Relay (Men)",
@@ -668,12 +482,6 @@ async function main() {
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Shot Put (Men)",
@@ -690,12 +498,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Discus Throw (Men)",
@@ -712,12 +514,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Long Jump (Men)",
@@ -734,12 +530,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "100m (Women)",
@@ -756,12 +546,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "200m (Women)",
@@ -778,12 +562,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "400m (Women)",
@@ -800,12 +578,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "800m (Women)",
@@ -822,12 +594,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "1500m (Women)",
@@ -844,12 +610,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "4x100m Relay (Women)",
@@ -866,12 +626,6 @@ async function main() {
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "4x400m Relay (Women)",
@@ -888,12 +642,6 @@ async function main() {
       pricePerPlayer: 500,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Shot Put (Women)",
@@ -910,12 +658,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Discus Throw (Women)",
@@ -932,12 +674,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
     {
       title: "Long Jump (Women)",
@@ -954,12 +690,6 @@ async function main() {
       pricePerPlayer: 250,
       venue: "Shiv Nadar University Sports Complex",
       eventImg: "/images/landing/sports/athletics.png",
-      requiredDocumentTypes: [
-        DocumentType.PHOTO,
-        DocumentType.AADHAR_CARD,
-        DocumentType.MARKSHEET,
-        DocumentType.FEE_PROOF,
-      ],
     },
   ];
 
@@ -980,11 +710,6 @@ async function main() {
         maxPlayers: event.maxPlayers,
         pricePerPlayer: event.pricePerPlayer,
         eventImg: event.eventImg, // Hardcoded image path
-        requiredDocuments: {
-          connect: getDocumentsByTypes(event.requiredDocumentTypes).map(
-            (doc) => ({ id: doc.id }),
-          ),
-        },
       },
     });
   }
