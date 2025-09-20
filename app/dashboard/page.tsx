@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { redirect } from "next/navigation";
-import AllEventsGrid from "./AllEventsGrid"; // Client component for displaying events
 import HomeClient from "../home-client";
 
 export default async function DashboardPage() {
