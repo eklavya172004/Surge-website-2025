@@ -11,9 +11,9 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
   return (
     <nav className={styles.nav}>
       <ul>
-        <li>About</li>
-        <li>Home</li>
-        <li>Rule Book</li>
+        <li>ABOUT</li>
+        <li>HOME</li>
+        <li>RULE BOOK</li>
       </ul>
       <div className={styles.logoPlaceholder}>
         <svg
