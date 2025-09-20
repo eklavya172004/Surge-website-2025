@@ -1,205 +1,219 @@
 .footer {
-  width: 100%;      
-  max-width: 100%;  
-  height: 512px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Upper Section */
-.footerTop {
-  height: 160px;
-  background-color: #304FFE;
-  border: 0.5px solid #5871fc;
+  width: 100%;
+  background-color: #304ffe;
+  color: white;
+  font-family: "Poppins", sans-serif;
   position: relative;
+  padding: 80px;
+  box-sizing: border-box;
+  min-height: 450px;
 }
 
-.logo {
+.ballWrapper {
   position: absolute;
-  left: 67px;  /* X position */
-  top: 62px;   /* Y position */
+  top: 70px;
+  left: 0;
+  z-index: 1;
 }
 
-/* Lower Section */
-.footerBottom {
-  height: 350px;
-  background-color: #304FFE;
-  border: 0.5px solid #5871fc;
-  position: relative;  
+.ball {
+  width: 145px;
+  height: 290px;
 }
 
-@font-face {
-  font-family: "Anton";
-  src: url("/font/Anton-Regular.ttf") format("truetype");
-  font-weight: normal;
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px;
+  position: relative;
+  z-index: 2;
+  align-items: start;
+  justify-items: center;
+}
+
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding-left: 220px;
+  justify-self: start;
+}
+
+.surgeLogo {
+  width: 280px !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.navLinks a {
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.navLinks a:hover {
+  color: #95a4ff;
+}
+
+.middleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 87px;
+  margin-left: 40px;
+  justify-self: center;
+}
+
+.middleSection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 10px 0;
+  line-height: 1.6;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 0;
+}
+
+.contactItem .icon {
+  font-size: 16px;
+  color: white;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.contactItem span {
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.3;
+  font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
   font-style: normal;
 }
 
-.subscribeText {
-  position: absolute;
-  left: 67px;   /* X */
-  top: 65px;    /* Y */
-  width: 436px;
-  height: 70x;
-  color: white;
-  font-size: 48px;   /* adjust */
-  line-height: 70px;
-  font-family: "Anton", sans-serif;
-}
-
-.newsletterText {
-  position: absolute;
-  left: 67px;   /* Same X */
-  top: 120px;   /* Below subscribe */
-  width: 415px;
-  height: 65px;
-  color: white;
-  font-size: 46px;   /* Same size */
-  line-height: 65px;
-  font-family: "Anton", sans-serif;
-}
-
-.emailInput {
-  position: absolute;
-  left: 67px;             /* X fixed */
-  top: 195px;             /* Below "NEWSLETTER" */
-  width: 300px;           /* Adjust as needed */
-  height: 35px;
-  background-color: transparent;
-  border: 1px solid #687fff;  /* Same as footer border */
-  border-radius: 12px;    /* Rounded edges */
-  padding: 0 15px;
-  color: #687fff;         /* Typed email text */
-  font-size: 16px;
-  font-family: sans-serif;
-}
-
-.emailInput::placeholder {
-  color: #687fff;   /* Placeholder in #5871fc */
-  opacity: 1;       /* Fully visible */
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url("/font/Poppins-Regular.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-}
-
-.subscribeButton {
-  position: absolute;
-  left: 372px;
-  top: 195px;
-  width: 93px;
-  height: 33px;
-  background-color: white;
-  border: none;
-  border-radius: 8px;
-  color: #304ffe;
-  font-size: 14px;
-  font-weight: 100;
-  font-family: "Poppins", sans-serif;  /* ✅ Use Poppins */
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  z-index: 10;
-}
-
-.subscribeButton:hover {
-  transform: scale(1.05);
-}
-
-.navigationHeading {
-  position: absolute;
-  left: 830px;   
-  top: 65px;     /* align with SUBSCRIBE TO OUR */
-  color: #9baaff;
-  font-size: 16px;
-  font-weight: 300;
-  font-family: "Poppins", sans-serif;
-}
-
-.navigationLinks {
-  position: absolute;
-  left: 830px;   /* match heading */
-  top: 100px;    /* reduced gap (was 110px → now 100px) */
+.rightSection {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: flex-end;
+  gap: 170px;
+  margin-top: 0;
+  justify-self: end;
 }
 
-.navigationLinks a {
+.shivNadarLogo {
+  width: 140px;
+  height: auto;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.socials a {
   color: white;
-  font-weight: 85;
-  font-size: 14px;
-  font-family: "Poppins", sans-serif;
-  text-decoration: none;
   transition: color 0.2s ease-in-out;
 }
 
-.navigationLinks a:hover {
+.socials a:hover {
   color: #95a4ff;
 }
 
-.socialHeading {
+.footerLine {
+  border-top: 2px solid #9baaff;
   position: absolute;
-  left: 1040px;   /* Adjust this to place it to the right of navigation */
-  top: 65px;      /* Align with "SUBSCRIBE TO OUR" and navigationHeading */
-  color: #9baaff;
-  font-size: 16px;
-  font-weight: 300;
-  font-family: "Poppins", sans-serif;
+  bottom: 60px;
+  width: calc(100% - 160px);
+  left: 80px;
 }
 
-.socialLinks {
-  position: absolute;
-  left: 1040px;   /* match heading */
-  top: 100px;     /* same top as navigationLinks */
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer {
+    padding: 60px 40px;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .leftSection {
+    padding-left: 0;
+    order: 1;
+  }
+  
+  .middleSection {
+    margin-top: 0;
+    order: 2;
+  }
+  
+  .rightSection {
+    align-items: flex-start;
+    margin-top: 0;
+    order: 3;
+  }
+  
+  .ballWrapper {
+    display: none;
+  }
+  
+  .footerLine {
+    width: calc(100% - 80px);
+    left: 40px;
+  }
 }
 
-.socialLinks a {
-  color: white;
-  font-weight: 85;
-  font-size: 14px;
-  font-family: "Poppins", sans-serif;
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-}
-
-.socialLinks a:hover {
-  color: #95a4ff;
-}
-
-.policyHeading {
-  position: absolute;
-  left: 1250px;   /* adjust distance from Social Media (same gap as before) */
-  top: 65px;      /* align with other headings */
-  color: #9baaff;
-  font-size: 16px;
-  font-weight: 300;
-  font-family: "Poppins", sans-serif;
-}
-
-.policyLinks {
-  position: absolute;
-  left: 1250px;   /* match heading */
-  top: 100px;     /* align with other links */
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.policyLinks a {
-  color: white;
-  font-weight: 85;
-  font-size: 14px;
-  font-family: "Poppins", sans-serif;
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-}
-
-.policyLinks a:hover {
-  color: #95a4ff;
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 20px;
+  }
+  
+  .content {
+    gap: 30px;
+  }
+  
+  .surgeLogo {
+    width: 250px;
+  }
+  
+  .navLinks a {
+    font-size: 14px;
+  }
+  
+  .middleSection h3 {
+    font-size: 14px;
+  }
+  
+  .contactItem span {
+    font-size: 12px;
+  }
+  
+  .shivNadarLogo {
+    width: 120px;
+  }
+  
+  .socials {
+    font-size: 20px;
+  }
+  
+  .footerLine {
+    width: calc(100% - 40px);
+    left: 20px;
+    bottom: 40px;
+  }
 }
