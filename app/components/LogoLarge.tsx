@@ -17,20 +17,19 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
       viewBox="0 0 1200 300"
       className={styles.logoLarge}
     >
+      {/* Define the mask */}
       <mask id="text-mask">
         <rect width="1200" height="300" fill="black" />
-
-      {/* here i want to render the image */}
-        <image
-          href="/Subtract.png"   // put your PNG inside /public
-          x="0"
-          y="0"
-          width="1200"
-          height="300"
-          preserveAspectRatio="xMidYMid meet"
-        />
-
+        <text x="600" y="180" textAnchor="middle" fill="white" fontSize="200" fontWeight="bold">
+          SURGE
+        </text>
+        <text x="600" y="270" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold">
+          2025
+        </text>
       </mask>
+
+      {/* Video clipped by mask */}
+      <rect width="1200" height="300" fill="white" mask="url(#text-mask)" />
       <foreignObject width="1200" height="300" mask="url(#text-mask)">
         <video
           src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -39,7 +38,7 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
           muted
           playsInline
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        ></video>
+        />
       </foreignObject>
     </svg>
   );
