@@ -28,6 +28,14 @@
   font-weight: 100;
 }
 
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/Bebas_Neue/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -50,4 +58,9 @@ html, body {
   overflow-x: hidden; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.timer-text {
+  font-variant-numeric: tabular-nums; /* fixes width for numbers */
+  letter-spacing: 0.5rem; /* optional: increase spacing */
 }

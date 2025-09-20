@@ -19,12 +19,17 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
     >
       <mask id="text-mask">
         <rect width="1200" height="300" fill="black" />
-        <text x="600" y="180" textAnchor="middle" fill="white" fontSize="200" fontWeight="bold">
-          SURGE
-        </text>
-        <text x="600" y="270" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold">
-          2025
-        </text>
+
+      {/* here i want to render the image */}
+        <image
+          href="/Subtract.png"   // put your PNG inside /public
+          x="0"
+          y="0"
+          width="1200"
+          height="300"
+          preserveAspectRatio="xMidYMid meet"
+        />
+
       </mask>
       <foreignObject width="1200" height="300" mask="url(#text-mask)">
         <video

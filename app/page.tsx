@@ -8,6 +8,7 @@ import SportsGrid from "./components/SportsGrid";
 import Timer from "./components/Timer";
 import Footer from "./components/Footer";
 import LogoAnimation from "./components/LogoAnimation";
+import Map from "./components/Map";
 
 export default function HomePage() {
   const logoSmallRef = useRef<SVGSVGElement>(null);
@@ -21,6 +22,7 @@ export default function HomePage() {
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />
       <SportsGrid />
       <Timer />
+      <Map/>
       <Footer />
     </div>
   );
