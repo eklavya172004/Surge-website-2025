@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef,RefObject  } from "react";
+import { useEffect, useRef, RefObject } from "react";
 import LogoLarge from "./LogoLarge";
 
 export default function LogoAnimation({ 
-      logoSmallRef,
-      logoLargeRef,
- }: {  logoSmallRef: RefObject<SVGSVGElement | null>;
-  logoLargeRef: RefObject<SVGSVGElement | null>;  }) {
-
+  logoSmallRef,
+  logoLargeRef,
+}: {  
+  logoSmallRef: RefObject<SVGSVGElement | null>;
+  logoLargeRef: RefObject<SVGSVGElement | null>;  
+}) {
   const parallaxImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,10 +23,11 @@ export default function LogoAnimation({
       const targetTop = (navHeight - targetHeight) / 2;
       const targetLeft = (viewportWidth - targetWidth) / 2;
 
-      const initialWidth = viewportWidth * 0.8;
-      const initialHeight = initialWidth * (300 / 1200);
-      const initialLeft = viewportWidth * 0.1;
-      const initialTop = navHeight + (viewportHeight - initialHeight) / 2;
+      // Start with full viewport dimensions
+      const initialWidth = viewportWidth;
+      const initialHeight = viewportHeight;
+      const initialLeft = 0;
+      const initialTop = 0;
 
       const maxScroll = viewportHeight * 0.7;
       let progress = Math.min(1, scrollY / maxScroll);
@@ -61,7 +63,7 @@ export default function LogoAnimation({
       window.removeEventListener("scroll", updateAnimation);
       window.removeEventListener("resize", updateAnimation);
     };
-  },  [logoSmallRef, logoLargeRef]);
+  }, [logoSmallRef, logoLargeRef]);
 
   return <LogoLarge logoLargeRef={logoLargeRef} />;
 }
