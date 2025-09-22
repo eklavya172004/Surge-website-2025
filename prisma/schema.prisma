@@ -35,31 +35,23 @@ model VerificationToken {
 }
 
 model Event {
-  id                String             @id @default(cuid())
-  name              String             @unique @db.VarChar(100)
-  slug              String             @unique
-  category          Categories         @default(MALE)
-  dateTo            String
-  dateFrom          String
-  venue             String
-  location          Locations          @default(INDOOR)
-  rules             String?
-  winnerPrize       Int
-  runnerUpPrize     Int
-  minPlayers        Int
-  maxPlayers        Int
-  pricePerPlayer    Int
-  eventImg          String?
-  about             String?
-  Team              Team[]
-  requiredDocuments RequiredDocument[] @relation("EventToRequiredDocument")
-}
-
-model RequiredDocument {
-  id           String       @id @default(cuid())
-  documentType DocumentType
-  description  String
-  events       Event[]      @relation("EventToRequiredDocument")
+  id              String     @id @default(cuid())
+  name            String     @unique @db.VarChar(100)
+  slug            String     @unique
+  category        Categories @default(MALE)
+  dateTo          String
+  dateFrom        String
+  venue           String
+  location        Locations  @default(INDOOR)
+  rules           String?
+  winnerPrize     Int
+  runnerUpPrize   Int
+  minPlayers      Int
+  maxPlayers      Int
+  pricePerPlayer  Int
+  eventImg        String?
+  about           String?
+  Team            Team[]
 }
 
 model TeamMember {
@@ -213,12 +205,4 @@ enum UploadStatus {
   PENDING
   UPLOADED
   REJECTED
-}
-
-enum DocumentType {
-  PHOTO
-  AADHAR_CARD
-  MARKSHEET
-  FEE_PROOF
-  COLLEGE_ID
 }
