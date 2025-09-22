@@ -1,34 +1,115 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
-const sports = ["#Badminton", "#Cricket", "#Football", "#Volleyball", "#Chess"];
+const sports = ["#BADMINTON", "#CRICKET", "#FOOTBALL", "#VOLLEYBALL", "#CHESS"];
 
 export default function TextFlipLoader() {
-  const [index, setIndex] = useState(0);
+  const textRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % sports.length);
-    }, 400); // much faster flip (every 0.4s)
-    return () => clearInterval(interval);
+    let currentIndex = 0;
+    let isActive = true;
+    const texts = textRefs.current;
+
+    // Initial setup
+    if (texts[0]) {
+      texts[0].style.top = "0";
+      texts[0].style.transform = "translateY(0)";
+    }
+
+    const animate = () => {
+      if (!isActive) return;
+
+      const currentText = texts[currentIndex];
+      const nextIndex = (currentIndex + 1) % texts.length;
+      const nextText = texts[nextIndex];
+
+      if (!currentText || !nextText) return;
+
+      // Move current text up and out
+      currentText.style.transition = "transform 0.5s ease";
+      currentText.style.transform = "translateY(-100%)";
+
+      // Move next text into view
+      nextText.style.transition = "none";
+      nextText.style.transform = "translateY(100%)";
+      nextText.style.top = "0";
+      setTimeout(() => {
+        if (!isActive) return;
+        nextText.style.transition = "transform 0.5s ease";
+        nextText.style.transform = "translateY(0)";
+      }, 50);
+
+      // Reset current text position after animation
+      setTimeout(() => {
+        if (!isActive) return;
+        currentText.style.transition = "none";
+        currentText.style.transform = "translateY(100%)";
+        currentText.style.top = "100%";
+      }, 500);
+
+      currentIndex = nextIndex;
+      setTimeout(animate, 1000); // Repeat after 1s (0.5s animation + 0.5s pause)
+    };
+
+    // Start animation after initial 0.5s
+    const initialTimeout = setTimeout(animate, 500);
+
+    return () => {
+      isActive = false;
+      clearTimeout(initialTimeout);
+    };
   }, []);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white text-blue-500 text-4xl font-bold z-50">
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={sports[index]}
-          initial={{ rotateX: 90, opacity: 0 }}
-          animate={{ rotateX: 0, opacity: 1 }}
-          exit={{ rotateX: -90, opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }} // faster animation
-          className="inline-block"
-        >
-          {sports[index]}
-        </motion.span>
-      </AnimatePresence>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+        overflow: "hidden",
+        zIndex: 50,
+      }}
+    >
+      <div
+        style={{
+          width: "700px",
+          height: "100px",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {sports.map((sport, index) => (
+          <div
+            key={sport}
+            ref={(el) => {
+              textRefs.current[index] = el;
+            }}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "50px",
+              lineHeight: "50px",
+              textAlign: "center",
+              fontSize: "72px",
+              fontFamily: "Arial, sans-serif",
+              top: "100%",
+              paddingTop: "5px",
+              color: index % 2 === 0 ? "#FF0000" : "#0000FF",
+              fontWeight: "bold",
+            }}
+          >
+            {sport}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -9,20 +9,6 @@
   src: url("/fonts/Poppins-Regular.ttf") format("truetype");
 }
 
-@keyframes rotateBall {
-  from {
-    transform: translateY(-50%) rotate(0deg);
-  }
-  to {
-    transform: translateY(-50%) rotate(720deg); /* adjust for more spins */
-  }
-}
-
-@scroll-timeline scrollRotate {
-  source: auto;
-  orientation: block; /* vertical scroll */
-}
-
 .blueBallContainer {
   position: relative;
   min-height: 100vh;
@@ -101,7 +87,8 @@
 
 .ball.show {
   opacity: 1;
-  /* animation: rotateBall 10s linear infinite; rotates continuously */
+  /* Animate to original position and no rotation */
+  transform: translateY(-50%) rotate(0deg);
 }
 
 .content .show {

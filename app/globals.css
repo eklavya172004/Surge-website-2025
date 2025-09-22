@@ -64,3 +64,7 @@ html, body {
   font-variant-numeric: tabular-nums; /* fixes width for numbers */
   letter-spacing: 0.5rem; /* optional: increase spacing */
 }
+
+body{
+  width: 100vw;
+}
