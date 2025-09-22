@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { NextAuthSessionProvider } from "@/components/session-provider";
 import TRPCProvider from "./components/TRPCProvider";
+import LoaderWrapper from "./components/LoaderWrapper";
+// import LoaderWrapper from "@/components/LoaderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +21,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  
+
   return (
     <html lang="en">
       <body className={`${inter.className} bg-white`}>
         <NextAuthSessionProvider session={session}>
-          <TRPCProvider>{children}</TRPCProvider>
+          <TRPCProvider>
+            <LoaderWrapper>{children}</LoaderWrapper>
+          </TRPCProvider>
         </NextAuthSessionProvider>
       </body>
     </html>

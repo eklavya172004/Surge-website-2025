@@ -8,12 +8,24 @@ interface NavbarProps {
 }
 
 export default function Navbar({ logoSmallRef }: NavbarProps) {
+  // Replace DOCUMENT_ID with your actual Google Doc ID
+  const rulebookUrl = "https://docs.google.com/document/d/1asukNIo8Kfx_qK9IzvarUcNpbX2Wn9TszDawgh17Jh4/preview";
+  
+  const handleRulebookClick = () => {
+    window.open(rulebookUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <nav className={styles.nav}>
       <ul>
         <li>ABOUT</li>
         <li>HOME</li>
-        <li>RULE BOOK</li>
+        <li 
+           className={styles.externalLink}  // Add this class
+            onClick={handleRulebookClick}
+        >
+          RULE BOOK
+        </li>
       </ul>
       <div className={styles.logoPlaceholder}>
         <svg

@@ -24,6 +24,27 @@
 
 .nav ul li {
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+/* Hover effects for all nav items */
+.nav ul li:hover {
+  opacity: 0.7;
+  transform: translateY(-1px);
+}
+
+/* Optional: Special styling for external links like RULE BOOK */
+.nav ul li.externalLink:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Style for links inside nav items */
+.nav ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .logoPlaceholder {
