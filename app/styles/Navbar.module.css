@@ -11,15 +11,15 @@
   padding: 0 50px;
   box-sizing: border-box;
   z-index: 10;
-  color: navy;
-  font-size: 14px;
-  font-weight: bold;
+  color: black;
+  font-size: 15px;
+  font-family: Poppins;
 }
 
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 
 .nav ul li {

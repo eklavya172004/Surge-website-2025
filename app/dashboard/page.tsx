@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { redirect } from "next/navigation";
-import HomeClient from "../home-client";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -17,5 +16,5 @@ export default async function DashboardPage() {
   }
 
   // Pass session data to client component if needed
-  return <HomeClient/>;
+  redirect("/dashboard/profile");
 }

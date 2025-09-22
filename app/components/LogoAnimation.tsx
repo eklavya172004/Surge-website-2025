@@ -1,17 +1,15 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import Navbar from './Navbar';
-import HeroSection from './HeroSection';
-import LogoLarge from './LogoLarge';
-import BallSection from './BlueBall';
-import SportsGrid from './SportsGrid';
-import Footer from './Footer';
-import Timer from './Timer';
+import { useEffect, useRef, RefObject } from "react";
+import LogoLarge from "./LogoLarge";
 
-export default function LandingPage() {
-  const logoLargeRef = useRef<SVGSVGElement>(null);
-  const logoSmallRef = useRef<SVGSVGElement>(null);
+export default function LogoAnimation({ 
+  logoSmallRef,
+  logoLargeRef,
+}: {  
+  logoSmallRef: RefObject<SVGSVGElement | null>;
+  logoLargeRef: RefObject<SVGSVGElement | null>;  
+}) {
   const parallaxImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,10 +23,11 @@ export default function LandingPage() {
       const targetTop = (navHeight - targetHeight) / 2;
       const targetLeft = (viewportWidth - targetWidth) / 2;
 
-      const initialWidth = viewportWidth * 0.8;
-      const initialHeight = initialWidth * (300 / 1200);
-      const initialLeft = viewportWidth * 0.1;
-      const initialTop = navHeight + (viewportHeight - initialHeight) / 2;
+      // Start with full viewport dimensions
+      const initialWidth = viewportWidth;
+      const initialHeight = viewportHeight;
+      const initialLeft = 0;
+      const initialTop = 0;
 
       const maxScroll = viewportHeight * 0.7;
       let progress = Math.min(1, scrollY / maxScroll);
@@ -46,7 +45,7 @@ export default function LandingPage() {
       }
 
       if (logoSmallRef.current) {
-        logoSmallRef.current.style.opacity = progress >= 0.8 ? '0' : '1';
+        logoSmallRef.current.style.opacity = progress >= 0.8 ? "0" : "1";
       }
 
       if (parallaxImageRef.current) {
@@ -56,26 +55,15 @@ export default function LandingPage() {
       }
     };
 
-    window.addEventListener('scroll', updateAnimation);
-    window.addEventListener('resize', updateAnimation);
+    window.addEventListener("scroll", updateAnimation);
+    window.addEventListener("resize", updateAnimation);
     updateAnimation();
 
     return () => {
-      window.removeEventListener('scroll', updateAnimation);
-      window.removeEventListener('resize', updateAnimation);
+      window.removeEventListener("scroll", updateAnimation);
+      window.removeEventListener("resize", updateAnimation);
     };
-  }, []);
+  }, [logoSmallRef, logoLargeRef]);
 
-  return (
-    <div className='bg-white'>
-      <Navbar logoSmallRef={logoSmallRef} />
-      <HeroSection />
-      <BallSection/>
-      {/* <ImageSection parallaxImageRef={parallaxImageRef} /> */}
-      <LogoLarge logoLargeRef={logoLargeRef} />
-      <SportsGrid />
-      <Timer/>
-      <Footer />
-    </div>
-  );
+  return <LogoLarge logoLargeRef={logoLargeRef} />;
 }

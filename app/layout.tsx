@@ -9,8 +9,8 @@ import TRPCProvider from "./components/TRPCProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Surge - Authentication System",
-  description: "A Next.js application with verification-based authentication",
+  title: "Surge - the home of champions",
+  description: "Sports",
 };
 
 export default async function RootLayout({
@@ -22,7 +22,7 @@ export default async function RootLayout({
   
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-white`}>
         <NextAuthSessionProvider session={session}>
           <TRPCProvider>{children}</TRPCProvider>
         </NextAuthSessionProvider>
