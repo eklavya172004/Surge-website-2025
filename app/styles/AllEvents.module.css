@@ -1,161 +1,161 @@
 @font-face {
-  font-family: "Anton";
-  src: url("/fonts/Anton/Anton-Regular.ttf") format("truetype");
-  font-weight: norma;
-  font-style: large;
+    font-family: "Anton";
+    src: url("/fonts/Anton/Anton-Regular.ttf") format("truetype");
+    font-weight: norma;
+    font-style: large;
 }
 
 @font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: "Poppins";
+    src: url("/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
 }
 
 
 .image_grid {
-  background: white;
-  margin: 0;
-  padding: 28px;
+    background: white;
+    margin: 0;
+    padding: 28px;
 }
 
 .grid {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    align-items: flex-start;
 }
 
 /* left heading */
 .stay_updated {
-  margin-top: 6%;
-  font-family: "Anton", sans-serif;
-  background-color: white;
-  font-size: 10rem;
-  color: black;
-  margin-bottom: 20px;
-  line-height: 1;
-  letter-spacing: 4px;
-  width: 260px;
-  text-align: left;
+    margin-top: 6%;
+    font-family: "Anton", sans-serif;
+    background-color: white;
+    font-size: 10rem;
+    color: black;
+    margin-bottom: 20px;
+    line-height: 1;
+    letter-spacing: 4px;
+    width: 260px;
+    text-align: left;
 }
 
 /* right container */
 .sports_grid {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 20px;
-  padding: 10px 0;
-  flex: 1;
-  width: 100%;
-  height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    padding: 10px 0;
+    flex: 1;
+    width: 100%;
+    height: auto;
 }
 
 .column1 {
-  flex: 1;
-  width: auto;
-  height: auto;
+    flex: 1;
+    width: auto;
+    height: auto;
 }
 
 .Images {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 40px;
-  /* background-color: #0E7A32; */
-  padding: 20px;
-  /* ✅ no grid-auto-rows */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
+    /* background-color: #0E7A32; */
+    padding: 20px;
+    /* ✅ no grid-auto-rows */
 }
 
 .image_wrapper {
-  position: relative;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #f6f6f6;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f6f6f6;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .image_wrapper img {
-  width: 100%;
-  height: auto;
-  /* 👈 maintains natural aspect ratio */
-  object-fit: cover;
-  display: block;
-  border-radius: 8px;
+    width: 100%;
+    height: auto;
+    /* 👈 maintains natural aspect ratio */
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
 }
 
 /* ensure the first child image (actual event image) sits behind overlays */
 .image_wrapper img:first-child {
-  z-index: 0;
+    z-index: 0;
 }
 
 /* subtle gradient overlay at bottom to improve text contrast */
 .image_wrapper .gradient {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 50%;
-  width: 100%;
-  opacity: 0.38;
-  pointer-events: none;
-  border-radius: 0 0 8px 8px;
-  z-index: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50%;
+    width: 100%;
+    opacity: 0.38;
+    pointer-events: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 1;
 }
 
 /* small title on bottom center */
 .overlay_text_small {
-  font-family: "Poppins", sans-serif;
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-  z-index: 2;
-  padding: 2px 6px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    font-family: "Poppins", sans-serif;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    z-index: 2;
+    padding: 2px 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* responsive breakpoints */
 @media (max-width: 1280px) {
-  .Images {
-    grid-template-columns: repeat(4, 1fr);
-  }
+    .Images {
+        grid-template-columns: repeat(4, 1fr);
+    }
 
-  .stay_updated {
-    font-size: 8rem;
-    width: 200px;
-  }
+    .stay_updated {
+        font-size: 8rem;
+        width: 200px;
+    }
 }
 
 @media (max-width: 980px) {
-  .grid {
-    flex-direction: column;
-  }
+    .grid {
+        flex-direction: column;
+    }
 
-  .stay_updated {
-    margin-top: 2%;
-    font-size: 4rem;
-    width: 100%;
-    text-align: left;
-  }
+    .stay_updated {
+        margin-top: 2%;
+        font-size: 4rem;
+        width: 100%;
+        text-align: left;
+    }
 
-  .Images {
-    grid-template-columns: repeat(3, 1fr);
-  }
+    .Images {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 640px) {
-  .Images {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
+    .Images {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
 
-  .stay_updated {
-    font-size: 4rem;
-  }
+    .stay_updated {
+        font-size: 4rem;
+    }
 }
