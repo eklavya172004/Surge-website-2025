@@ -9,6 +9,9 @@ import Timer from "./components/Timer";
 import Footer from "./components/Footer";
 import LogoAnimation from "./components/LogoAnimation";
 import Map from "./components/Map";
+import LeftNavbar from "./components/LeftNavbar";
+import SmallLogo from "./components/SmallLogo";
+import RightNavbar from "./components/RightNavbar";
 
 export default function HomePage() {
   const logoSmallRef = useRef<SVGSVGElement>(null);
@@ -16,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-white">
-      <Navbar logoSmallRef={logoSmallRef} />
+      <Navbar />
       <HeroSection />
       <BlueBall />
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />

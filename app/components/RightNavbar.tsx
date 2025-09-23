@@ -2,7 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import styles from '../styles/Navbar.module.css';
 
 export default function RightNavbar() {
   const { data: session } = useSession();
@@ -17,11 +16,19 @@ export default function RightNavbar() {
   };
 
   return (
-    <ul className={styles.navList} style={{ zIndex: 1200 }}>
-      <li className={styles.navItem}>CONTACT</li>
-      <li className={styles.navItem}>FIFA</li>
-      <li className={styles.navItem}>SHOP</li>
-      <li className={styles.navItem} onClick={handleLoginClick}>LOGIN</li>
-    </ul>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '30px', paddingRight: '50px', position: 'fixed', zIndex: 1001, right: 10, background: 'white', height: '10vh' }}>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }} onClick={() => {}}>
+        CONTACT
+      </div>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }} onClick={() => {}}>
+        FIFA
+      </div>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }} onClick={() => {}}>
+        SHOP
+      </div>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }} onClick={handleLoginClick}>
+        LOGIN
+      </div>
+    </div>
   );
 }

@@ -1,7 +1,5 @@
 'use client';
 
-import styles from '../styles/Navbar.module.css';
-
 export default function LeftNavbar() {
   const rulebookUrl = "https://docs.google.com/document/d/1asukNIo8Kfx_qK9IzvarUcNpbX2Wn9TszDawgh17Jh4/preview";
   
@@ -10,15 +8,16 @@ export default function LeftNavbar() {
   };
 
   return (
-    <ul className={styles.navList} style={{ zIndex: 1100 }}>
-      <li className={styles.navItem}>ABOUT</li>
-      <li className={styles.navItem}>HOME</li>
-      <li 
-        className={`${styles.navItem} ${styles.externalLink}`}
-        onClick={handleRulebookClick}
-      >
+    <div style={{ display: 'flex', alignItems: 'center', gap: '30px', paddingLeft: '50px', position: 'fixed', zIndex: 1001 }}>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }}>
+        ABOUT
+      </div>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }}>
+        HOME
+      </div>
+      <div style={{ cursor: 'pointer', padding: '5px 10px', borderRadius: '4px', transition: 'opacity 0.2s ease, transform 0.2s ease' }} onClick={handleRulebookClick}>
         RULE BOOK
-      </li>
-    </ul>
+      </div>
+    </div>
   );
 }
