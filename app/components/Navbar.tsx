@@ -28,62 +28,73 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
   };
 
   return (
-    <nav className={styles.nav}>
-      <ul style={{ position: 'relative', zIndex: 1300 }}>
-        <li>ABOUT</li>
-        <li>HOME</li>
-        <li 
-          className={styles.externalLink}
-          onClick={handleRulebookClick}
-        >
-          RULE BOOK
-        </li>
-      </ul>
-      <div className={styles.logoPlaceholder} style={{ position: 'relative', zIndex: 1100 }}>
-        <div
-          ref={logoSmallRef}
-          id="logo-small"
-          style={{
-            position: 'relative',
-            width: '200px',
-            height: '50px',
-            left: '40px',
-          }}
-        >
-          {/* Dark blue background (layer 1 - bottom) */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 50,
-              width: '50%',
-              height: '100%',
-              backgroundColor: '#1B263B', // Dark blue/marine color
-            }}
-          />
-          {/* PNG outline on top (layer 2 - top) */}
-          <img
-            src={overlayImageSrc.src}
-            alt="Small logo outline"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              zIndex: 2,
-              pointerEvents: 'none',
-            }}
-          />
-        </div>
-      </div>
-      <ul style={{ position: 'relative', zIndex: 1100 }}>
-        <li>CONTACT</li>
-        <li>FIFA</li>
-        <li>SHOP</li>
-        <li onClick={handleLoginClick}>LOGIN</li>
-      </ul>
-    </nav>
+<nav className={styles.nav}>
+  {/* Left nav links */}
+  <ul style={{ position: 'relative', zIndex: 1300 }}>
+    <li>ABOUT</li>
+    <li>HOME</li>
+    <li 
+      className={styles.externalLink}
+      onClick={handleRulebookClick}
+    >
+      RULE BOOK
+    </li>
+  </ul>
+
+  {/* Logo section */}
+  <div className={styles.logoPlaceholder} style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '10px' }}>
+    {/* Small overlay logo */}
+    <div
+      ref={logoSmallRef}
+      id="logo-small"
+      style={{
+        position: 'relative',
+        width: '200px',
+        height: '50px',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 50,
+          width: '50%',
+          height: '100%',
+          backgroundColor: '#1B263B', 
+        }}
+      />
+      <img
+        src={overlayImageSrc.src}
+        alt="Small logo outline"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          zIndex: 2,
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
+
+    {/* College logo */}
+
+  </div>
+
+  {/* Right nav links */}
+  <ul style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <img
+      src="/College_Logo.png"
+      alt="College Logo"
+      onClick={() => window.open('https://snu.edu.in/home/', '_blank')}
+      style={{ width: '100px', height: '40px', objectFit: 'contain', cursor: 'pointer', marginLeft: '-28px' }}
+    />
+    <li style={{ cursor: 'pointer' }}>CONTACT</li>
+    <li onClick={handleLoginClick} style={{ cursor: 'pointer' }}>LOGIN</li>
+  </ul>
+</nav>
+
   );
 }

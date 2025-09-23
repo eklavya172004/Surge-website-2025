@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-white">
-      <Navbar />
+      <Navbar  logoSmallRef={logoSmallRef} />
       <HeroSection />
       <BlueBall />
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />
