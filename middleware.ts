@@ -5,12 +5,12 @@ export default withAuth(
   function middleware(req) {
     // Custom logic to check if user is verified
     const token = req.nextauth.token;
-    
+
     // Check if user is verified (has emailVerified timestamp)
     const isVerified = !!token?.emailVerified;
-    
+
     // If user is not verified and trying to access protected routes
-    if (!isVerified && (req.nextUrl.pathname.startsWith("/dashboard") || req.nextUrl.pathname.startsWith("/profile"))) {
+    if (!isVerified) {
       // Redirect to verification page
       const verifyUrl = new URL("/auth/verify-request", req.url);
       if (token?.email) {
@@ -18,7 +18,7 @@ export default withAuth(
       }
       return NextResponse.redirect(verifyUrl);
     }
-    
+
     return NextResponse.next();
   },
   {
@@ -28,14 +28,13 @@ export default withAuth(
         return !!token;
       },
     },
-  }
+  },
 );
 
 // Configure which routes to protect
 export const config = {
   matcher: [
     "/dashboard/:path*",
-    "/profile/:path*",
     // Add any other routes that should be protected
   ],
 };

@@ -16,14 +16,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <Link href="/dashboard/profile" className="block px-6 py-2 hover:bg-gray-800">
               Profile
             </Link>
+            <Link href="/dashboard/register" className="block px-6 py-2 hover:bg-gray-800">
+              Register for Events
+            </Link>
+            <Link href="/dashboard/cart" className="block px-6 py-2 hover:bg-gray-800">
+              Cart
+            </Link>
             <Link href="/dashboard/myevents" className="block px-6 py-2 hover:bg-gray-800">
               Registered Events
             </Link>
             <Link href="/dashboard/payments" className="block px-6 py-2 hover:bg-gray-800">
               Payment Status
             </Link>
-            <Link href="/allevents" target="_blank" className="block px-6 py-2 hover:bg-gray-800">
-              Register for More Events
+            <Link href="/dashboard/payment" className="block px-6 py-2 hover:bg-gray-800">
+              Make Payment
             </Link>
           </nav>
         </div>
