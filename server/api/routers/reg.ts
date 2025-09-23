@@ -40,6 +40,25 @@ export const regRouter = createTRPCRouter({
       if (!userId) {
         throw new Error("User is not authenticated.");
       }
+      
+      // Fetch event details to validate player count
+      const event = await ctx.db.event.findUnique({
+        where: { id: eventId },
+      });
+      
+      if (!event) {
+        throw new Error("Event not found.");
+      }
+      
+      // Validate player count
+      const playerCount = players.length;
+      if (event.minPlayers && playerCount < event.minPlayers) {
+        throw new Error(`Minimum ${event.minPlayers} players required for this event.`);
+      }
+      if (event.maxPlayers && playerCount > event.maxPlayers) {
+        throw new Error(`Maximum ${event.maxPlayers} players allowed for this event.`);
+      }
+      
       const team = await ctx.db.team.create({
         data: { registeredById: userId, eventId: eventId },
       });

@@ -41,8 +41,16 @@ export default function RegisterPage() {
     if (selectedEvent && events) {
       const event = events.find(e => e.id === selectedEvent);
       if (event) {
-        setPlayers(event.minPlayers ?? 1);
-        setPlayerDetails([{ name: "", email: "", rollNumber: "", phone: "" }]);
+        // Set player count to minPlayers if available, otherwise 1
+        const initialPlayerCount = event.minPlayers ?? 1;
+        setPlayers(initialPlayerCount);
+        
+        // Initialize player details array with the correct number of players
+        setPlayerDetails(
+          Array(initialPlayerCount)
+            .fill(null)
+            .map(() => ({ name: "", email: "", rollNumber: "", phone: "" }))
+        );
       }
     }
   }, [selectedEvent, events]);
@@ -63,6 +71,17 @@ export default function RegisterPage() {
 
     if (!selectedEventData) {
       setMessage("Selected event not found.");
+      return;
+    }
+
+    // Validate player count
+    if (selectedEventData.minPlayers && players < selectedEventData.minPlayers) {
+      setMessage(`Minimum ${selectedEventData.minPlayers} players required for this event.`);
+      return;
+    }
+    
+    if (selectedEventData.maxPlayers && players > selectedEventData.maxPlayers) {
+      setMessage(`Maximum ${selectedEventData.maxPlayers} players allowed for this event.`);
       return;
     }
 
@@ -145,13 +164,13 @@ export default function RegisterPage() {
               <input
                 type="number"
                 min={selectedEventData.minPlayers ?? 1}
-                max={selectedEventData.maxPlayers ?? 1}
+                max={selectedEventData.maxPlayers ?? 100} // Set a reasonable upper limit
                 value={players}
-                onChange={(e) => setPlayers(Math.max(selectedEventData.minPlayers ?? 1, Math.min(selectedEventData.maxPlayers ?? 1, Number(e.target.value))))}
+                onChange={(e) => setPlayers(Math.max(selectedEventData.minPlayers ?? 1, Math.min(selectedEventData.maxPlayers ?? 100, Number(e.target.value))))}
                 className="w-full p-2 border rounded"
               />
               <div className="text-sm text-gray-500 mt-1">
-                Select number of players ({selectedEventData.minPlayers ?? 1} - {selectedEventData.maxPlayers ?? 1})
+                Select number of players ({selectedEventData.minPlayers ?? 1} - {selectedEventData.maxPlayers ?? "unlimited"})
               </div>
             </div>
 
