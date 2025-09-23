@@ -18,7 +18,7 @@ export default function LogoAnimation({
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       const navHeight = 80;
-      const targetWidth = 200;
+      const targetWidth = 120;
       const targetHeight = 50;
       const targetTop = (navHeight - targetHeight) / 2;
       const targetLeft = (viewportWidth - targetWidth) / 2;
@@ -27,7 +27,7 @@ export default function LogoAnimation({
       const initialWidth = viewportWidth;
       const initialHeight = viewportHeight;
       const initialLeft = 0;
-      const initialTop = 0;
+      const initialTop = targetTop + 20; // Shifted down by 10px from the target
 
       const maxScroll = viewportHeight * 0.7;
       let progress = Math.min(1, scrollY / maxScroll);

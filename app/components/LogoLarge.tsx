@@ -19,12 +19,11 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
         top: 0,
         left: 0,
         width: '100%',
-        height: '100%',
         zIndex: 1000,
         overflow: 'hidden',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
       <div style={{
@@ -47,7 +46,6 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            zIndex: 1
           }}
         />
         

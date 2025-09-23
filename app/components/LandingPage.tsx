@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Navbar from './Navbar';
+import LeftNavbar from './LeftNavbar';
+import RightNavbar from './RightNavbar';
+import SmallLogo from './SmallLogo';
 import HeroSection from './HeroSection';
 import LogoLarge from './LogoLarge';
 import BallSection from './BlueBall';
@@ -28,7 +30,7 @@ export default function LandingPage() {
       const initialWidth = viewportWidth * 0.8;
       const initialHeight = initialWidth * (300 / 1200);
       const initialLeft = viewportWidth * 0.1;
-      const initialTop = navHeight + (viewportHeight - initialHeight) / 2;
+      const initialTop = targetTop + 10; // Shifted down by 10px from the target
 
       const maxScroll = viewportHeight * 0.7;
       let progress = Math.min(1, scrollY / maxScroll);
@@ -43,6 +45,7 @@ export default function LandingPage() {
         logoLargeRef.current.style.height = `${currentHeight}px`;
         logoLargeRef.current.style.left = `${currentLeft}px`;
         logoLargeRef.current.style.top = `${Math.max(targetTop, currentTop)}px`;
+        logoLargeRef.current.style.zIndex = '1050';
       }
 
       if (logoSmallRef.current) {
@@ -67,14 +70,17 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className='bg-white'>
-      <Navbar logoSmallRef={logoSmallRef} />
+    <div style={{ background: 'white' }}>
+      <nav >
+        <LeftNavbar />
+        <SmallLogo logoSmallRef={logoSmallRef} />
+        <RightNavbar />
+      </nav>
       <HeroSection />
-      <BallSection/>
-      {/* <ImageSection parallaxImageRef={parallaxImageRef} /> */}
+      <BallSection />
       <LogoLarge logoLargeRef={logoLargeRef} />
       <SportsGrid />
-      <Timer/>
+      <Timer />
       <Footer />
     </div>
   );
