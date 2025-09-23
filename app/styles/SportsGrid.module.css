@@ -13,6 +13,7 @@
   background: white;
   margin: 0;
   padding: 20px;
+  margin-bottom: 250px;
 }
 
 .grid {
@@ -30,6 +31,7 @@
   color: black;
   line-height: 1;
   letter-spacing: 4px;
+  margin-left: 40px;
   text-align: left;
   margin-bottom: 20px;
   margin-top: 20px;

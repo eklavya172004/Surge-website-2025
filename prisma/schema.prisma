@@ -11,6 +11,7 @@ model User {
   id                 String              @id @default(uuid())
   email              String              @unique @db.VarChar(100)
   password           String              @db.VarChar(255)
+  verified           Boolean             @default(false)
   name               String              @db.VarChar(100)
   collegeName        String              @db.VarChar(100)
   rollNumber         String              @db.VarChar(100)
@@ -24,7 +25,7 @@ model User {
 
 model VerificationToken {
   id         String   @id @default(cuid())
-  identifier String   @unique
+  identifier String
   token      String   @unique
   expires    DateTime
   userId     String?
@@ -72,7 +73,6 @@ model TeamMember {
   teamId     String
   createdAt  DateTime                 @default(now())
   isVerified PlayerVerificationStatus @default(NOT_VERIFIED)
-  Documents  Document[]
   Team       Team                     @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
@@ -143,17 +143,6 @@ model GateLog {
   college   String      @default("")
   location  PlayerState @default(IN_CAMPUS)
   timestamp DateTime    @default(now())
-}
-
-model Document {
-  id               String       @id @default(cuid())
-  fileUrl          String       @db.VarChar(255)
-  originalFileName String       @db.VarChar(255)
-  uploadStatus     UploadStatus @default(PENDING)
-  uploadedAt       DateTime     @default(now())
-  documentType     DocumentType
-  teamMemberId     String
-  TeamMember       TeamMember   @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
 }
 
 model MultiPlayerEventData {
@@ -233,4 +222,3 @@ enum DocumentType {
   FEE_PROOF
   COLLEGE_ID
 }
-

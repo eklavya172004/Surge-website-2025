@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Surge - Authentication and Email Verification System
 
-## Getting Started
+This application implements a complete email verification flow for user authentication.
 
-First, run the development server:
+## Email Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+To enable email functionality, you need to set up the following environment variables in a `.env.local` file:
+
+```env
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/surge
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-super-secret-key-change-this
+
+# Resend Email (for email verification)
+RESEND_API_KEY=your-resend-api-key-here
+EMAIL_FROM=Surge <noreply@yourdomain.com>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Getting a Resend API Key
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Go to [resend.com](https://resend.com)
+2. Sign up for an account
+3. Navigate to the API Keys section
+4. Create a new API key
+5. Copy the key and add it to your `.env.local` file
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Setting up Email Domain
 
-## Learn More
+1. In your Resend dashboard, go to the "Domains" section
+2. Add your domain (or use resend's provided domain for testing)
+3. Follow the DNS verification steps
+4. Set the `EMAIL_FROM` variable to use your verified domain
 
-To learn more about Next.js, take a look at the following resources:
+## Testing Email Functionality
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You can test if email sending is working correctly by running:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run test:email
+```
 
-## Deploy on Vercel
+This will send a test email using your configured Resend credentials.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Authentication Flow
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Users register through the registration form
+2. After registration, a verification email is sent
+3. Users must click the verification link to verify their email
+4. Verified users can log in, unverified users are redirected to the verification page
+5. Users can resend verification emails if needed
+
+## tRPC Procedures and Their Routes
+
+Below is a summary of all available tRPC procedures, grouped by router and
+suffixed with their route.\
+The route for each procedure is `/api/trpc/{router}.{procedure}`.
+
+---
+
+## reg router (`/api/trpc/reg.*`)
+
+- **getAvailableSports**: `/api/trpc/reg.getAvailableSports`
+- **getEventDetails**: `/api/trpc/reg.getEventDetails`
+- **createTeamWithMembers**: `/api/trpc/reg.createTeamWithMembers`
+- **getCart**: `/api/trpc/reg.getCart`
+- **deleteTeamFromCart**: `/api/trpc/reg.deleteTeamFromCart`
+
+---
+
+## payment router (`/api/trpc/payment.*`)
+
+_(Procedures not listed—check `server/api/routers/payments.ts` for details.)_
+
+---
+
+## events router (`/api/trpc/events.*`)
+
+_(Procedures not listed—check `server/api/routers/events.ts` for details.)_
+
+---
+
+## user router (`/api/trpc/user.*`)
+
+_(Procedures not listed—check `server/api/routers/user.ts` for details.)_
+
+---
+
+## accommodation router (`/api/trpc/accommodation.*`)
+
+_(Procedures not listed—check `server/api/routers/accommodation.ts` for
+details.)_
+
+---
+
+> **Note:**\
+> For a complete list of procedures in each router, see the corresponding file
+
+# for pushing seed events
+
+```bash
+node --loader ts-node/esm prisma/seed-events.ts
+```

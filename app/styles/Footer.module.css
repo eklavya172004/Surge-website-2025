@@ -1,5 +1,220 @@
 .footer {
-  background: white;
-  padding: 20px;
-  text-align: center;
+  width: 100%;
+  background-color: #304ffe;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  padding: 80px;
+  box-sizing: border-box;
+  min-height: 450px;
+  top: 200px;
+}
+
+.ballWrapper {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  z-index: 1;
+}
+
+.ball {
+  width: 145px;
+  height: 290px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px;
+  position: relative;
+  z-index: 2;
+  align-items: start;
+  justify-items: center;
+}
+
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding-left: 220px;
+  justify-self: start;
+}
+
+.surgeLogo {
+  width: 280px !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.navLinks a {
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.navLinks a:hover {
+  color: #95a4ff;
+}
+
+.middleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 87px;
+  margin-left: 40px;
+  justify-self: center;
+}
+
+.middleSection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 10px 0;
+  line-height: 1.6;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 0;
+}
+
+.contactItem .icon {
+  font-size: 16px;
+  color: white;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.contactItem span {
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.3;
+  font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  font-style: normal;
+}
+
+.rightSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 170px;
+  margin-top: 0;
+  justify-self: end;
+}
+
+.shivNadarLogo {
+  width: 140px;
+  height: auto;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.socials a {
+  color: white;
+  transition: color 0.2s ease-in-out;
+}
+
+.socials a:hover {
+  color: #95a4ff;
+}
+
+.footerLine {
+  border-top: 2px solid #9baaff;
+  position: absolute;
+  bottom: 60px;
+  width: calc(100% - 160px);
+  left: 80px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer {
+    padding: 60px 40px;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .leftSection {
+    padding-left: 0;
+    order: 1;
+  }
+  
+  .middleSection {
+    margin-top: 0;
+    order: 2;
+  }
+  
+  .rightSection {
+    align-items: flex-start;
+    margin-top: 0;
+    order: 3;
+  }
+  
+  .ballWrapper {
+    display: none;
+  }
+  
+  .footerLine {
+    width: calc(100% - 80px);
+    left: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 20px;
+  }
+  
+  .content {
+    gap: 30px;
+  }
+  
+  .surgeLogo {
+    width: 250px;
+  }
+  
+  .navLinks a {
+    font-size: 14px;
+  }
+  
+  .middleSection h3 {
+    font-size: 14px;
+  }
+  
+  .contactItem span {
+    font-size: 12px;
+  }
+  
+  .shivNadarLogo {
+    width: 120px;
+  }
+  
+  .socials {
+    font-size: 20px;
+  }
+  
+  .footerLine {
+    width: calc(100% - 40px);
+    left: 20px;
+    bottom: 40px;
+  }
 }

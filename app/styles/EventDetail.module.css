@@ -1,0 +1,124 @@
+.container {
+  padding: 28px;
+  font-family: "Poppins", sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 18px;
+}
+
+.title {
+  font-family: "Anton", sans-serif;
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.venue {
+  color: #666;
+  margin-top: 6px;
+}
+
+.main {
+  display: flex;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.event_img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.no_img {
+  width: 100%;
+  height: 240px;
+  background: #f6f6f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+}
+
+.about {
+  background: white;
+  padding: 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+}
+
+.meta_row {
+  display:flex;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  color: #444;
+}
+
+.right {
+  flex: 1;
+}
+
+.card {
+  background: white;
+  padding: 14px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.label {
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.help {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 6px;
+}
+
+.button {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #0b63d4;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.button_secondary {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.message {
+  margin-top: 10px;
+  color: #0b63d4;
+  font-weight: 600;
+}
