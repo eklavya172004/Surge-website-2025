@@ -33,7 +33,7 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
       }}>
         {/* Background video (layer 1 - bottom) */}
         <video
-          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          src="https://odn56sq2gn.ufs.sh/f/1wdHEmtejGdKsLCU5t3P0OVXtRrhwx7kie5UHNub9cBAGYMK"
           autoPlay
           loop
           muted
@@ -42,7 +42,7 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.05)', // Scale up by 5%
+            transform: 'translate(-50%, -50%) scale(1.05)',
             width: '100%',
             height: '100%',
             objectFit: 'cover',
