@@ -165,7 +165,7 @@ export default function CartClient() {
             </motion.div>
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Your cart is empty</h3>
             <p className="text-gray-600 mb-8 max-w-md mx-auto">
-              Looks like you haven't added any events to your cart yet. Start exploring and register for exciting events!
+              Looks like you have&apos;t added any events to your cart yet. Start exploring and register for exciting events!
             </p>
             <motion.a
               href="/dashboard/register"
