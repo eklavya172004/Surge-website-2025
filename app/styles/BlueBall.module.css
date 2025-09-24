@@ -25,17 +25,17 @@
 .ball {
   position: absolute;
   top: 50%;
-  height: 600px;
-  transform: translateY(-50%);
+  height: 800px;
   z-index: 1;
+  transform: translateY(-50%);
 }
 
 .leftBall {
-  left: -400px;
+  left: -800px;
 }
 
 .rightBall {
-  right: -400px;
+  right: -800px;
 }
 
 .content {
@@ -50,9 +50,6 @@
   line-height: 1.1;
   color: #101044;
   margin-bottom: 1.5rem;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 3s ease, transform 3s ease;
 }
 
 .text {
@@ -60,38 +57,10 @@
   font-size: 1rem;
   line-height: 1.6;
   color: #222;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 3s ease, transform 3s ease;
 }
 
 .text a {
   color: #1a56db;
   text-decoration: none;
   font-weight: 600;
-}
-
-/* Scroll Animation */
-.animateOnScroll {
-  opacity: 0;
-  transform: translateY(50px);
-}
-
-/* Ball-specific animation */
-.ball.animateOnScroll {
-  opacity: 0;
-  /* Rotate 90 degrees and move from the side */
-  transform: translateY(-50%) rotate(90deg);
-  transition: opacity 2s ease-out, transform 2s ease-out;
-}
-
-.ball.show {
-  opacity: 1;
-  /* Animate to original position and no rotation */
-  transform: translateY(-50%) rotate(0deg);
-}
-
-.content .show {
-  opacity: 1;
-  transform: translateY(0);
 }
