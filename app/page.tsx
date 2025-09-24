@@ -20,10 +20,10 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <Navbar logoSmallRef={logoSmallRef} />
-      <HeroSection />
-      <BlueBall />
+      <HeroSection/>
+      <BlueBall/>
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />
-      <SportsGrid />
+      <SportsGrid/>
       <Timer />
       <Map/>
       <Footer />

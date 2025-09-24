@@ -5,7 +5,6 @@ import { trpc } from "@/utils/trpc";
 
 import styles from "../styles/AllEvents.module.css";
 //import Link from "next/link";
-import type { EventSummary } from "@/types/eventTypes";
 
 export default function AllEventsGrid() {
   const { data: events, isLoading, error } = trpc.event.getAllEvents.useQuery();

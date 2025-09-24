@@ -14,7 +14,7 @@ model User {
   verified           Boolean             @default(false)
   name               String              @db.VarChar(100)
   collegeName        String              @db.VarChar(100)
-  rollNumber         String              @db.VarChar(100)
+  rollNumber         String?              @db.VarChar(100)
   phone              String              @db.VarChar(100)
   emailVerified      DateTime?
   image              String?
@@ -59,7 +59,7 @@ model TeamMember {
   name       String                   @db.VarChar(100)
   email      String                   @db.VarChar(100)
   phone      String                   @db.VarChar(100)
-  rollNumber String                   @db.VarChar(100)
+  rollNumber String?                   @db.VarChar(100)
   eventId    String
   playerType PlayerType               @default(PLAYER)
   teamId     String
