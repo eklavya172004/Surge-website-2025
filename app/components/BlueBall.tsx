@@ -22,7 +22,7 @@ export default function BlueBall() {
       },
       {
         threshold: 0.2,
-      }
+      },
     );
 
     elementsToAnimate.forEach((el) => {
@@ -45,7 +45,9 @@ export default function BlueBall() {
         alt="ball"
         className={`${styles.ball} ${styles.leftBall} ${styles.animateOnScroll}`}
         // Use a ref callback to add the element to our list
-        ref={(el) => {animatedElements.current[0] = el}}
+        ref={(el) => {
+          animatedElements.current[0] = el;
+        }}
       />
 
       {/* Right Ball */}
@@ -53,27 +55,29 @@ export default function BlueBall() {
         src="/blue_ball.svg"
         alt="ball"
         className={`${styles.ball} ${styles.rightBall} ${styles.animateOnScroll}`}
-        ref={(el) => {animatedElements.current[1] = el}}
+        ref={(el) => {
+          animatedElements.current[1] = el;
+        }}
       />
 
       <div className={styles.content}>
         <h1
           className={`${styles.title} ${styles.animateOnScroll}`}
-          ref={(el) => {animatedElements.current[2] = el}}
+          ref={(el) => {
+            animatedElements.current[2] = el;
+          }}
         >
           THE THREE-DAY SPORTS FEST OF SNIOE
         </h1>
         <p
           className={`${styles.text} ${styles.animateOnScroll}`}
-          ref={(el) => {animatedElements.current[3] = el}}
+          ref={(el) => {
+            animatedElements.current[3] = el;
+          }}
         >
-          {"\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "}
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.{"\""}
+          {
+            '"Where unwavering passion meets rising sports ambitions, Surge\'s 3-day extravaganza invites everyone—athletes and fans alike—into a celebration of realized dreams. From intense tournaments to thrilling one-on-one battles, the event promises a blend of physical and mental challenges where records will be set, shattered, and surpassed."'
+          }
         </p>
       </div>
     </section>
