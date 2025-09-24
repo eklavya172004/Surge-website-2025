@@ -1,270 +1,161 @@
 @font-face {
-  font-family: "Anton";
-  src: url("/fonts/Anton/Anton-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: "Anton";
+    src: url("/fonts/Anton/Anton-Regular.ttf") format("truetype");
+    font-weight: norma;
+    font-style: large;
 }
 
 @font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: "Poppins";
+    src: url("/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
 }
 
+
 .image_grid {
-  background: white;
-  margin: 0;
-  padding: 28px;
+    background: white;
+    margin: 0;
+    padding: 28px;
 }
 
 .grid {
-  display: flex;
-  flex-direction: row;
-  gap: 28px;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    align-items: flex-start;
 }
 
 /* left heading */
 .stay_updated {
-  margin-top: 6%;
-  font-family: "Anton", sans-serif;
-  background-color: white;
-  font-size: 4.2rem;
-  color: black;
-  margin-bottom: 20px;
-  line-height: 1;
-  letter-spacing: 4px;
-  width: 260px;
-  text-align: left;
+    margin-top: 6%;
+    font-family: "Anton", sans-serif;
+    background-color: white;
+    font-size: 10rem;
+    color: black;
+    margin-bottom: 20px;
+    line-height: 1;
+    letter-spacing: 4px;
+    width: 260px;
+    text-align: left;
 }
 
 /* right container */
 .sports_grid {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 20px;
-  padding: 10px 0;
-  flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    padding: 10px 0;
+    flex: 1;
+    width: 100%;
+    height: auto;
 }
 
 .column1 {
-  flex: 1;
+    flex: 1;
+    width: auto;
+    height: auto;
 }
 
 .Images {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-auto-rows: 180px;
-  gap: 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
+    /* background-color: #0E7A32; */
+    padding: 20px;
+    /* ✅ no grid-auto-rows */
 }
 
-/* images inside grid */
-.Images img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 8px;
-}
-
-/* wrapper for each event card */
 .image_wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #f6f6f6;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f6f6f6;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.image_wrapper img {
+    width: 100%;
+    height: auto;
+    /* 👈 maintains natural aspect ratio */
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
 }
 
 /* ensure the first child image (actual event image) sits behind overlays */
 .image_wrapper img:first-child {
-  z-index: 0;
+    z-index: 0;
 }
 
 /* subtle gradient overlay at bottom to improve text contrast */
 .image_wrapper .gradient {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 50%;
-  width: 100%;
-  opacity: 0.38;
-  pointer-events: none;
-  border-radius: 0 0 8px 8px;
-  z-index: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50%;
+    width: 100%;
+    opacity: 0.38;
+    pointer-events: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 1;
 }
 
 /* small title on bottom center */
 .overlay_text_small {
-  font-family: "Poppins", sans-serif;
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-  z-index: 2;
-  padding: 2px 6px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    font-family: "Poppins", sans-serif;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    z-index: 2;
+    padding: 2px 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* responsive breakpoints */
 @media (max-width: 1280px) {
-  .Images {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 160px;
-  }
-  .stay_updated {
-    font-size: 3.4rem;
-    width: 200px;
-  }
+    .Images {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stay_updated {
+        font-size: 8rem;
+        width: 200px;
+    }
 }
 
 @media (max-width: 980px) {
-  .grid {
-    flex-direction: column;
-  }
-  .stay_updated {
-    margin-top: 2%;
-    font-size: 3rem;
-    width: 100%;
-    text-align: left;
-  }
-  .Images {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 150px;
-  }
+    .grid {
+        flex-direction: column;
+    }
+
+    .stay_updated {
+        margin-top: 2%;
+        font-size: 4rem;
+        width: 100%;
+        text-align: left;
+    }
+
+    .Images {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 640px) {
-  .Images {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 140px;
-    gap: 12px;
-  }
-  .stay_updated {
-    font-size: 2.2rem;
-  }
-}
+    .Images {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
 
-/* small utility used elsewhere (keeps simple messages consistent) */
-.simple_message {
-  padding: 20px;
-  font-family: "Poppins", sans-serif;
-}
-
-
-/* small utility classes for MyEvents */
-.simple_message {
-  padding: 20px;
-  font-family: "Poppins", sans-serif;
-}
-
-.teams_list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.team_card {
-  border-radius: 8px;
-  padding: 12px;
-  background: #fff;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-}
-
-.team_row {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.team_img {
-  width: 120px;
-  height: 80px;
-  background: #f6f6f6;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.no_image {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:100%;
-  font-size:12px;
-  color:#666;
-}
-
-.team_info {
-  flex: 1;
-}
-
-.team_title {
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  font-size: 1.05rem;
-}
-
-.team_sub {
-  color: #666;
-  font-size: 0.92rem;
-  margin-top: 6px;
-}
-
-.team_members {
-  margin-top: 10px;
-  font-size: 0.9rem;
-}
-
-.team_meta {
-  min-width: 100px;
-  text-align: right;
-  font-size: 0.9rem;
-}
-
-.badgePaid {
-  display:inline-block;
-  margin-top:8px;
-  padding:4px 8px;
-  background:#E6FFEB;
-  color:#0E7A32;
-  border-radius:12px;
-  font-size:0.75rem;
-}
-
-.badgePending {
-  display:inline-block;
-  margin-top:8px;
-  padding:4px 8px;
-  background:#FFF7E6;
-  color:#8A5C00;
-  border-radius:12px;
-  font-size:0.75rem;
-}
-
-.no_registered {
-  font-size: 1rem;
-  color: #444;
-  margin-top: 8px;
-}
-/* stacked layout used by MyEvents so heading appears above content */
-.gridStack {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  align-items: flex-start; /* keep heading left-aligned */
-}
-
-/* Slight adjustment so heading doesn't have excessive top margin in stacked layout */
-.gridStack .stay_updated {
-  margin-top: 2%;
-  width: 100%;
-  font-size: 3.2rem;
+    .stay_updated {
+        font-size: 4rem;
+    }
 }
