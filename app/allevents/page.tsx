@@ -88,12 +88,7 @@ export default function AllEventsGrid() {
 
                   <div className={styles.overlay_text_small}>{ev.name}</div>
 
-                  <Link href={`/dashboard/events/${ev.slug}`}>
-                    <span
-                      style={{ position: "absolute", inset: 0, zIndex: 3, display: "block" }}
-                      aria-hidden="false"
-                    />
-                  </Link>
+                  <div style={{ position: "absolute", inset: 0, zIndex: 3, display: "block" }} />
                 </div>
               ))}
             </div>

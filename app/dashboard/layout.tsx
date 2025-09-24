@@ -26,8 +26,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     { href: "/dashboard/register", icon: Calendar, label: "Register for Events", color: "hover:bg-gradient-to-r hover:from-orange-600/20 hover:to-red-600/20" },
     { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart", color: "hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20" },
     { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events", color: "hover:bg-gradient-to-r hover:from-cyan-600/20 hover:to-blue-600/20" },
-    { href: "/dashboard/payments", icon: CreditCard, label: "Payment Status", color: "hover:bg-gradient-to-r hover:from-yellow-600/20 hover:to-orange-600/20" },
-    { href: "/dashboard/payment", icon: Wallet, label: "Make Payment", color: "hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-purple-600/20" },
   ];
 
   return (
