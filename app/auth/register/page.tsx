@@ -262,7 +262,6 @@ export default function RegisterPage() {
                           className="w-full pl-10 pr-4 py-2.5 bg-white/80 border-2 border-gray-200/50 rounded-xl text-sm placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
                           onChange={handleChange}
                           value={form.rollNumber}
-                          required
                           autoComplete="off"
                           aria-label="Roll Number"
                         />
