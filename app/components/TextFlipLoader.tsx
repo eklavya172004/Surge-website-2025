@@ -84,6 +84,9 @@ export default function TextFlipLoader() {
           height: "100px",
           position: "relative",
           overflow: "hidden",
+          border: "none",
+          outline: "none",
+          boxShadow: "none",
         }}
       >
         {sports.map((sport, index) => (
@@ -95,15 +98,17 @@ export default function TextFlipLoader() {
             style={{
               position: "absolute",
               width: "100%",
-              height: "50px",
-              lineHeight: "50px",
-              textAlign: "center",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               fontSize: "72px",
-              fontFamily: "Poppins",
+              fontFamily: "Anton",
               top: "100%",
-              paddingTop: "5px",
               color: index % 2 === 0 ? "#404040" : "#808080",
               fontWeight: "bold",
+              border: "none",
+              outline: "none",
             }}
           >
             {sport}
