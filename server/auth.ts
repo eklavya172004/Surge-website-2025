@@ -87,7 +87,9 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       server: "", // Not needed with Resend, but required by NextAuth
       from: process.env.EMAIL_FROM,
-      sendVerificationRequest,
+      async sendVerificationRequest(params) {
+        await sendVerificationRequest(params);
+      },
     }),
   ],
   session: { strategy: "jwt" },

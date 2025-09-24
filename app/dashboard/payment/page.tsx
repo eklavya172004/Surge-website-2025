@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { trpc } from "@/utils/trpc";
 
 export default function PaymentPage() {
   const [paymentMethod, setPaymentMethod] = useState<"upi" | "card" | "netbanking">("upi");
@@ -30,8 +29,9 @@ export default function PaymentPage() {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       setMessage("Payment successful! Your registration is now complete.");
-    } catch (error: any) {
-      setMessage(`Payment failed: ${error.message || "Unknown error"}`);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      setMessage(`Payment failed: ${errorMessage}`);
     } finally {
       setIsProcessing(false);
     }
@@ -131,12 +131,12 @@ export default function PaymentPage() {
               <div>
                 <label className="block text-sm font-medium mb-2">CVV</label>
                 <input
-                  type="password"
-                  value={cvv}
-                  onChange={(e) => setCvv(e.target.value)}
-                  className="w-full p-2 border rounded"
-                  placeholder="123"
-                />
+                type="password"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value)}
+                className="w-full p-2 border rounded"
+                placeholder="123"
+              />
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function PaymentPage() {
         
         {paymentMethod === "netbanking" && (
           <div className="mb-6">
-            <p className="text-gray-600">You will be redirected to your bank's website to complete the payment.</p>
+            <p className="text-gray-600">You will be redirected to your bank&apos;s website to complete the payment.</p>
           </div>
         )}
         

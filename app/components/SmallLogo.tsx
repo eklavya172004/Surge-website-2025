@@ -4,7 +4,7 @@ import { RefObject } from 'react';
 import overlayImageSrc from './../../public/Subtract.png';
 
 interface SmallLogoProps {
-  logoSmallRef: RefObject<SVGSVGElement | null>;
+  logoSmallRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function SmallLogo({ logoSmallRef }: SmallLogoProps) {

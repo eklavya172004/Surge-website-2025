@@ -12,8 +12,8 @@ import Footer from './Footer';
 import Timer from './Timer';
 
 export default function LandingPage() {
-  const logoLargeRef = useRef<SVGSVGElement>(null);
-  const logoSmallRef = useRef<SVGSVGElement>(null);
+  const logoLargeRef = useRef<HTMLDivElement>(null);
+  const logoSmallRef = useRef<HTMLDivElement>(null);
   const parallaxImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function LandingPage() {
       const initialTop = targetTop + 10; // Shifted down by 10px from the target
 
       const maxScroll = viewportHeight * 0.7;
-      let progress = Math.min(1, scrollY / maxScroll);
+      const progress = Math.min(1, scrollY / maxScroll);
 
       const currentWidth = initialWidth - (initialWidth - targetWidth) * progress;
       const currentHeight = initialHeight - (initialHeight - targetHeight) * progress;

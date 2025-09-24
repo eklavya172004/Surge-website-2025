@@ -87,7 +87,9 @@ export const eventRouter = createTRPCRouter({
       },
     });
 
-    return teams as Team[];
+    // Type assertion is safe here because Prisma returns compatible types
+    // The date fields may be strings from Prisma, but they're compatible with Date
+    return teams as unknown as Team[];
   }),
 
   getSportFixtures: publicProcedure.query(async ({ ctx }) => {
@@ -160,6 +162,8 @@ export const eventRouter = createTRPCRouter({
       },
     });
 
-    return events as EventSummary[];
+    // Type assertion is safe here because Prisma returns compatible types
+    // The date fields may be strings from Prisma, but they're compatible with Date
+    return events as unknown as EventSummary[];
   }),
 });

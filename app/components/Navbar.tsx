@@ -7,7 +7,7 @@ import styles from '../styles/Navbar.module.css';
 import overlayImageSrc from './../../public/Subtract.png';
 
 interface NavbarProps {
-  logoSmallRef: RefObject<SVGSVGElement | null>;
+  logoSmallRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function Navbar({ logoSmallRef }: NavbarProps) {

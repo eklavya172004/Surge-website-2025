@@ -46,20 +46,22 @@ export default function EventDetailClient({ slug }: Props) {
   const [accommodation, setAccommodation] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
+  // At this point `event` is definitely non-null (TypeScript knows it)
+  const minPlayers = event?.minPlayers ?? 1;
+  const maxPlayers = event?.maxPlayers ?? 1;
+
+  // ensure players default respects minPlayers
+  React.useEffect(() => {
+    if (event) {
+      setPlayers((p) => Math.max(minPlayers, p));
+    }
+    // we intentionally only update when minPlayers changes
+  }, [minPlayers, event]);
+
   // While loading or on error show early UI
   if (isLoading) return <div className={styles.container}>Loading event…</div>;
   if (error) return <div className={styles.container}>Error: {error.message}</div>;
   if (!event) return <div className={styles.container}>Event not found.</div>;
-
-  // At this point `event` is definitely non-null (TypeScript knows it)
-  const minPlayers = event.minPlayers ?? 1;
-  const maxPlayers = event.maxPlayers ?? 1;
-
-  // ensure players default respects minPlayers
-  React.useEffect(() => {
-    setPlayers((p) => Math.max(minPlayers, p));
-    // we intentionally only update when minPlayers changes
-  }, [minPlayers]);
 
   function addToCart() {
     if (!event) {

@@ -3,13 +3,15 @@
 import { useEffect, useRef, RefObject } from "react";
 import LogoLarge from "./LogoLarge";
 
+interface LogoAnimationProps { 
+  logoSmallRef: RefObject<HTMLDivElement | null>;
+  logoLargeRef: RefObject<HTMLDivElement | null>;  
+}
+
 export default function LogoAnimation({ 
   logoSmallRef,
   logoLargeRef,
-}: {  
-  logoSmallRef: RefObject<SVGSVGElement | null>;
-  logoLargeRef: RefObject<SVGSVGElement | null>;  
-}) {
+}: LogoAnimationProps) {
   const parallaxImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export default function LogoAnimation({
       const initialTop = targetTop + 20; // Shifted down by 10px from the target
 
       const maxScroll = viewportHeight * 0.7;
-      let progress = Math.min(1, scrollY / maxScroll);
+      const progress = Math.min(1, scrollY / maxScroll);
 
       const currentWidth = initialWidth - (initialWidth - targetWidth) * progress;
       const currentHeight = initialHeight - (initialHeight - targetHeight) * progress;

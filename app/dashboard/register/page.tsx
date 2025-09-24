@@ -34,7 +34,7 @@ export default function RegisterPage() {
     setPlayerDetails(Array(players).fill(null).map((_, i) => 
       playerDetails[i] || { name: "", email: "", rollNumber: "", phone: "" }
     ));
-  }, [players]);
+  }, [players, playerDetails]);
 
   // Reset form when event changes
   useEffect(() => {
@@ -110,8 +110,9 @@ export default function RegisterPage() {
       setTimeout(() => {
         router.push("/dashboard/cart");
       }, 1500);
-    } catch (error: any) {
-      setMessage(`Error: ${error.message || "Failed to register team"}`);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to register team";
+      setMessage(`Error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }

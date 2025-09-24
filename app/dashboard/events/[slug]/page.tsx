@@ -1,12 +1,13 @@
 // app/events/[slug]/page.tsx
 import EventDetailClient from "../../../components/EventDetailClient";
 
-interface Props {
-  params: {
+type Props = {
+  params: Promise<{
     slug: string;
-  };
-}
+  }>;
+};
 
-export default function EventPage({ params }: Props) {
-  return <EventDetailClient slug={params.slug} />;
+export default async function EventPage({ params }: Props) {
+  const resolvedParams = await params;
+  return <EventDetailClient slug={resolvedParams.slug} />;
 }

@@ -14,12 +14,12 @@ import SmallLogo from "./components/SmallLogo";
 import RightNavbar from "./components/RightNavbar";
 
 export default function HomePage() {
-  const logoSmallRef = useRef<SVGSVGElement>(null);
-  const logoLargeRef = useRef<SVGSVGElement>(null);
+  const logoSmallRef = useRef<HTMLDivElement>(null);
+  const logoLargeRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="bg-white">
-      <Navbar />
+      <Navbar logoSmallRef={logoSmallRef} />
       <HeroSection />
       <BlueBall />
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />
