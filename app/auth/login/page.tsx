@@ -56,7 +56,7 @@ export default function LoginPage() {
           router.push("/dashboard");
         }
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred");
     } finally {
       setLoading(false);
@@ -324,7 +324,7 @@ export default function LoginPage() {
                 {/* Registration link with enhanced styling */}
                 <div className="text-center mt-8">
                   <p className="text-gray-600 text-sm">
-                    Don't have an account yet?{" "}
+                    Don&apos;t have an account yet?{" "}
                     <a
                       href="/auth/register"
                       className="text-transparent bg-gradient-to-r from-[#0C56BC] to-[#2140A3] bg-clip-text font-semibold hover:from-[#0643A5] hover:to-[#00308F] transition-all duration-200 relative group"

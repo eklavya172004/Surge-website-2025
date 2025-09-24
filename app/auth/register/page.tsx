@@ -42,7 +42,7 @@ export default function RegisterPage() {
           `/auth/verify-request?email=${encodeURIComponent(form.email)}`
         );
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Internal server error");
     } finally {
       setLoading(false);
