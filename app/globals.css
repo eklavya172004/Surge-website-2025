@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 13, 34, 80;
+  --background-end-rgb: 44, 82, 130;
+  --accent-blue: 52, 152, 219;
+  --deep-space: 8, 20, 50;
+  --starlight: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 13, 34, 80;
+    --background-end-rgb: 44, 82, 130;
   }
 }
 
@@ -28,7 +31,6 @@
   font-weight: 100;
 }
 
-
 @font-face {
   font-family: 'Bebas Neue';
   src: url('/fonts/Bebas_Neue/BebasNeue-Regular.ttf') format('truetype');
@@ -38,12 +40,84 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: radial-gradient(ellipse at center, rgb(var(--background-end-rgb)) 0%, rgb(var(--background-start-rgb)) 70%, rgb(var(--deep-space)) 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Cosmic starfield effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(var(--starlight), 0.8), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(var(--starlight), 0.6), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(var(--starlight), 0.9), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(var(--starlight), 0.7), transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(var(--starlight), 0.5), transparent),
+    radial-gradient(1px 1px at 200px 60px, rgba(var(--starlight), 0.8), transparent),
+    radial-gradient(1px 1px at 240px 90px, rgba(var(--starlight), 0.6), transparent),
+    radial-gradient(2px 2px at 280px 20px, rgba(var(--starlight), 0.9), transparent),
+    radial-gradient(1px 1px at 320px 120px, rgba(var(--starlight), 0.7), transparent),
+    radial-gradient(1px 1px at 360px 50px, rgba(var(--starlight), 0.5), transparent);
+  background-repeat: repeat;
+  background-size: 400px 200px;
+  pointer-events: none;
+  z-index: -1;
+  animation: twinkle 20s infinite;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Floating cosmic particles */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(1px 1px at 50px 100px, rgba(var(--starlight), 0.4), transparent),
+    radial-gradient(1px 1px at 150px 150px, rgba(var(--starlight), 0.3), transparent),
+    radial-gradient(1px 1px at 250px 50px, rgba(var(--starlight), 0.5), transparent),
+    radial-gradient(1px 1px at 350px 200px, rgba(var(--starlight), 0.4), transparent);
+  background-repeat: repeat;
+  background-size: 500px 300px;
+  pointer-events: none;
+  z-index: -1;
+  animation: float 30s infinite ease-in-out;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  33% {
+    transform: translateY(-10px) translateX(5px);
+  }
+
+  66% {
+    transform: translateY(5px) translateX(-5px);
+  }
 }
 
 *,
@@ -52,19 +126,72 @@ body {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; 
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .timer-text {
-  font-variant-numeric: tabular-nums; /* fixes width for numbers */
-  letter-spacing: 0.5rem; /* optional: increase spacing */
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5rem;
+  text-shadow: 0 0 10px rgba(var(--starlight), 0.5);
 }
 
-body{
+body {
   width: 100vw;
+}
+
+/* Enhanced text styling for cosmic theme */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-shadow: 0 0 15px rgba(var(--starlight), 0.3);
+}
+
+/* Cosmic glow effects for interactive elements */
+button,
+.btn {
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(var(--starlight), 0.4);
+}
+
+button:hover,
+.btn:hover {
+  text-shadow: 0 0 20px rgba(var(--starlight), 0.8);
+  box-shadow: 0 0 25px rgba(var(--accent-blue), 0.4);
+}
+
+/* Nebula-like gradient overlays for cards/containers */
+.cosmic-card {
+  background: linear-gradient(135deg,
+      rgba(var(--background-end-rgb), 0.8) 0%,
+      rgba(var(--accent-blue), 0.1) 50%,
+      rgba(var(--background-start-rgb), 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--starlight), 0.1);
+}
+
+/* Scrollbar styling to match theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--deep-space));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, rgb(var(--accent-blue)), rgb(var(--background-end-rgb)));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, rgb(var(--background-end-rgb)), rgb(var(--accent-blue)));
 }
