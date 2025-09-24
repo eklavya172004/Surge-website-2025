@@ -99,10 +99,10 @@ export default function TextFlipLoader() {
               lineHeight: "50px",
               textAlign: "center",
               fontSize: "72px",
-              fontFamily: "Arial, sans-serif",
+              fontFamily: "Poppins",
               top: "100%",
               paddingTop: "5px",
-              color: index % 2 === 0 ? "#FF0000" : "#0000FF",
+              color: index % 2 === 0 ? "#404040" : "#808080",
               fontWeight: "bold",
             }}
           >
