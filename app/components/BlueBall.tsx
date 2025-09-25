@@ -3,11 +3,18 @@ import Image from "next/image";
 import styles from "../styles/BlueBall.module.css";
 
 export default function BlueBall() {
-  const animatedElements = useRef<(HTMLElement | null)[]>([]);
+  const leftBallRef = useRef<HTMLDivElement | null>(null);
+  const rightBallRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const textRef = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
-    // Collect all elements to animate
-    const elementsToAnimate = animatedElements.current;
+    const elements = [
+      leftBallRef.current,
+      rightBallRef.current,
+      titleRef.current,
+      textRef.current
+    ];
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -26,7 +33,7 @@ export default function BlueBall() {
       },
     );
 
-    elementsToAnimate.forEach((el) => {
+    elements.forEach((el) => {
       if (el) {
         observer.observe(el);
       }
@@ -41,44 +48,43 @@ export default function BlueBall() {
   return (
     <section className={styles.blueBallContainer}>
       {/* Left Ball */}
-      <Image
-        src="/blue_ball.svg"
-        alt="ball"
-        width={100}
-        height={100}
+      <div 
+        ref={leftBallRef} 
         className={`${styles.ball} ${styles.leftBall} ${styles.animateOnScroll}`}
-        // Use a ref callback to add the element to our list
-        ref={(el) => {
-          animatedElements.current[0] = el;
-        }}
-      />
+      >
+        <Image
+          src="/blue_ball.svg"
+          alt="ball"
+          width={600}
+          height={600}
+          style={{ width: 'auto', height: '100%', objectFit: 'contain' }}
+        />
+      </div>
 
       {/* Right Ball */}
-      <Image
-        src="/blue_ball.svg"
-        alt="ball"
-        width={100}
-        height={100}
+      <div 
+        ref={rightBallRef} 
         className={`${styles.ball} ${styles.rightBall} ${styles.animateOnScroll}`}
-        ref={(el) => {
-          animatedElements.current[1] = el;
-        }}
-      />
+      >
+        <Image
+          src="/blue_ball.svg"
+          alt="ball"
+          width={600}
+          height={600}
+          style={{ width: 'auto', height: '100%', objectFit: 'contain' }}
+        />
+      </div>
 
       <div className={styles.content}>
         <h1
           className={`${styles.title} ${styles.animateOnScroll}`}
-          ref={(el) => {
-            animatedElements.current[2] = el;
-          }}
+          ref={titleRef}
         >
           THE THREE-DAY SPORTS FEST OF SNIOE
         </h1>
         <p
           className={`${styles.text} ${styles.animateOnScroll}`}
-          ref={(el) => {
-            animatedElements.current[3] = el;
-          }}
+          ref={textRef}
         >
           {
             '"Where unwavering passion meets rising sports ambitions, Surge\'s 3-day extravaganza invites everyone—athletes and fans alike—into a celebration of realized dreams. From intense tournaments to thrilling one-on-one battles, the event promises a blend of physical and mental challenges where records will be set, shattered, and surpassed."'
