@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import styles from "../styles/BlueBall.module.css";
 
 export default function BlueBall() {
@@ -40,9 +41,11 @@ export default function BlueBall() {
   return (
     <section className={styles.blueBallContainer}>
       {/* Left Ball */}
-      <img
+      <Image
         src="/blue_ball.svg"
         alt="ball"
+        width={100}
+        height={100}
         className={`${styles.ball} ${styles.leftBall} ${styles.animateOnScroll}`}
         // Use a ref callback to add the element to our list
         ref={(el) => {
@@ -51,9 +54,11 @@ export default function BlueBall() {
       />
 
       {/* Right Ball */}
-      <img
+      <Image
         src="/blue_ball.svg"
         alt="ball"
+        width={100}
+        height={100}
         className={`${styles.ball} ${styles.rightBall} ${styles.animateOnScroll}`}
         ref={(el) => {
           animatedElements.current[1] = el;

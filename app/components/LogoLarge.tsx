@@ -2,7 +2,7 @@
 
 import { RefObject } from 'react';
 import styles from '../styles/LogoLarge.module.css';
-import overlayImageSrc from './../../public/Subtract.png';
+import Image from 'next/image';
 
 interface LogoLargeProps {
   logoLargeRef: RefObject<HTMLDivElement | null>;
@@ -50,9 +50,11 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
         />
         
         {/* PNG overlay on top (layer 2 - top) */}
-        <img
-          src="./Subtract.png"
+        <Image
+          src="/Subtract.png"
           alt="Logo overlay"
+          width={800}
+          height={600}
           style={{
             position: 'absolute',
             top: '50%',

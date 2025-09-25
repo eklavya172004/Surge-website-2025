@@ -4,7 +4,7 @@ import { RefObject } from 'react';
 import { useSession } from "next-auth/react"; 
 import { useRouter } from "next/navigation"; 
 import styles from '../styles/Navbar.module.css'; 
-import overlayImageSrc from './../../public/Subtract.png'; 
+import Image from 'next/image'; 
  
 interface NavbarProps { 
   logoSmallRef: RefObject<HTMLDivElement | null>; 
@@ -68,9 +68,11 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
           backgroundColor: '#1B263B',  
         }} 
       /> 
-      <img 
-        src={overlayImageSrc.src} 
+      <Image 
+        src="/Subtract.png" 
         alt="Small logo outline" 
+        width={200}
+        height={50}
         style={{ 
           position: 'absolute', 
           top: 0, 

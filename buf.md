@@ -1,4 +1,0 @@
-- [ ] footer
-- [ ] merge to main and deploy from it
-- [ ] query opt
-- [ ] hydration

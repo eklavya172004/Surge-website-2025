@@ -1,54 +1,87 @@
 "use client";
-
 import React from "react";
 import { trpc } from "@/utils/trpc";
-import Link from "next/link";
-import styles from "../../styles/AllEvents.module.css";
-import type { Team, EventSummary } from "@/types/eventTypes";
+import Image from "next/image";
+
+interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  rollNumber: string;
+  phone: string;
+  isVerified: "VERIFIED" | "UNVERIFIED";
+  teamId: string;
+}
+
+interface Event {
+  id: string;
+  name: string;
+  eventImg?: string | null;
+  venue?: string | null;
+  dateFrom?: Date | string | null;
+  dateTo?: Date | string | null;
+  category: string;
+  about?: string | null;
+  rules?: string | null;
+  minPlayers: number;
+  maxPlayers: number;
+  pricePerPlayer?: number | null;
+  isVerified?: boolean;
+  slug: string;
+}
+
+interface EventSummary {
+  id: string;
+  name: string;
+  eventImg?: string | null;
+  venue?: string | null;
+  pricePerPlayer?: number | null;
+}
 
 export default function MyEventsClient() {
   const { data: teams, isLoading, error } = trpc.event.getMyEvents.useQuery();
   const { data: allEvents } = trpc.event.getAllEvents.useQuery();
 
-  if (isLoading) return <div className={styles.simple_message}>Loading your events...</div>;
-  if (error) return <div className={styles.simple_message}>Error: {error.message}</div>;
+  if (isLoading) return <div style={{ padding: "20px", textAlign: "center" }}>Loading your events...</div>;
+  if (error) return <div style={{ padding: "20px", textAlign: "center", color: "red" }}>Error: {error.message}</div>;
 
   const suggestedEvents: EventSummary[] = (allEvents ?? []).slice(0, 5);
 
   return (
-    <section className={styles.image_grid}>
-      {/* NOTE: using gridStack (column) so the heading appears above content */}
-      <div className={styles.gridStack}>
-        <div className={styles.stay_updated}>YOUR<br/>EVENTS</div>
+    <section style={{ background: "white", margin: 0, padding: "28px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "28px", alignItems: "flex-start" }}>
+        <div style={{ marginTop: "6%", fontFamily: "'Anton', sans-serif", backgroundColor: "white", fontSize: "10rem", color: "black", marginBottom: "20px", lineHeight: 1, letterSpacing: "4px", width: "260px", textAlign: "left" }}>
+          YOUR<br/>EVENTS
+        </div>
 
-        <div className={styles.sports_grid}>
-          <div className={styles.column1}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "stretch", gap: "20px", padding: "10px 0", flex: 1, width: "100%", height: "auto" }}>
+          <div style={{ flex: 1, width: "auto", height: "auto" }}>
             {/* If user has teams, show them in cards. Otherwise show message and suggested events */}
             {teams && teams.length > 0 ? (
-              <div className={styles.teams_list}>
-                {teams.map((team: Team) => (
-                  <div key={team.id} className={styles.team_card}>
-                    <div className={styles.team_row}>
-                      <div className={styles.team_img}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {teams.map((team) => (
+                  <div key={team.id} style={{ border: "1px solid #ddd", borderRadius: "8px", padding: "16px" }}>
+                    <div style={{ display: "flex", gap: "16px" }}>
+                      <div style={{ width: "100px", height: "80px", overflow: "hidden", flexShrink: 0 }}>
                         {team.Event?.eventImg ? (
-                          <img src={team.Event.eventImg} alt={team.Event.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          <Image src={team.Event.eventImg} alt={team.Event.name} width={100} height={80} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         ) : (
-                          <div className={styles.no_image}>No image</div>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", backgroundColor: "#f0f0f0" }}>No image</div>
                         )}
                       </div>
 
-                      <div className={styles.team_info}>
-                        <h3 className={styles.team_title}>
+                      <div style={{ flex: 1 }}>
+                        <h3 style={{ margin: "0 0 8px 0", fontSize: "1.2rem" }}>
                           {team.Event?.name}
                         </h3>
-                        <div className={styles.team_sub}>{team.Event?.venue}</div>
-                        <div className={styles.team_sub}>Players: {team.TeamMembers?.length ?? 0} • Price per player: ₹{team.Event?.pricePerPlayer ?? "—"}</div>
+                        <div style={{ fontSize: "0.9rem", color: "#666", marginBottom: "8px" }}>{team.Event?.venue}</div>
+                        <div style={{ fontSize: "0.9rem", color: "#666", marginBottom: "12px" }}>Players: {team.TeamMembers?.length ?? 0} • Price per player: ₹{team.Event?.pricePerPlayer ?? "—"}</div>
 
-                        <div className={styles.team_members}>
+                        <div style={{ marginTop: "12px" }}>
                           <strong>Team Members</strong>
-                          <ul>
+                          <ul style={{ margin: "4px 0", padding: "0 0 0 20px" }}>
                             {team.TeamMembers.map((m) => (
-                              <li key={m.id}>
+                              <li key={m.id} style={{ fontSize: "0.9rem" }}>
                                 {m.name} ({m.rollNumber}) — {m.phone} {m.isVerified === "VERIFIED" ? "✅" : ""}
                               </li>
                             ))}
@@ -56,12 +89,12 @@ export default function MyEventsClient() {
                         </div>
                       </div>
 
-                      <div className={styles.team_meta}>
+                      <div style={{ textAlign: "right", flexShrink: 0 }}>
                         <div>Team ID: {team.id}</div>
                         {team.paymentDetailsId ? (
-                          <div className={styles.badgePaid}>Paid</div>
+                          <div style={{ backgroundColor: "green", color: "white", padding: "4px 8px", borderRadius: "4px", fontSize: "0.8rem", marginTop: "8px" }}>Paid</div>
                         ) : (
-                          <div className={styles.badgePending}>Pending</div>
+                          <div style={{ backgroundColor: "orange", color: "white", padding: "4px 8px", borderRadius: "4px", fontSize: "0.8rem", marginTop: "8px" }}>Pending</div>
                         )}
                       </div>
                     </div>
@@ -70,21 +103,21 @@ export default function MyEventsClient() {
               </div>
             ) : (
               <>
-                <div className={styles.no_registered}>You have not registered for any events</div>
+                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#555", textAlign: "center", padding: "40px 0" }}>You have not registered for any events</div>
 
                 {/* Suggested events */}
                 <h3 style={{ marginTop: 28, marginBottom: 12, fontFamily: "Poppins, sans-serif" }}>Suggested Events</h3>
-                <div className={styles.Images} style={{ gridAutoRows: "220px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "40px", padding: "20px", gridAutoRows: "220px" }}>
                   {suggestedEvents.map((ev) => (
-                    <div className={styles.image_wrapper} key={ev.id}>
+                    <div key={ev.id} style={{ position: "relative", width: "100%", height: "100%", borderRadius: "8px", overflow: "hidden", background: "#f6f6f6", boxShadow: "0 1px 4px rgba(0, 0, 0, 0.06)" }}>
                       {ev.eventImg ? (
-                        <img src={ev.eventImg} alt={ev.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                        <Image src={ev.eventImg} alt={ev.name} width={250} height={220} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: "8px" }} />
                       ) : (
-                        <img src="/sports/gradient.png" alt={ev.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                        <Image src="/sports/gradient.png" alt={ev.name} width={250} height={220} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: "8px" }} />
                       )}
 
-                      <img src="/sports/gradient.png" className={styles.gradient} alt="" />
-                      <div className={styles.overlay_text_small}>{ev.name}</div>
+                      <Image src="/sports/gradient.png" width={250} height={220} style={{ position: "absolute", bottom: 0, left: 0, height: "50%", width: "100%", opacity: 0.38, pointerEvents: "none", borderRadius: "0 0 8px 8px", zIndex: 1 }} alt="" />
+                      <div style={{ fontFamily: "'Poppins', sans-serif", position: "absolute", bottom: "12px", left: "50%", transform: "translateX(-50%)", color: "white", fontSize: "1rem", fontWeight: 600, textAlign: "center", zIndex: 2, padding: "2px 6px", textShadow: "0 1px 2px rgba(0, 0, 0, 0.5)" }}>{ev.name}</div>
 
                       <div style={{ position: "absolute", inset: 0, zIndex: 3, display: "block" }} />
                     </div>

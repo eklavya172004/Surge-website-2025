@@ -1,7 +1,7 @@
 'use client';
 
 import { RefObject } from 'react';
-import overlayImageSrc from './../../public/Subtract.png';
+import Image from 'next/image';
 
 interface SmallLogoProps {
   logoSmallRef: RefObject<HTMLDivElement | null>;
@@ -42,9 +42,11 @@ export default function SmallLogo({ logoSmallRef }: SmallLogoProps) {
           }}
         />
         {/* PNG outline on top (layer 2 - top) */}
-        <img
-          src={overlayImageSrc.src}
+        <Image
+          src="/Subtract.png"
           alt="Small logo outline"
+          width={200}
+          height={50}
           style={{
             position: 'absolute',
             top: 0,

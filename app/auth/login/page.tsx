@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -91,9 +92,11 @@ export default function LoginPage() {
 
             {/* Left side - Design image */}
             <div className="w-1/2 flex items-center justify-center p-0 relative overflow-hidden rounded-l-3xl">
-              <img
+              <Image
                 src="/login/design.png"
                 alt="Design"
+                width={500}
+                height={600}
                 className="w-full h-full object-cover"
               />
             </div>

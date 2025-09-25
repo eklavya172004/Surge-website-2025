@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from '../styles/SportsGrid.module.css';
 
 export default function SportsGrid() {
@@ -11,50 +12,50 @@ export default function SportsGrid() {
           <div className={styles.column1}>
             <div className={styles.Images}>
               <div className={styles.image_wrapper}>
-                <img src="/sports/atheletics.png" />
-                <img src="/sports/gradient.png" className={styles.gradient} />
+                <Image src="/sports/atheletics.png" alt="Athletics" width={150} height={150} />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
                 <div className={styles.overlay_text_small}>Atheltics</div>
               </div>
               <div className={styles.image_wrapper}>
-                <img src="/sports/basketball.png" />
-                <img src="/sports/gradient.png" className={styles.gradient} />
+                <Image src="/sports/basketball.png" alt="Basketball" width={150} height={150} />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
                 <div className={styles.overlay_text_small}>Basketball</div>
               </div>
               <div className={styles.image_wrapper}>
                 <div className={styles.overlay_text_small}>Badminton</div>
-                <img src="/sports/gradient.png" className={styles.gradient} />
-                <img src="/sports/badminton.png" />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
+                <Image src="/sports/badminton.png" alt="Badminton" width={150} height={150} />
               </div>
               <div className={styles.image_wrapper}>
                 <div className={styles.overlay_text_small}>Chess</div>
-                <img src="/sports/gradient.png" className={styles.gradient} />
-                <img src="/sports/chess.png" />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
+                <Image src="/sports/chess.png" alt="Chess" width={150} height={150} />
               </div>
               <div className={styles.image_wrapper}>
                 <div className={styles.overlay_text_small}>Cricket</div>
-                <img src="/sports/gradient.png" className={styles.gradient} />
-                <img src="/sports/cricket.png" />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
+                <Image src="/sports/cricket.png" alt="Cricket" width={150} height={150} />
               </div>
               <div className={styles.image_wrapper}>
                 <div className={styles.overlay_text_small}>Football</div>
-                <img src="/sports/gradient.png" className={styles.gradient} />
-                <img src="/sports/football.png" />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
+                <Image src="/sports/football.png" alt="Football" width={150} height={150} />
               </div>
               <div className={styles.image_wrapper}>
                 <div className={styles.overlay_text_small}>Futsal</div>
-                <img src="/sports/gradient.png" className={styles.gradient} />
-                <img src="/sports/futsal.png" />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
+                <Image src="/sports/futsal.png" alt="Futsal" width={150} height={150} />
               </div>
               <div className={styles.image_wrapper}>
                 <div className={styles.overlay_text_small}>Powerlifting</div>
-                <img src="/sports/gradient.png" className={styles.gradient} />
-                <img src="/sports/powerlift.png" />
+                <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
+                <Image src="/sports/powerlift.png" alt="Powerlifting" width={150} height={150} />
               </div>
             </div>
           </div>
           <div className={styles.column2}>
             <div className={styles.image_wrapper}>
-              <img src="/sports/more.png" />
+              <Image src="/sports/more.png" alt="More Sports" width={300} height={300} />
               <div className={styles.overlay_text}>MORE</div>
             </div>
           </div>

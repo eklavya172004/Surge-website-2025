@@ -65,23 +65,23 @@ export default function AllEventsGrid() {
                 <div className={styles.overlay_text_small}>Powerlifting</div>
               </div>
               <div className={styles.image_wrapper}>
-                <img src="/sports/powerlift.png" />
-                <img src="/sports/gradient.png" className={styles.gradient} />
+                <Image src="/sports/powerlift.png" width={500} height={300} alt="Powerlifting" />
+                <Image src="/sports/gradient.png" className={styles.gradient} width={500} height={300} alt="" />
                 <div className={styles.overlay_text_small}>Powerlifting</div>
               </div>
               <div className={styles.image_wrapper}>
                 <Image src="/sports/powerlift.png" width={500} height={300} alt="Powerlifting" />
-                <Image src="/sports/gradient.png" className={styles.gradient} alt="Gradient" />
+                <Image src="/sports/gradient.png" className={styles.gradient} width={500} height={300} alt="" />
                 <div className={styles.overlay_text_small}>Powerlifting</div>
               </div>
               <div className={styles.image_wrapper}>
                 <Image src="/sports/powerlift.png" width={500} height={300} alt="Powerlifting" />
-                <Image src="/sports/gradient.png" className={styles.gradient} alt="Gradient" />
+                <Image src="/sports/gradient.png" className={styles.gradient} width={500} height={300} alt="" />
                 <div className={styles.overlay_text_small}>Powerlifting</div>
               </div>
               <div className={styles.image_wrapper}>
-                <img src="/sports/powerlift.png" />
-                <img src="/sports/gradient.png" className={styles.gradient} />
+                <Image src="/sports/powerlift.png" width={500} height={300} alt="Powerlifting" />
+                <Image src="/sports/gradient.png" className={styles.gradient} width={500} height={300} alt="" />
                 <div className={styles.overlay_text_small}>Powerlifting</div>
               </div>
               <div className={styles.image_wrapper}>

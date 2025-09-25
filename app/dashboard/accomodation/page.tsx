@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { trpc } from '@/utils/trpc';
+import Image from 'next/image';
 
 interface AccommodationProps {
   teamId: string;
@@ -336,7 +337,7 @@ const Accommodation: React.FC = () => {
           </button>
           <div className="flex flex-col items-center justify-center">
             <div className="w-48 h-48 bg-gray-800 rounded-lg flex items-center justify-center">
-              <img src="/images/qr2.jpg" alt="QR Code" className="w-48 h-48" />
+              <Image src="/images/qr2.jpg" alt="QR Code" width={192} height={192} className="w-48 h-48" />
             </div>
             <span className="text-3xl font-bold text-white my-4">Amount: Rs. {total}</span>
             <p className="text-sm text-gray-400 text-left mb-4">

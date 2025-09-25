@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 const Map = () => {
   return (
@@ -9,9 +10,11 @@ const Map = () => {
         </div>
 
         <div className="w-full">
-          <img
+          <Image
             src="/map.png"   // files in public folder are served from root
             alt="Event map"
+            width={1200}
+            height={800}
             className="w-[90%] m-auto  h-auto max-w-none"
           />
         </div>

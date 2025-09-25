@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { trpc } from "@/utils/trpc";
 import styles from "../styles/EventDetail.module.css";
 import Link from "next/link";
-import type { EventSummary } from "@/types/eventTypes";
+import Image from "next/image";
 
 type Props = {
   slug: string;
@@ -105,7 +105,7 @@ export default function EventDetailClient({ slug }: Props) {
       <div className={styles.main}>
         <div className={styles.left}>
           {event.eventImg ? (
-            <img src={event.eventImg} alt={event.name} className={styles.event_img} />
+            <Image src={event.eventImg} alt={event.name} width={500} height={300} className={styles.event_img} />
           ) : (
             <div className={styles.no_img}>No image</div>
           )}
