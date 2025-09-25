@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { RefObject } from 'react';
-import styles from '../styles/LogoLarge.module.css';
-import Image from 'next/image';
+import { RefObject } from "react";
+import styles from "../styles/LogoLarge.module.css";
+import Image from "next/image";
 
 interface LogoLargeProps {
   logoLargeRef: RefObject<HTMLDivElement | null>;
@@ -10,27 +10,29 @@ interface LogoLargeProps {
 
 export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
   return (
-    <div 
+    <div
       ref={logoLargeRef}
       id="logo-large"
       className={styles.logoLarge}
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
+        width: "100%",
         zIndex: 1000,
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        overflow: "hidden",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <div style={{
-        position: 'relative',
-        width: '80%',
-        height: '65%'
-      }}>
+      <div
+        style={{
+          position: "relative",
+          width: "80%",
+          height: "65%",
+        }}
+      >
         {/* Background video (layer 1 - bottom) */}
         <video
           src="https://odn56sq2gn.ufs.sh/f/1wdHEmtejGdKHxkVNynKdsRFgkCb8zj7DAiZPqNxYeuvyLl6"
@@ -39,35 +41,36 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
           muted
           playsInline
           style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.1)', // Scale up by 5%
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%) scale(1.1)", // Scale up by 5%
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
           }}
         />
-        
+
         {/* PNG overlay on top (layer 2 - top) */}
         <Image
-          src="/Subtract.png"
+          src="/Subtract.svg"
           alt="Logo overlay"
           width={800}
           height={600}
           style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.15)', // Scale up by 15%
-            width: '100%',
-            height: '100%',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%) scale(1.15)", // Scale up by 15%
+            width: "100%",
+            height: "100%",
             zIndex: 2,
-            objectFit:'fill',
-            pointerEvents: 'none'
+            objectFit: "fill",
+            pointerEvents: "none",
           }}
         />
       </div>
     </div>
   );
 }
+
