@@ -10,7 +10,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { email, password, name, collegeName, rollNumber, phone } =
+    const { email, password, name, collegeName, phone } =
       await req.json();
     if ((!email || !password || !name || !collegeName || !phone)) {
       return NextResponse.json(
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         password: hashedPassword,
         name,
         collegeName,
-        rollNumber,
+        rollNumber: null, // Explicitly set as null
         phone,
         emailVerified: null,
       },

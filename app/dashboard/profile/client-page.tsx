@@ -56,12 +56,7 @@ export default function ProfileClientPage({ sessionData }: { sessionData: Sessio
       value: currentSession.user?.collegeName || "Not provided",
       color: "text-purple-600"
     },
-    {
-      icon: Hash,
-      label: "Roll Number",
-      value: currentSession.user?.rollNumber || "Not provided",
-      color: "text-orange-600"
-    },
+    
     {
       icon: Phone,
       label: "Phone",

@@ -13,7 +13,6 @@ declare module "next-auth" {
       id: string;
       emailVerified?: Date | null;
       collegeName?: string | null;
-      rollNumber?: string | null;
       phone?: string | null;
     } & DefaultSession["user"];
   }
@@ -22,7 +21,6 @@ declare module "next-auth" {
     id: string;
 
     collegeName?: string | null;
-    rollNumber?: string | null;
     phone?: string | null;
     emailVerified?: Date | null;
   }
@@ -51,7 +49,6 @@ export const authOptions: NextAuthOptions = {
             password: true,
             emailVerified: true,
             collegeName: true,
-            rollNumber: true,
             phone: true,
           },
         });
@@ -79,7 +76,6 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           emailVerified: user.emailVerified,
           collegeName: user.collegeName,
-          rollNumber: user.rollNumber,
           phone: user.phone,
         };
       },
@@ -99,7 +95,6 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.emailVerified = user.emailVerified;
         token.collegeName = user.collegeName;
-        token.rollNumber = user.rollNumber;
         token.phone = user.phone;
       }
       return token;
@@ -110,7 +105,6 @@ export const authOptions: NextAuthOptions = {
         id: token.id as string,
         emailVerified: token.emailVerified as Date | null,
         collegeName: token.collegeName as string | null,
-        rollNumber: token.rollNumber as string | null,
         phone: token.phone as string | null,
       };
       return session;
