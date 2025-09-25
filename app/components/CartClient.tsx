@@ -16,7 +16,7 @@ type CartItem = {
     id: string;
     name: string;
     email: string;
-    rollNumber: string;
+    rollNumber: string | null;
     phone: string;
   }[];
 };
