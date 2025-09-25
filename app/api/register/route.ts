@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   try {
     const { email, password, name, collegeName, rollNumber, phone } =
       await req.json();
-    if ((!email || !password || !name || !collegeName ||  !rollNumber  || !phone)) {
+    if ((!email || !password || !name || !collegeName || !phone)) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 },

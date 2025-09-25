@@ -7,8 +7,6 @@ import {
   Calendar,
   ShoppingCart,
   CalendarCheck,
-  CreditCard,
-  Wallet,
   LogOut,
   Menu,
   X,
@@ -25,8 +23,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
     { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart" },
     { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events" },
-    { href: "/dashboard/payments", icon: CreditCard, label: "Payment Status" },
-    { href: "/dashboard/payment", icon: Wallet, label: "Make Payment" },
   ];
 
   return (

@@ -129,7 +129,7 @@ export default function RegisterPage() {
 
     for (let i = 0; i < playerDetails.length; i++) {
       const player = playerDetails[i];
-      if (!player.name || !player.email || !player.rollNumber || !player.phone) {
+      if (!player.name || !player.email || !player.phone) {
         setMessage(`Please fill in all details for player ${i + 1}.`);
         return;
       }
