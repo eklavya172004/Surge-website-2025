@@ -182,7 +182,7 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br  flex items-center justify-center">
         <motion.div
-          className="flex items-center gap-3 text-xl text-gray-600"
+          className="flex items-center gap-3 text-xl text-gray-700"
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -206,7 +206,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen text-black bg-gradient-to-br ">
+    <div className="min-h-screen text-gray-800 bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Success Animation Overlay */}
       <AnimatePresence>
         {showSuccess && (
@@ -293,11 +293,11 @@ export default function RegisterPage() {
             <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl">
               <Trophy className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-5xl  font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold text-gray-800">
               Sports Registration
             </h1>
           </motion.div>
-          <p className="text-xl text-gray-100 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Register for exciting sports events and compete for amazing prizes!
           </p>
         </motion.div>
@@ -305,12 +305,12 @@ export default function RegisterPage() {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Event Selection Card */}
          <motion.div 
-  className="relative  rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 overflow-visible"
+  className="relative bg-white rounded-3xl p-8 shadow-xl border border-gray-200 hover:shadow-2xl transition-all duration-300 overflow-visible"
 >
 <motion.select
-  className="w-full p-4 rounded-2xl border-2 border-gray-100 text-white text-lg 
+  className="w-full p-4 rounded-2xl border-2 border-gray-300 text-gray-800 text-lg bg-white
              transition-all duration-300 appearance-none
-             focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1"
+             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
   value={selectedEvent}
   onChange={(e) => {
     setSelectedEvent(e.target.value);
@@ -319,9 +319,9 @@ export default function RegisterPage() {
   }}
   whileFocus={{ scale: 1.02 }}
 >
-  <option value="" className="text-gray-300 font-semibold">Choose an event...</option>
+  <option value="" className="text-gray-500 font-semibold" disabled>Choose an event...</option>
   {events?.map((event) => (
-    <option key={event.id} className="text-black" value={event.slug || event.id}>
+    <option key={event.id} className="text-gray-800" value={event.slug || event.id}>
       {event.name}
     </option>
   ))}
@@ -564,7 +564,7 @@ export default function RegisterPage() {
                             </label>
                             <input
                               type="text"
-                              className="w-full p-4 rounded-xl border-2 border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-300"
+                              className="w-full p-4 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-gray-800 bg-white shadow-sm"
                               placeholder="Enter player name"
                               value={player.name}
                               onChange={(e) => handlePlayerDetailChange(i, "name", e.target.value)}
@@ -581,7 +581,7 @@ export default function RegisterPage() {
                             </label>
                             <input
                               type="email"
-                              className="w-full p-4 rounded-xl border-2 border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-300"
+                              className="w-full p-4 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-gray-800 bg-white shadow-sm"
                               placeholder="player@college.edu"
                               value={player.email}
                               onChange={(e) => handlePlayerDetailChange(i, "email", e.target.value)}
@@ -598,7 +598,7 @@ export default function RegisterPage() {
                             </label>
                             <input
                               type="text"
-                              className="w-full p-4 rounded-xl border-2 border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-300"
+                              className="w-full p-4 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-gray-800 bg-white shadow-sm"
                               placeholder="e.g., CSE2021001"
                               value={player.rollNumber}
                               onChange={(e) => handlePlayerDetailChange(i, "rollNumber", e.target.value)}
@@ -615,7 +615,7 @@ export default function RegisterPage() {
                             </label>
                             <input
                               type="tel"
-                              className="w-full p-4 rounded-xl border-2 border-gray-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-300"
+                              className="w-full p-4 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-gray-800 bg-white shadow-sm"
                               placeholder="+91 9876543210"
                               value={player.phone}
                               onChange={(e) => handlePlayerDetailChange(i, "phone", e.target.value)}
