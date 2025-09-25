@@ -1,14 +1,16 @@
 "use client";
 
-import { RefObject } from "react";
+import { RefObject, useState } from "react";
 import styles from "../styles/LogoLarge.module.css";
-import Image from "next/image";
 
 interface LogoLargeProps {
   logoLargeRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
+  // Track when overlay image is loaded
+  const [overlayLoaded, setOverlayLoaded] = useState(false);
+
   return (
     <div
       ref={logoLargeRef}
@@ -33,30 +35,33 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
           height: "65%",
         }}
       >
-        {/* Background video (layer 1 - bottom) */}
-        <video
-          src="https://odn56sq2gn.ufs.sh/f/1wdHEmtejGdKHxkVNynKdsRFgkCb8zj7DAiZPqNxYeuvyLl6"
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%) scale(1.1)", // Scale up by 5%
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
+        {/* Load video only after overlay is ready */}
+        {overlayLoaded && (
+          <video
+            src="https://odn56sq2gn.ufs.sh/f/1wdHEmtejGdKHxkVNynKdsRFgkCb8zj7DAiZPqNxYeuvyLl6"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%) scale(1.1)", // Scale up by 5%
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        )}
 
-        {/* PNG overlay on top (layer 2 - top) */}
-        <Image
+        {/* Overlay (triggers video once loaded) */}
+        <img
           src="/Subtract.svg"
           alt="Logo overlay"
           width={800}
           height={600}
+          onLoad={() => setOverlayLoaded(true)} // signal when loaded
           style={{
             position: "absolute",
             top: "50%",
@@ -73,4 +78,3 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
     </div>
   );
 }
-
