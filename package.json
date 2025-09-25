@@ -4,11 +4,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -e .env.development -- next dev",
     "build": "next build",
+    "build:dev": "dotenv -e .env.development -- next build",
     "start": "next start",
     "lint": "eslint",
-    "test:email": "npx tsx test-email.ts"
+    "test:email": "npx tsx test-email.ts",
+    "pushdev": "dotenv -e .env.development -- npx prisma db push",
+    "pushprod": "dotenv -e .env.local -- npx prisma db push"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",

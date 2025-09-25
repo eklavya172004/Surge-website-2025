@@ -87,12 +87,14 @@ surge/
 
 ## 🧪 Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server with development database environment
 - `npm run build` - Build for production
+- `npm run build:dev` - Build with development environment variables
 - `npm start` - Start production server
 - `npm run lint` - Lint the codebase
+- `npm run pushdev` - Push Prisma schema to development database (.env.development)
+- `npm run pushprod` - Push Prisma schema to production database (.env.local)
 - `npx prisma generate` - Generate Prisma client
-- `npx prisma db push` - Push schema changes to database
 
 ## 🔐 Environment Variables
 
@@ -103,6 +105,17 @@ The following environment variables are required:
 - `NEXTAUTH_SECRET`: Secret for NextAuth.js (generate one with `openssl rand -base64 32`)
 - `RESEND_API_KEY`: API key from Resend for email service
 - `EMAIL_FROM`: Verified email address for sending verification emails
+
+### Environment Configuration
+
+This project supports multiple environments using different .env files:
+
+- `.env.local` - Local development (takes precedence over other .env files)
+- `.env.development` - Development environment variables
+- `.env.production` - Production environment variables
+- `.env` - Default environment variables
+
+For development with a specific database, create a `.env.development` file with your development database configuration.
 
 ## 👥 User Roles
 
