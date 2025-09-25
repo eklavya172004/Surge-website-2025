@@ -3,33 +3,6 @@ import React from "react";
 import { trpc } from "@/utils/trpc";
 import Image from "next/image";
 
-interface TeamMember {
-  id: string;
-  name: string;
-  email: string;
-  rollNumber: string;
-  phone: string;
-  isVerified: "VERIFIED" | "UNVERIFIED";
-  teamId: string;
-}
-
-interface Event {
-  id: string;
-  name: string;
-  eventImg?: string | null;
-  venue?: string | null;
-  dateFrom?: Date | string | null;
-  dateTo?: Date | string | null;
-  category: string;
-  about?: string | null;
-  rules?: string | null;
-  minPlayers: number;
-  maxPlayers: number;
-  pricePerPlayer?: number | null;
-  isVerified?: boolean;
-  slug: string;
-}
-
 interface EventSummary {
   id: string;
   name: string;

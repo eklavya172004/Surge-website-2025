@@ -43,6 +43,7 @@ export default function RegisterPage() {
           `/auth/verify-request?email=${encodeURIComponent(form.email)}`
         );
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_err) {
       setError("Internal server error");
     } finally {

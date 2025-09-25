@@ -151,6 +151,7 @@ const Accommodation: React.FC = () => {
       await saveAccom.mutateAsync(payload);
       setMessage("Accommodation details saved.");
       await refetch();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_error) {
       setMessage("Error saving accommodation details.");
     }
@@ -181,6 +182,7 @@ const Accommodation: React.FC = () => {
       await accomCheckout.mutateAsync(payload);
       setMessage("Payment successful.");
       // Optionally redirect: router.push('/dashboard');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_error) {
       setMessage("Error processing payment.");
     }
