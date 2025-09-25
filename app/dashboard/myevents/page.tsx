@@ -39,7 +39,7 @@ export default function MyEventsClient() {
 
                       <div className={styles.team_info}>
                         <h3 className={styles.team_title}>
-                          {team.Event?.name}
+                          <Link href={`/dashboard/events/${team.Event?.slug}`}>{team.Event?.name}</Link>
                         </h3>
                         <div className={styles.team_sub}>{team.Event?.venue}</div>
                         <div className={styles.team_sub}>Players: {team.TeamMembers?.length ?? 0} • Price per player: ₹{team.Event?.pricePerPlayer ?? "—"}</div>
@@ -86,7 +86,9 @@ export default function MyEventsClient() {
                       <img src="/sports/gradient.png" className={styles.gradient} alt="" />
                       <div className={styles.overlay_text_small}>{ev.name}</div>
 
-                      <div style={{ position: "absolute", inset: 0, zIndex: 3, display: "block" }} />
+                      <Link href={`/dashboard/events/${ev.slug}`}>
+                        <span style={{ position: "absolute", inset: 0, zIndex: 3, display: "block" }} />
+                      </Link>
                     </div>
                   ))}
                 </div>

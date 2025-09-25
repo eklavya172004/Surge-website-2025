@@ -21,12 +21,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigationItems = [
-    { href: "/dashboard/profile", icon: User, label: "Profile", color: "hover:bg-gradient-to-r hover:from-green-600/20 hover:to-emerald-600/20" },
-    { href: "/dashboard/register", icon: Calendar, label: "Register for Events", color: "hover:bg-gradient-to-r hover:from-orange-600/20 hover:to-red-600/20" },
-    { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart", color: "hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20" },
-    { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events", color: "hover:bg-gradient-to-r hover:from-cyan-600/20 hover:to-blue-600/20" },
-    { href: "/dashboard/payments", icon: CreditCard, label: "Payment Status", color: "hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-purple-600/20" },
-    { href: "/dashboard/payment", icon: Wallet, label: "Make Payment", color: "hover:bg-gradient-to-r hover:from-pink-600/20 hover:to-rose-600/20" },
+    { href: "/dashboard/profile", icon: User, label: "Profile" },
+    { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
+    { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart" },
+    { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events" },
+    { href: "/dashboard/payments", icon: CreditCard, label: "Payment Status" },
+    { href: "/dashboard/payment", icon: Wallet, label: "Make Payment" },
   ];
 
   return (
