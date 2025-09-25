@@ -7,13 +7,14 @@
   padding: 80px;
   box-sizing: border-box;
   min-height: 450px;
-  top: 200px;
+  margin-top: 40px; /* Changed from top: 200px to margin-top for better flow */
 }
 
 .ballWrapper {
   position: absolute;
-  top: 70px;
+  top: 50%;
   left: 0;
+  transform: translateY(-50%);
   z-index: 1;
 }
 
@@ -29,22 +30,20 @@
   position: relative;
   z-index: 2;
   align-items: start;
-  justify-items: center;
 }
 
 .leftSection {
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  padding-left: 220px;
-  justify-self: start;
+  gap: 30px; /* Reduced gap */
+  padding-left: 220px; /* Keep left padding for the ball */
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .surgeLogo {
-  width: 280px !important;
-  height: auto !important;
-  max-width: none !important;
-  max-height: none !important;
+  width: 280px;
+  height: auto;
 }
 
 .navLinks {
@@ -68,31 +67,33 @@
 .middleSection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 87px;
-  margin-left: 40px;
-  justify-self: center;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center; /* Center items in middle section */
 }
 
 .middleSection h3 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: white;
-  margin: 0 0 10px 0;
-  line-height: 1.6;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .contactItem {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 12px;
   margin: 0;
+  width: 100%;
+  justify-content: center; /* Center contact items */
 }
 
 .contactItem .icon {
   font-size: 16px;
   color: white;
-  margin-top: 2px;
+  margin-top: 4px;
   flex-shrink: 0;
 }
 
@@ -100,7 +101,7 @@
   font-size: 14px;
   font-weight: 400;
   color: white;
-  line-height: 1.3;
+  line-height: 1.4;
   font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
   font-style: normal;
 }
@@ -109,9 +110,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 170px;
-  margin-top: 0;
-  justify-self: end;
+  gap: 30px; /* Reduced large gap */
+  justify-content: flex-start;
 }
 
 .shivNadarLogo {
@@ -137,7 +137,7 @@
 .footerLine {
   border-top: 2px solid #9baaff;
   position: absolute;
-  bottom: 60px;
+  bottom: 40px;
   width: calc(100% - 160px);
   left: 80px;
 }
@@ -155,17 +155,17 @@
   
   .leftSection {
     padding-left: 0;
+    align-items: center;
     order: 1;
   }
   
   .middleSection {
-    margin-top: 0;
+    align-items: center;
     order: 2;
   }
   
   .rightSection {
-    align-items: flex-start;
-    margin-top: 0;
+    align-items: center;
     order: 3;
   }
   
@@ -192,16 +192,30 @@
     width: 250px;
   }
   
+  .navLinks {
+    align-items: center;
+  }
+  
   .navLinks a {
     font-size: 14px;
   }
   
   .middleSection h3 {
     font-size: 14px;
+    text-align: center;
+  }
+  
+  .contactItem {
+    justify-content: flex-start;
+    gap: 10px;
   }
   
   .contactItem span {
     font-size: 12px;
+  }
+  
+  .rightSection {
+    align-items: center;
   }
   
   .shivNadarLogo {
@@ -210,11 +224,12 @@
   
   .socials {
     font-size: 20px;
+    justify-content: center;
   }
   
   .footerLine {
     width: calc(100% - 40px);
     left: 20px;
-    bottom: 40px;
+    bottom: 30px;
   }
 }

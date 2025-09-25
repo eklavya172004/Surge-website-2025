@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import timer from "./../../public/Timer.png";
+import styles from "../styles/Timer.module.css";
 
 const Timer = () => {
   const [timeLeft, setTimeLeft] = useState("00:00:00:00");
@@ -42,18 +41,14 @@ const Timer = () => {
   }, []);
 
   return (
-    <section className="relative bg-white w-full h-screen">
-      {/* Background Image */}
-      <Image src={timer} alt="timer" fill priority className="object-cover" />
-
+    <section className={styles.timerSection}>
       {/* Overlay Content */}
-      <div className="absolute inset-0 flex items-center justify-center w-full">
-        <p className="text-white text-8xl md:text-9xl lg:text-[12rem] drop-shadow-2xl font-[Anton] flex justify-center">
-          {timeLeft.split("").map((char, index) => (
+      <div className={styles.timerOverlay}>
+        <p className={styles.timerText}>
+          {timeLeft.split('').map((char, index) => (
             <span
               key={index}
-              className="inline-block w-[1ch] text-center"
-              style={{ animation: "tick 1s infinite step-start" }}
+              className={styles.timerDigit}
             >
               {char}
             </span>
