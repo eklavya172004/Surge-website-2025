@@ -29,7 +29,7 @@ export default function VerifyRequestPage() {
         const data = await res.json();
         setMessage(data.message || "Failed to resend verification email.");
       }
-    } catch (_error) {
+    } catch {
       setMessage("An error occurred while resending the email.");
     } finally {
       setIsResending(false);

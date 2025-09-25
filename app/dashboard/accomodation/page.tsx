@@ -150,7 +150,7 @@ const Accommodation: React.FC = () => {
       await saveAccom.mutateAsync(payload);
       setMessage("Accommodation details saved.");
       await refetch();
-    } catch (error) {
+    } catch (_error) {
       setMessage("Error saving accommodation details.");
     }
   };
@@ -180,7 +180,7 @@ const Accommodation: React.FC = () => {
       await accomCheckout.mutateAsync(payload);
       setMessage("Payment successful.");
       // Optionally redirect: router.push('/dashboard');
-    } catch (error) {
+    } catch (_error) {
       setMessage("Error processing payment.");
     }
   };

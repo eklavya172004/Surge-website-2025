@@ -8,7 +8,6 @@ import {
   Calendar, 
   MapPin, 
   Users, 
-  Star, 
   Phone, 
   Mail, 
   User, 
@@ -16,8 +15,7 @@ import {
   X,
   CheckCircle,
   Loader2,
-  ShoppingCart,
-  IndianRupee
+  ShoppingCart
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import Link from "next/link";
@@ -56,10 +54,10 @@ export default function RegisterPage() {
 
   // Update player details array when player count changes
   useEffect(() => {
-    setPlayerDetails(
+    setPlayerDetails(prevPlayerDetails => 
       Array(players)
         .fill(null)
-        .map((_, i) => playerDetails[i] || { name: "", email: "", rollNumber: "", phone: "" })
+        .map((_, i) => prevPlayerDetails[i] || { name: "", email: "", rollNumber: "", phone: "" })
     );
   }, [players]);
 

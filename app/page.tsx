@@ -9,9 +9,7 @@ import Timer from "./components/Timer";
 import Footer from "./components/Footer";
 import LogoAnimation from "./components/LogoAnimation";
 import Map from "./components/Map";
-import LeftNavbar from "./components/LeftNavbar";
-import SmallLogo from "./components/SmallLogo";
-import RightNavbar from "./components/RightNavbar";
+
 
 export default function HomePage() {
   const logoSmallRef = useRef<HTMLDivElement>(null);
