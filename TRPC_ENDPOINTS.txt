@@ -1,0 +1,24 @@
+// This file documents the TRPC endpoints that need to be preserved
+// when implementing the new refact0r-inspired UI
+
+TRPC ENDPOINTS TO PRESERVE:
+==========================
+
+1. Registration Endpoints:
+   - trpc.reg.getAvailableSports
+   - trpc.reg.createTeamWithMembers
+   - trpc.reg.getEventDetails
+   - trpc.reg.getCart
+   - trpc.reg.deleteTeamFromCart
+
+2. Event Endpoints:
+   - trpc.event.getMyEvents
+   - trpc.event.getAllEvents
+
+3. Accommodation Endpoints:
+   - trpc.accommodation.getAccomodationTeams
+   - trpc.accommodation.saveAccommodationDetails
+   - trpc.accommodation.accommodationCheckout
+
+4. User Endpoints:
+   - trpc.user.getUserProfile

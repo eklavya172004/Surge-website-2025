@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { redirect } from "next/navigation";
+import DashboardLayout from "./layout";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
 
   // Redirect to login if not authenticated
@@ -15,6 +16,5 @@ export default async function DashboardPage() {
     redirect("/auth/verify-request");
   }
 
-  // Pass session data to client component if needed
-  redirect("/dashboard/profile");
+  return <DashboardLayout>{children}</DashboardLayout>;
 }
