@@ -5,7 +5,7 @@ const Map = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col">
-           <div className="mt-50 text-black ml-[40px] text-8xl text-left mb-4" style={{ fontFamily: 'Anton', fontWeight: 100 }}>
+           <div className="md:mt-50 mt-20 text-black ml-[40px] text-5xl sm:text-6xl md:text-8xl text-left mb-4" style={{ fontFamily: 'Anton', fontWeight: 100 }}>
           EVENT MAP
         </div>
 

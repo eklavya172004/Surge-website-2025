@@ -7,3 +7,10 @@
   transition: all 0.3s ease;
   top:45px;
 }
+
+@media (max-width: 768px) {
+  .logoVideo,
+  .logoOverlay {
+    display: none !important;
+  }
+}

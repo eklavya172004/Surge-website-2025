@@ -60,3 +60,54 @@
   margin-left: 50px;
   margin-top: 10px;
 }
+
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  /* Hide ABOUT + HOME */
+  .nav ul:first-of-type li {
+    display: none;
+  }
+
+  /* Show only RULE BOOK */
+  .nav ul:first-of-type li.externalLink {
+    display: block;
+  }
+
+  /* Hide logo section (with Image + college logo) */
+  .logoPlaceholder {
+    display: none !important;
+  }
+
+  /* Hide all right side items by default */
+  .nav ul:last-of-type li {
+    display: none;
+  }
+
+  /* Show only REGISTER, CONTACT, LOGIN */
+  .nav ul:last-of-type li:nth-child(1),  /* REGISTER */
+  .nav ul:last-of-type li:nth-child(2),  /* CONTACT */
+  .nav ul:last-of-type li:nth-child(3) { /* LOGIN */
+    display: block;
+  }
+
+  /* 🔽 Reduce text size + spacing */
+  .nav {
+    font-size: 13px; /* smaller text */
+    padding: 0 20px; /* less padding on sides */
+  }
+
+  .nav ul {
+    gap: 10px; /* reduce space between items */
+  }
+
+  .nav ul li {
+    padding: 3px 6px; /* smaller padding around text */
+  }
+
+  /* REGISTER button smaller */
+  .nav ul li:first-child {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+}

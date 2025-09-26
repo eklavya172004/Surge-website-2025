@@ -43,6 +43,7 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
             loop
             muted
             playsInline
+            className={styles.logoVideo} 
             style={{
               position: "absolute",
               top: "50%",
@@ -61,6 +62,7 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
           alt="Logo overlay"
           width={800}
           height={600}
+          className={styles.logoOverlay}  
           onLoad={() => setOverlayLoaded(true)} // signal when loaded
           style={{
             position: "absolute",

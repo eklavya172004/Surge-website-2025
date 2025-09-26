@@ -33,13 +33,30 @@
   gap: 0.25ch;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 767px) {
+  .timerSection {
+    height: 50vh; /* reduce height for phones */
+  }
+
+  .timerOverlay {
+    height: 100%; /* keep overlay covering the reduced section */
+  }
+
   .timerText {
-    font-size: 6rem;
-    letter-spacing: 1rem;
+    font-size: 2.5rem; /* smaller timer text */
+    letter-spacing: 0.25rem;
   }
 }
 
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .timerText {
+    font-size: 4.5rem;
+    letter-spacing: 0.5rem;
+  }
+}
+
+/* Desktop adjustments remain unchanged */
 @media (min-width: 1024px) {
   .timerText {
     font-size: 8rem;
@@ -47,18 +64,10 @@
   }
 }
 
-@media (min-width: 1280px) {
-  .timerText {
-    font-size: 12rem;
-    letter-spacing: 2rem;
-  }
-}
-
 .timerDigit {
   display: inline-block;
   width: 1ch;
   text-align: center;
-  animation: tick 1s infinite step-start;
 }
 
 @keyframes tick {

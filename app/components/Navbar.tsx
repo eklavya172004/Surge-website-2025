@@ -81,7 +81,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
           height: '100%', 
           objectFit: 'contain', 
           zIndex: 2, 
-          pointerEvents: 'none', 
+          pointerEvents: 'none',
         }} 
       /> 
     </div> 

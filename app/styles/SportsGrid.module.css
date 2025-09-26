@@ -67,6 +67,9 @@
 .column2 {
   display: flex;
   align-items: stretch;
+  justify-content: flex-start;
+  width: 20%;
+  /* flex: 1.2; */
 }
 
 .column2 img {
@@ -132,4 +135,78 @@
   font-size: 1.3rem;
   text-align: center;
   z-index: 2;
+}
+
+
+/* Small screen adjustments */
+@media (max-width: 767px) {
+  .stay_updated {
+    font-size: 3rem; /* smaller title */
+    margin-left: 20px; /* reduce margin */
+    line-height: 1.1;
+  }
+
+  .sports_grid {
+    flex-direction: column; /* stack columns vertically */
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .image_grid{
+      margin-bottom: 100px;
+  }
+
+  .column1,
+  .column2 {
+    width: 100%; /* full width for both columns */
+    flex: none;
+  }
+
+  .Images {
+    grid-template-columns: repeat(2, 1fr); /* 2 images per row */
+    grid-template-rows: auto;
+    gap: 15px;
+  }
+
+  .Images img {
+    width: 100%;
+    height: auto;
+  }
+
+  .image_wrapper {
+    height: auto; /* allow images to scale */
+  }
+
+  .overlay_text {
+    font-size: 3rem; /* smaller "MORE" text */
+    left: 50%; /* center properly */
+    top: 50%;
+  }
+
+  .overlay_text_small {
+    font-size: 1rem; /* smaller overlay text on images */
+    top: 85%; /* move closer to image bottom */
+    left: 50%;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .stay_updated {
+    font-size: 4.5rem;
+    margin-left: 30px;
+  }
+
+  .Images {
+    grid-template-columns: repeat(3, 1fr); /* 3 images per row on tablets */
+    gap: 20px;
+  }
+
+  .overlay_text {
+    font-size: 4.5rem;
+  }
+
+  .overlay_text_small {
+    font-size: 1.1rem;
+  }
 }

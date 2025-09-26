@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaLinkedin,
 } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -35,10 +36,9 @@ export default function Footer() {
             style={{ width: "280px", height: "auto" }}
           />
           <nav className={styles.navLinks}>
-            <a href="#">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Rulebook</a>
-            <a href="#">All Events Registration</a>
+            <Link href="/">Home</Link>
+            <Link href="#">About Us</Link>
+            <Link href="/dashboard/register">All Events Registration</Link>
           </nav>
         </div>
 
