@@ -23,7 +23,7 @@
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
-    "framer-motion": "^12.23.19",
+    "framer-motion": "^12.23.22",
     "lucide-react": "^0.544.0",
     "next": "15.5.2",
     "next-auth": "^4.24.11",
