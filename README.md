@@ -1,105 +1,166 @@
-# Surge - Authentication and Email Verification System
+# Surge - Sports Fest Registration Platform
 
-This application implements a complete email verification flow for user authentication.
+Surge is a comprehensive sports festival registration platform built with Next.js, designed for managing multi-day sports events. The platform enables college students to easily register for various sports events, form teams, and track their participation in the annual "Three-Day Sports Fest of SNIOE".
 
-## Email Setup
+## 🏆 Features
 
-To enable email functionality, you need to set up the following environment variables in a `.env.local` file:
+- **User Authentication**: Secure registration and login with email verification
+- **Event Registration**: Browse and register for multiple sports events
+- **Team Management**: Create and manage sports teams with multiple members
+- **Shopping Cart**: Add events to cart and manage registrations
+- **Dashboard**: Personalized user dashboard to manage profile and registrations
+- **Responsive Design**: Works seamlessly across all device sizes
+- **Real-time Countdown**: Timer showing the countdown to the event
+- **Interactive UI**: Modern and engaging user interface with animations
 
-```env
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/surge
+## 🛠 Tech Stack
 
-# NextAuth
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-super-secret-key-change-this
+- **Frontend**: Next.js 15 with App Router
+- **Styling**: Tailwind CSS, Framer Motion for animations
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js with email verification
+- **API**: TRPC for type-safe API calls
+- **Email Service**: Resend for email verification
+- **Image Optimization**: Next.js Image component
 
-# Resend Email (for email verification)
-RESEND_API_KEY=your-resend-api-key-here
-EMAIL_FROM=Surge <noreply@yourdomain.com>
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- PostgreSQL database
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/surge.git
+   cd surge
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory and add the following:
+   ```env
+   DATABASE_URL="your-postgresql-connection-string"
+   NEXTAUTH_URL="http://localhost:3000"
+   NEXTAUTH_SECRET="your-nextauth-secret"
+   RESEND_API_KEY="your-resend-api-key"
+   EMAIL_FROM="your-verified-sender@example.com"
+   ```
+
+4. **Set up the database**
+   ```bash
+   npx prisma db push
+   npx prisma generate
+   ```
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser**
+   Visit [http://localhost:3000](http://localhost:3000) to see the application
+
+## 📋 Project Structure
+
+```
+surge/
+├── app/                    # Next.js app router pages
+│   ├── api/               # API routes
+│   ├── auth/              # Authentication pages
+│   ├── dashboard/         # Dashboard pages
+│   ├── components/        # Reusable UI components
+│   ├── styles/            # CSS modules
+│   └── ...
+├── server/                # Server-side logic
+├── prisma/                # Prisma schema and migrations
+├── public/                # Static assets
+└── ...
 ```
 
-### Getting a Resend API Key
+## 🧪 Available Scripts
 
-1. Go to [resend.com](https://resend.com)
-2. Sign up for an account
-3. Navigate to the API Keys section
-4. Create a new API key
-5. Copy the key and add it to your `.env.local` file
+- `npm run dev` - Start development server with development database environment
+- `npm run build` - Build for production
+- `npm run build:dev` - Build with development environment variables
+- `npm start` - Start production server
+- `npm run lint` - Lint the codebase
+- `npm run pushdev` - Push Prisma schema to development database (.env.development)
+- `npm run pushprod` - Push Prisma schema to production database (.env.local)
+- `npx prisma generate` - Generate Prisma client
 
-### Setting up Email Domain
+## 🔐 Environment Variables
 
-1. In your Resend dashboard, go to the "Domains" section
-2. Add your domain (or use resend's provided domain for testing)
-3. Follow the DNS verification steps
-4. Set the `EMAIL_FROM` variable to use your verified domain
+The following environment variables are required:
 
-## Testing Email Functionality
+- `DATABASE_URL`: PostgreSQL database connection string
+- `NEXTAUTH_URL`: Application URL (for development: `http://localhost:3000`)
+- `NEXTAUTH_SECRET`: Secret for NextAuth.js (generate one with `openssl rand -base64 32`)
+- `RESEND_API_KEY`: API key from Resend for email service
+- `EMAIL_FROM`: Verified email address for sending verification emails
 
-You can test if email sending is working correctly by running:
+### Environment Configuration
 
-```bash
-npm run test:email
-```
+This project supports multiple environments using different .env files:
 
-This will send a test email using your configured Resend credentials.
+- `.env.local` - Local development (takes precedence over other .env files)
+- `.env.development` - Development environment variables
+- `.env.production` - Production environment variables
+- `.env` - Default environment variables
 
-## Authentication Flow
+For development with a specific database, create a `.env.development` file with your development database configuration.
 
-1. Users register through the registration form
-2. After registration, a verification email is sent
-3. Users must click the verification link to verify their email
-4. Verified users can log in, unverified users are redirected to the verification page
-5. Users can resend verification emails if needed
+## 👥 User Roles
 
-## tRPC Procedures and Their Routes
+- **Users**: Can register for events, create teams, and manage their profile
+- **Admins**: Can manage events and view dashboard metrics (implementation pending)
 
-Below is a summary of all available tRPC procedures, grouped by router and
-suffixed with their route.\
-The route for each procedure is `/api/trpc/{router}.{procedure}`.
+## 🏅 Event Management
 
----
+- **Individual Events**: Single player participation
+- **Team Events**: Multiple players per team (configurable team size)
+- **Prize Distribution**: Winner and runner-up prizes per event
+- **Registration Fees**: Per-player fees for events
 
-## reg router (`/api/trpc/reg.*`)
+## 📱 Mobile Responsive
 
-- **getAvailableSports**: `/api/trpc/reg.getAvailableSports`
-- **getEventDetails**: `/api/trpc/reg.getEventDetails`
-- **createTeamWithMembers**: `/api/trpc/reg.createTeamWithMembers`
-- **getCart**: `/api/trpc/reg.getCart`
-- **deleteTeamFromCart**: `/api/trpc/reg.deleteTeamFromCart`
+The platform is fully responsive and provides an optimal experience on:
+- Desktop computers
+- Tablets
+- Mobile devices
 
----
+## 🛡️ Security
 
-## payment router (`/api/trpc/payment.*`)
+- Passwords are securely hashed using bcrypt
+- Email verification required for account activation
+- Secure session management with NextAuth.js
+- Input validation and sanitization
 
-_(Procedures not listed—check `server/api/routers/payments.ts` for details.)_
+## 🤝 Contributing
 
----
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## events router (`/api/trpc/events.*`)
+## 📄 License
 
-_(Procedures not listed—check `server/api/routers/events.ts` for details.)_
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## 📞 Support
 
-## user router (`/api/trpc/user.*`)
+If you encounter any issues or have questions, please open an issue in the repository.
 
-_(Procedures not listed—check `server/api/routers/user.ts` for details.)_
+## ⭐ Acknowledgments
 
----
-
-## accommodation router (`/api/trpc/accommodation.*`)
-
-_(Procedures not listed—check `server/api/routers/accommodation.ts` for
-details.)_
-
----
-
-> **Note:**\
-> For a complete list of procedures in each router, see the corresponding file
-
-# for pushing seed events
-
-```bash
-node --loader ts-node/esm prisma/seed-events.ts
-```
+- Next.js team for the excellent framework
+- Prisma team for the amazing ORM
+- All the open-source libraries used in this project
