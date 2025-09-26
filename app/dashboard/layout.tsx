@@ -103,18 +103,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </nav>
 
           {/* Stats section */}
-          <div className="p-4 border-t border-white/10 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">
-            <div className="grid grid-cols-2 gap-2 text-xs text-white/60">
-              <div className="bg-white/5 rounded-lg p-2 text-center">
-                <div className="text-white font-bold">24</div>
-                <div className="text-xs">Events</div>
-              </div>
-              <div className="bg-white/5 rounded-lg p-2 text-center">
-                <div className="text-white font-bold">127</div>
-                <div className="text-xs">Participants</div>
-              </div>
-            </div>
-          </div>
 
           {/* Logout button */}
           <div className="p-6 border-t border-white/20 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">

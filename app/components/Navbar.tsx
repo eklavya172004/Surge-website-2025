@@ -100,7 +100,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
       REGISTER
     </li>
     <li style={{ cursor: 'pointer' }}>CONTACT</li> 
-    <li onClick={handleLoginClick} style={{ cursor: 'pointer' }}>LOGIN</li> 
+    <li onClick={handleLoginClick} style={{ cursor: 'pointer',width:'fit-content' }}>LOGIN</li> 
   </ul> 
 </nav> 
  
