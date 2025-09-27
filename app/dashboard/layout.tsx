@@ -26,95 +26,97 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   const navigationItems = [
     { href: "/dashboard/profile", icon: User, label: "Profile" },
-    { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
+    {
+      href: "/dashboard/register",
+      icon: Calendar,
+      label: "Register for Events",
+    },
     { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart" },
-    { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events" },
+    {
+      href: "/dashboard/myevents",
+      icon: CalendarCheck,
+      label: "Registered Events",
+    },
   ];
 
   return (
-    <div className="flex min-h-screen relative overflow-hidden bg-gradient-to-br from-indigo-900 via-blue-900 to-purple-900">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-soft-light opacity-20 blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-soft-light opacity-20 blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
+    <div className="flex min-h-screen bg-[#1E3A8A]">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-80 
-          bg-gradient-to-b from-indigo-950 to-purple-950 text-white flex flex-col justify-between
-          transform transition-all duration-300 ease-in-out shadow-2xl
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-80 
+          bg-[#1E3A8A] text-white flex flex-col
+          transform transition-transform duration-300 ease-in-out shadow-xl
+          ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="px-8 py-6 border-b border-white/20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50">
+          <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-b border-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="transform transition-transform duration-300 hover:scale-105">
-                  <Image src={Logo} width={190} height={60} alt="Surge Logo" />
+                  <Image
+                    src={Logo}
+                    width={160}
+                    height={50}
+                    alt="Surge Logo"
+                    className="sm:w-[180px] lg:w-[190px]"
+                  />
                 </div>
               </div>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-all duration-300 text-white"
+                className="lg:hidden p-2 rounded-lg hover:bg-[#60A5FA] transition-colors duration-200"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <p className="text-white/70 text-sm mt-2 font-light tracking-wide">Dashboard Control Center</p>
           </div>
 
           {/* Navigation */}
-          <nav className="mt-8 px-4 space-y-1 flex-1">
+          <nav className="mt-4 sm:mt-6 px-3 sm:px-4 space-y-1 flex-1">
             {navigationItems.map((item, index) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`
-                    group flex items-center px-4 py-3 rounded-xl text-white/80
-                    transition-all duration-300 hover:bg-white/10 hover:text-white
-                    hover:translate-x-2 hover:shadow-lg
-                    border-l-2 border-transparent group-hover:border-indigo-400
-                    relative overflow-hidden
-                    ${index === 0 ? 'mt-2' : ''}
-                  `}
+                  className="group flex items-center px-3 sm:px-4 py-3 rounded-lg text-[#BFDBFE]
+                    transition-all duration-200 hover:bg-[#60A5FA] hover:text-white
+                    border-l-2 border-transparent hover:border-[#BFDBFE]"
                   style={{
-                    transitionDelay: isMounted ? `${index * 50}ms` : '0ms'
+                    transitionDelay: isMounted ? `${index * 50}ms` : "0ms",
                   }}
                 >
-                  <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-indigo-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <Icon className="h-5 w-5 mr-4 transition-all duration-300 group-hover:scale-110 group-hover:text-indigo-300" />
-                  <span className="font-medium flex-1 transition-all duration-300">{item.label}</span>
-                  <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300" />
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5 mr-3 sm:mr-4 transition-colors duration-200 group-hover:text-white" />
+                  <span className="font-medium flex-1 text-sm sm:text-base">
+                    {item.label}
+                  </span>
+                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
                 </Link>
               );
             })}
           </nav>
 
-          {/* Stats section */}
-
           {/* Logout button */}
-          <div className="p-6 border-t border-white/20 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">
+          <div className="p-3 sm:p-4 lg:p-6 border-t border-white">
             <button
               onClick={() => signOut({ callbackUrl: "/auth/login" })}
-              className="w-full flex items-center justify-center px-4 py-3 
-                bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 
-                text-white font-semibold rounded-xl transition-all duration-300
-                shadow-lg hover:shadow-xl transform hover:-translate-y-0.5
-                group"
+              className="w-full flex items-center justify-center px-3 sm:px-4 py-2.5 sm:py-3 
+                bg-gradient-to-r from-[#DC2626] to-[#EF4444] hover:from-[#B91C1C] hover:to-[#DC2626] 
+                text-white font-semibold rounded-lg transition-all duration-200
+                shadow-md hover:shadow-lg text-sm sm:text-base"
             >
-              <LogOut className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+              <LogOut className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               <span>Logout</span>
             </button>
           </div>
@@ -122,34 +124,28 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 relative z-10">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile header */}
-        <header className="lg:hidden bg-gradient-to-r from-indigo-900 to-purple-900 text-white px-4 py-4 shadow-lg">
+        <header className="lg:hidden bg-white text-[#1E3A8A] px-3 sm:px-4 py-3 sm:py-4 shadow-lg">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-lg hover:bg-white/10 transition-all duration-300 text-white"
+              className="p-2 rounded-lg hover:bg-[#60A5FA] transition-colors duration-200"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
             <div className="flex items-center space-x-2">
-              <div className="p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg">
-                <Zap className="h-6 w-6 text-white" />
-              </div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Surge Dashboard</h1>
+              <h1 className="text-lg sm:text-xl font-bold text-[#1E3A8A]">
+                Dashboard
+              </h1>
             </div>
-            <div className="w-10" />
+            <div className="w-8 sm:w-10" />
           </div>
         </header>
 
         {/* Main content area */}
-        <main className="flex-1 p-6 lg:p-8 overflow-auto">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 min-h-[600px] relative overflow-hidden shadow-2xl border border-white/20">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
-              <div className="relative z-10 transition-opacity duration-500">{children}</div>
-            </div>
-          </div>
+        <main className="flex-1 overflow-auto flex items-center justify-center">
+          <div className="w-full max-w-4xl mx-auto mt-6 sm:mt-12">{children}</div>
         </main>
       </div>
     </div>

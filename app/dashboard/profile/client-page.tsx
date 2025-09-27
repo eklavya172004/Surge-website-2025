@@ -4,44 +4,58 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Session } from "next-auth";
-import { User, Mail, School, Hash, Phone, CheckCircle, Edit3, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { User, Mail, School, Phone, CheckCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function ProfileClientPage({ sessionData }: { sessionData: Session | null }) {
+export default function ProfileClientPage({
+  sessionData,
+}: {
+  sessionData: Session | null;
+}) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [animate, setAnimate] = useState(false);
-  
+
   const currentSession = sessionData || session;
-  
-  // Redirect to login if not authenticated
+
+  // Redirect logic
   useEffect(() => {
     if (status !== "loading" && !currentSession) {
       router.push("/auth/login");
     }
-    
-    // Redirect to verification page if not verified
+
     if (currentSession && !currentSession.user?.emailVerified) {
       router.push("/auth/verify-request");
     }
-    
-    // Trigger animations after component mounts
+
     if (status === "authenticated" && currentSession) {
       setAnimate(true);
     }
   }, [currentSession, status, router]);
-  
+
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-96">
-        <div className="flex items-center space-x-3">
-          <div className="w-6 h-6 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-slate-700 text-lg font-medium">Loading profile...</div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 p-4 sm:p-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center justify-center py-20"
+          >
+            <div className="flex flex-col items-center space-y-4">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full"
+              />
+              <p className="text-gray-600 font-medium">Loading...</p>
+            </div>
+          </motion.div>
         </div>
       </div>
     );
   }
-  
+
   if (!currentSession || !currentSession.user?.emailVerified) return null;
 
   const profileFields = [
@@ -49,175 +63,178 @@ export default function ProfileClientPage({ sessionData }: { sessionData: Sessio
       icon: User,
       label: "Name",
       value: currentSession.user?.name,
-      color: "text-indigo-600"
+      color: "text-indigo-600",
     },
     {
       icon: Mail,
       label: "Email",
       value: currentSession.user?.email,
-      color: "text-purple-600"
+      color: "text-purple-600",
     },
     {
       icon: School,
       label: "College",
       value: currentSession.user?.collegeName || "Not provided",
-      color: "text-blue-600"
+      color: "text-blue-600",
     },
-    
     {
       icon: Phone,
       label: "Phone",
       value: currentSession.user?.phone || "Not provided",
-      color: "text-cyan-600"
+      color: "text-cyan-600",
     },
     {
       icon: CheckCircle,
       label: "Email Verified",
       value: currentSession.user?.emailVerified ? "Verified" : "Not Verified",
-      color: currentSession.user?.emailVerified ? "text-green-600" : "text-red-600"
-    }
+      color: currentSession.user?.emailVerified
+        ? "text-green-600"
+        : "text-red-600",
+    },
   ];
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="space-y-8"
-    >
-      {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="flex flex-col md:flex-row md:items-center justify-between gap-4"
-      >
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              Profile
-            </h1>
-            <Sparkles className="h-5 w-5 text-indigo-500" />
-          </div>
-          <p className="text-slate-600">
-            Manage your profile information and account settings
-          </p>
-        </div>
-        <motion.button 
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl transition-all font-medium shadow-lg hover:shadow-xl"
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
+      <div className="max-w-4xl mx-auto p-4 sm:p-6">
+        {/* Header with Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8"
         >
-          <Edit3 className="h-4 w-4" />
-          <span>Edit Profile</span>
-        </motion.button>
-      </motion.div>
+          <div className="flex items-center justify-center mb-4">
+            
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-2">
+            Profile
+          </h1>
+          <p className="text-gray-500 text-sm sm:text-base">
+            Your account information
+          </p>
+        </motion.div>
 
-      {/* Profile Card */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl overflow-hidden relative"
-      >
-        {/* Decorative gradient elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-full -translate-y-32 translate-x-32 blur-3xl"></div>
-        
-        {/* Profile Header */}
-        <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 px-8 py-10 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent"></div>
-          <div className="relative z-10 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-white/30"
-            >
-              <User className="h-12 w-12 text-white" />
-            </motion.div>
-            <div className="text-center sm:text-left">
-              <motion.h2 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-2xl font-bold text-white"
-              >
-                {currentSession.user?.name}
-              </motion.h2>
-              <motion.p 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-indigo-100 mt-1"
-              >
-                {currentSession.user?.email}
-              </motion.p>
+        {/* Profile Card - Keeping Original Structure */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden"
+        >
+          {/* Profile Header - Original Style */}
+          <div className="bg-indigo-600 px-3 py-3 sm:px-6 sm:py-6">
+            <div className="flex flex-col sm:flex-row items-center space-y-1.5 sm:space-y-0 sm:space-x-4">
+              <div className="w-10 h-10 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center">
+                <User className="h-5 w-5 sm:h-10 sm:w-10 text-white" />
+              </div>
+              <div className="text-center sm:text-left">
+                <h2 className="text-base sm:text-2xl font-bold text-white">
+                  {currentSession.user?.name}
+                </h2>
+                <p className="text-indigo-100 text-xs sm:text-base">
+                  {currentSession.user?.email}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Profile Information */}
-        <div className="p-8">
-          <motion.h3 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6 }}
-            className="text-xl font-semibold text-slate-800 mb-6 flex items-center gap-2"
-          >
-            <Sparkles className="h-5 w-5 text-indigo-500" />
-            Account Information
-          </motion.h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {profileFields.map((field, index) => {
-              const Icon = field.icon;
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 + index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="bg-gradient-to-br from-indigo-50/50 to-purple-50/50 rounded-xl p-6 border border-indigo-100/50 shadow-sm hover:shadow-md transition-all duration-300 backdrop-blur-sm"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-white rounded-lg shadow-sm border border-white/50">
-                      <Icon className={`h-5 w-5 ${field.color}`} />
+          {/* Profile Information - Original Style */}
+          <div className="p-3 sm:p-6">
+            <h3 className="text-sm sm:text-lg font-semibold text-slate-800 mb-2 sm:mb-4">
+              Account Information
+            </h3>
+
+            {/* Mobile Layout - Original */}
+            <div className="block sm:hidden space-y-2">
+              {profileFields.map((field, index) => {
+                const Icon = field.icon;
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-slate-100 last:border-b-0"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Icon className={`h-3 w-3 ${field.color}`} />
+                      <span className="text-xs text-slate-600">
+                        {field.label}
+                      </span>
                     </div>
-                    <div className="flex-1">
-                      <dt className="text-sm font-medium text-slate-600 mb-1">{field.label}</dt>
-                      <dd className={`text-lg font-semibold ${field.value === "Not provided" ? "text-slate-400 italic" : "text-slate-800"}`}>
-                        {field.value}
-                      </dd>
+                    <span
+                      className={`text-xs font-medium text-right ${
+                        field.value === "Not provided"
+                          ? "text-slate-400 italic"
+                          : "text-slate-800"
+                      }`}
+                    >
+                      {field.value}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop Layout - Original */}
+            <div className="hidden sm:grid sm:grid-cols-2 gap-4">
+              {profileFields.map((field, index) => {
+                const Icon = field.icon;
+                return (
+                  <div
+                    key={index}
+                    className="bg-slate-50 rounded-lg p-4 border border-slate-200"
+                  >
+                    <div className="flex items-start space-x-3">
+                      <div className="p-2 bg-white rounded-md shadow-sm">
+                        <Icon className={`h-4 w-4 ${field.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <dt className="text-sm font-medium text-slate-600 mb-1">
+                          {field.label}
+                        </dt>
+                        <dd
+                          className={`text-base font-medium ${
+                            field.value === "Not provided"
+                              ? "text-slate-400 italic"
+                              : "text-slate-800"
+                          } break-words`}
+                        >
+                          {field.value}
+                        </dd>
+                      </div>
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Status Badge */}
-        <div className="px-8 pb-8">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2 }}
-            className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium ${
-              currentSession.user?.emailVerified 
-                ? "bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200" 
-                : "bg-gradient-to-r from-yellow-100 to-amber-100 text-yellow-800 border border-yellow-200"
-            }`}
-          >
-            <CheckCircle className={`h-4 w-4 ${
-              currentSession.user?.emailVerified ? "text-green-600" : "text-yellow-600"
-            }`} />
-            <span>
-              {currentSession.user?.emailVerified ? "Account Verified" : "Verification Pending"}
-            </span>
-          </motion.div>
-        </div>
-      </motion.div>
-    </motion.div>
+          {/* Status Badge - Original Style */}
+          <div className="px-3 sm:px-6 pb-2 sm:pb-6">
+            <div
+              className={`inline-flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium ${
+                currentSession.user?.emailVerified
+                  ? "bg-green-100 text-green-800 border border-green-200"
+                  : "bg-yellow-100 text-yellow-800 border border-yellow-200"
+              }`}
+            >
+              <CheckCircle
+                className={`h-3 w-3 sm:h-4 sm:w-4 ${
+                  currentSession.user?.emailVerified
+                    ? "text-green-600"
+                    : "text-yellow-600"
+                }`}
+              />
+              <span className="hidden sm:inline">
+                {currentSession.user?.emailVerified
+                  ? "Account Verified"
+                  : "Verification Pending"}
+              </span>
+              <span className="sm:hidden">
+                {currentSession.user?.emailVerified ? "Verified" : "Pending"}
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 }
