@@ -94,8 +94,8 @@ export default function ProfileClientPage({
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
-      <div className="max-w-4xl mx-auto p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br ">
+      <div className="max-w-6xl mx-auto p-4 sm:p-6">
         {/* Header with Animation */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -103,9 +103,6 @@ export default function ProfileClientPage({
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <div className="flex items-center justify-center mb-4">
-            
-          </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-2">
             Profile
           </h1>
@@ -122,30 +119,30 @@ export default function ProfileClientPage({
           className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden"
         >
           {/* Profile Header - Original Style */}
-          <div className="bg-indigo-600 px-3 py-3 sm:px-6 sm:py-6">
-            <div className="flex flex-col sm:flex-row items-center space-y-1.5 sm:space-y-0 sm:space-x-4">
-              <div className="w-10 h-10 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="h-5 w-5 sm:h-10 sm:w-10 text-white" />
-              </div>
-              <div className="text-center sm:text-left">
-                <h2 className="text-base sm:text-2xl font-bold text-white">
-                  {currentSession.user?.name}
-                </h2>
-                <p className="text-indigo-100 text-xs sm:text-base">
-                  {currentSession.user?.email}
-                </p>
-              </div>
-            </div>
-          </div>
+<div className="bg-indigo-600 px-4 py-4 sm:px-6 sm:py-6">
+  <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+    <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center">
+      <User className="h-7 w-7 sm:h-10 sm:w-10 text-white" />
+    </div>
+    <div className="text-center sm:text-left">
+      <h2 className="text-lg sm:text-2xl font-bold text-white">
+        {currentSession.user?.name}
+      </h2>
+      <p className="text-sm sm:text-base text-indigo-100">
+        {currentSession.user?.email}
+      </p>
+    </div>
+  </div>
+</div>
 
           {/* Profile Information - Original Style */}
           <div className="p-3 sm:p-6">
-            <h3 className="text-sm sm:text-lg font-semibold text-slate-800 mb-2 sm:mb-4">
+            <h3 className="text-sm sm:text-lg font-semibold text-slate-800 mb-5 sm:mb-4">
               Account Information
             </h3>
 
             {/* Mobile Layout - Original */}
-            <div className="block sm:hidden space-y-2">
+            <div className="block  sm:hidden space-y-6">
               {profileFields.map((field, index) => {
                 const Icon = field.icon;
                 return (
@@ -153,14 +150,14 @@ export default function ProfileClientPage({
                     key={index}
                     className="flex items-center justify-between py-2 border-b border-slate-100 last:border-b-0"
                   >
-                    <div className="flex items-center space-x-2">
+                    <div className="flex mr-2 sm:mr-0 items-center space-x-2">
                       <Icon className={`h-3 w-3 ${field.color}`} />
-                      <span className="text-xs text-slate-600">
+                      <span className="text-sm text-slate-600">
                         {field.label}
                       </span>
                     </div>
                     <span
-                      className={`text-xs font-medium text-right ${
+                      className={`text-xs break-all sm:break-words font-medium text-right ${
                         field.value === "Not provided"
                           ? "text-slate-400 italic"
                           : "text-slate-800"
@@ -209,29 +206,7 @@ export default function ProfileClientPage({
 
           {/* Status Badge - Original Style */}
           <div className="px-3 sm:px-6 pb-2 sm:pb-6">
-            <div
-              className={`inline-flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium ${
-                currentSession.user?.emailVerified
-                  ? "bg-green-100 text-green-800 border border-green-200"
-                  : "bg-yellow-100 text-yellow-800 border border-yellow-200"
-              }`}
-            >
-              <CheckCircle
-                className={`h-3 w-3 sm:h-4 sm:w-4 ${
-                  currentSession.user?.emailVerified
-                    ? "text-green-600"
-                    : "text-yellow-600"
-                }`}
-              />
-              <span className="hidden sm:inline">
-                {currentSession.user?.emailVerified
-                  ? "Account Verified"
-                  : "Verification Pending"}
-              </span>
-              <span className="sm:hidden">
-                {currentSession.user?.emailVerified ? "Verified" : "Pending"}
-              </span>
-            </div>
+
           </div>
         </motion.div>
       </div>

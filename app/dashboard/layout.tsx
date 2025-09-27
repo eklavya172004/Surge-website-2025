@@ -23,6 +23,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     setIsMounted(true);
   }, []);
 
+
+
   const navigationItems = [
     { href: "/dashboard/profile", icon: User, label: "Profile" },
     { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
@@ -31,7 +33,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   ];
 
   return (
-    <div className="flex min-h-screen bg-[#1E3A8A]">
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-60000 via-[#93c5fd] to-[#1E3A8A]">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
@@ -63,6 +65,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setSidebarOpen(false)}
                 className="lg:hidden p-2 rounded-lg hover:bg-[#60A5FA] transition-colors duration-200"
               >
@@ -79,6 +82,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 <Link
                   key={item.href}
                   href={item.href}
+                          onClick={() => setSidebarOpen(false)}
                   className="group flex items-center px-3 sm:px-4 py-3 rounded-lg text-[#BFDBFE]
                     transition-all duration-200 hover:bg-[#60A5FA] hover:text-white
                     border-l-2 border-transparent hover:border-[#BFDBFE]"
