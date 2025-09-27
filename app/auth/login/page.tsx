@@ -26,6 +26,18 @@ export default function LoginPage() {
     setMessage("");
 
     try {
+      // Check rate limit before attempting authentication
+      const rateLimitRes = await fetch("/api/rate-limit/auth", {
+        method: "POST",
+      });
+
+      if (rateLimitRes.status === 429) {
+        const rateLimitData = await rateLimitRes.json();
+        setError(`Too many login attempts. Please try again in ${rateLimitData.retryAfter} seconds.`);
+        setLoading(false);
+        return;
+      }
+
       const res = await signIn("credentials", {
         redirect: false,
         email,

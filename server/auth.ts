@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
 import { db } from "./db";
 import bcrypt from "bcryptjs";
-import { sendVerificationRequest } from "@/server/verfiy";
+import { sendVerificationRequest } from "@/server/verify";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {

@@ -2,10 +2,27 @@ import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { v4 as uuidv4 } from "uuid";
+import { resendVerificationRateLimiter, getClientIp } from "@/lib/rate-limiter";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
+  // Apply rate limiting
+  const clientIp = getClientIp(req);
+  const rateLimitResult = resendVerificationRateLimiter.check(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    const retryAfter = Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000);
+    return NextResponse.json(
+      { message: "Too many verification requests. Please try again later." },
+      { 
+        status: 429,
+        headers: {
+          "Retry-After": retryAfter.toString(),
+        }
+      }
+    );
+  }
   try {
     const { email } = await req.json();
     

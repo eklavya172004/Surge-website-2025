@@ -3,12 +3,29 @@ import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { v4 as uuidv4 } from "uuid";
+import { registerRateLimiter, getClientIp } from "@/lib/rate-limiter";
 
 const prisma = new PrismaClient();
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
+  // Apply rate limiting
+  const clientIp = getClientIp(req);
+  const rateLimitResult = registerRateLimiter.check(clientIp);
+
+  if (!rateLimitResult.allowed) {
+    const retryAfter = Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000);
+    return NextResponse.json(
+      { message: "Too many registration attempts. Please try again later." },
+      { 
+        status: 429,
+        headers: {
+          "Retry-After": retryAfter.toString(),
+        }
+      }
+    );
+  }
   try {
     const { email, password, name, collegeName, phone } =
       await req.json();
