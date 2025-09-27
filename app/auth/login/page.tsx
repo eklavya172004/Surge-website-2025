@@ -81,7 +81,7 @@ export default function LoginPage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Background with overlay */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute  inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/login/loginbg.png')",
         }}
@@ -104,7 +104,7 @@ export default function LoginPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl" />
 
             {/* Left side - Design image */}
-            <div className="w-1/2 flex items-center justify-center p-0 relative overflow-hidden rounded-l-3xl">
+            <div className="w-1/2 hidden md:flex items-center justify-center p-0 relative overflow-hidden rounded-l-3xl">
               <Image
                 src="/login/design.png"
                 alt="Design"
@@ -115,13 +115,13 @@ export default function LoginPage() {
             </div>
 
             {/* Right side - Form section */}
-            <div className="w-1/2 bg-white/95 backdrop-blur-sm p-12 flex flex-col justify-center relative">
+            <div className="md:w-1/2  bg-white/95 backdrop-blur-sm md:p-12 p-5 flex flex-col justify-center relative">
               <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl" />
 
               <div className="relative z-10">
                 {/* Welcome title with gradient */}
                 <div className="mb-8">
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-[#00308F] via-[#0643A5] to-[#2140A3] bg-clip-text text-transparent mb-2">
+                  <h1 className="md:text-4xl text-3xl font-bold bg-gradient-to-r from-[#00308F] via-[#0643A5] to-[#2140A3] bg-clip-text text-transparent mb-2">
                     Welcome
                   </h1>
                   <div className="w-24 h-1 bg-gradient-to-r from-[#0C56BC] to-[#2140A3] rounded-full" />
@@ -204,7 +204,7 @@ export default function LoginPage() {
                         type="email"
                         name="email"
                         placeholder="Enter your email address"
-                        className="w-full pl-12 pr-4 py-4 bg-white/80 border-2 border-gray-200/50 rounded-xl text-base placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
+                        className="md:w-full pl-12 p-3  pr-4 py-4 bg-white/80 border-2 border-gray-200/50 rounded-xl text-base placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -245,6 +245,7 @@ export default function LoginPage() {
                         required
                         autoComplete="current-password"
                         aria-label="Password"
+                        minLength={6}
                       />
                       <button
                         type="button"

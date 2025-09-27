@@ -84,20 +84,23 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </nav>
         </div>
 
+        {/* Stats section */}
+
         {/* Logout button */}
-        <div className="p-6 border-t border-white/20">
+        <div className="p-6 border-t border-white/20 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">
           <button
             onClick={() => signOut({ callbackUrl: "/auth/login" })}
-            className="
-              w-full flex items-center justify-center px-4 py-3 
-              bg-white/10 hover:bg-white/20 text-white font-semibold
-              rounded-xl transition-all duration-300
-            "
+            className="w-full flex items-center justify-center px-4 py-3 
+              bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 
+              text-white font-semibold rounded-xl transition-all duration-300
+              shadow-lg hover:shadow-xl transform hover:-translate-y-0.5
+              group"
           >
-            <LogOut className="h-5 w-5 mr-2" />
-            Logout
+            <LogOut className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+            <span>Logout</span>
           </button>
         </div>
+      </div>
       </aside>
 
       {/* Main content */}

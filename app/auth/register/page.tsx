@@ -70,25 +70,25 @@ export default function RegisterPage() {
 
       {/* Main content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-7xl flex items-center justify-center">
+        <div className="w-full md:max-w-7xl  flex items-center justify-center">
           {/* Register card container */}
-          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden max-w-6xl w-full h-[580px] relative group">
+          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden md:max-w-6xl md:w-full h-[580px] relative group">
             {/* Glass effect enhancement */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl" />
 
             {/* Left side - Design image */}
-            <div className="w-1/2 flex items-center justify-center p-0 relative overflow-hidden rounded-l-3xl">
+            <div className="md:w-1/2 md:flex items-center hidden  justify-center p-0 relative overflow-hidden rounded-l-3xl">
               <Image
                 src="/login/design.png"
                 alt="Design"
                 width={500}
                 height={600}
-                className="w-full h-full object-cover"
+                className="md:w-full md:h-full object-cover"
               />
             </div>
 
             {/* Right side - Form section */}
-            <div className="w-1/2 bg-white/95 backdrop-blur-sm p-6 flex flex-col justify-center relative">
+            <div className="md:w-1/2 bg-white/95 backdrop-blur-sm p-6 flex flex-col justify-center relative">
               <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl" />
 
               <div className="relative z-10">
@@ -131,7 +131,7 @@ export default function RegisterPage() {
                   {" "}
                   {/* CHANGED */}
                   {/* Two column layout for compact form */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2  gap-4">
                     {" "}
                     {/* CHANGED */}
                     {/* Name input */}
@@ -229,7 +229,7 @@ export default function RegisterPage() {
                         <input
                           name="collegeName"
                           placeholder="Enter your college name"
-                          className="w-full pl-10 pr-4 py-2.5 bg-white/80 border-2 border-gray-200/50 rounded-xl text-sm placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
+                          className="md:w-full pl-10 md:pr-4 py-2.5 bg-white/80 border-2 border-gray-200/50 rounded-xl text-sm placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
                           onChange={handleChange}
                           value={form.collegeName}
                           required
@@ -270,6 +270,7 @@ export default function RegisterPage() {
                         required
                         autoComplete="new-password"
                         aria-label="Password"
+                        minLength={6}
                       />
                       <button
                         type="button"
@@ -347,6 +348,7 @@ export default function RegisterPage() {
                         required
                         autoComplete="tel"
                         aria-label="Phone"
+                        minLength={10}
                       />
                     </div>
                   </div>
