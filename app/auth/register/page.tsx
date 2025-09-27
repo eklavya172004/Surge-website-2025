@@ -69,7 +69,7 @@ export default function RegisterPage() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+      <div className="relative z-10  min-h-screen flex items-center justify-center p-4">
         <div className="w-full md:max-w-7xl  flex items-center justify-center">
           {/* Register card container */}
           <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden md:max-w-6xl md:w-full h-[580px] relative group">
@@ -77,7 +77,7 @@ export default function RegisterPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl" />
 
             {/* Left side - Design image */}
-            <div className="md:w-1/2 md:flex items-center hidden  justify-center p-0 relative overflow-hidden rounded-l-3xl">
+            <div className="md:w-1/2  md:flex items-center hidden  justify-center p-0 relative overflow-hidden rounded-l-3xl">
               <Image
                 src="/login/design.png"
                 alt="Design"
@@ -88,8 +88,8 @@ export default function RegisterPage() {
             </div>
 
             {/* Right side - Form section */}
-            <div className="md:w-1/2 bg-white/95 backdrop-blur-sm p-6 flex flex-col justify-center relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl" />
+            <div className="md:w-1/2 w-full  bg-white/95 backdrop-blur-sm p-6 flex flex-col justify-center relative">
+              <div className="absolute w-full inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl" />
 
               <div className="relative z-10">
                 {/* Welcome title with gradient */}
