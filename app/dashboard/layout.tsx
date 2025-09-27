@@ -10,7 +10,6 @@ import {
   LogOut,
   Menu,
   X,
-  Zap,
   ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
@@ -26,17 +25,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   const navigationItems = [
     { href: "/dashboard/profile", icon: User, label: "Profile" },
-    {
-      href: "/dashboard/register",
-      icon: Calendar,
-      label: "Register for Events",
-    },
+    { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
     { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart" },
-    {
-      href: "/dashboard/myevents",
-      icon: CalendarCheck,
-      label: "Registered Events",
-    },
+    { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events" },
   ];
 
   return (
@@ -54,9 +45,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         className={`fixed lg:static inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-80 
           bg-[#1E3A8A] text-white flex flex-col
           transform transition-transform duration-300 ease-in-out shadow-xl
-          ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-          }`}
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
@@ -144,8 +133,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </header>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-auto flex items-center justify-center">
-          <div className="w-full max-w-4xl mx-auto mt-6 sm:mt-12">{children}</div>
+        <main className="flex-1 p-6 lg:p-8 overflow-auto flex items-center justify-center">
+          <div className="w-full max-w-6xl mx-auto">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 min-h-[500px] relative overflow-hidden shadow-2xl border border-white/20">
+              <div className="relative z-10 transition-opacity duration-500">
+                {children}
+              </div>
+            </div>
+          </div>
         </main>
       </div>
     </div>
