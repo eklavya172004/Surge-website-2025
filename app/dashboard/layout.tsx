@@ -145,8 +145,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         {/* Main content area */}
         <main className="flex-1 p-6 lg:p-8 overflow-auto">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 min-h-[600px] relative overflow-hidden shadow-2xl border border-white/20">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+            <div className="bg-white rounded-2xl p-8 min-h-[600px] relative overflow-hidden shadow-2xl border border-white/20">
+              
               <div className="relative z-10 transition-opacity duration-500">{children}</div>
             </div>
           </div>
