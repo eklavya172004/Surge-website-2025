@@ -79,17 +79,20 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background with overlay */}
+      {/* Background with overlay - hidden on mobile */}
       <div
-        className="absolute  inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat "
         style={{
           backgroundImage: "url('/login/loginbg.png')",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-[#00308F]/30 to-[#0643A5]/40 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-[#00308F]/30 to-[#0643A5]/40 backdrop-blur-[2px] hidden md:block" />
 
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Mobile background - white */}
+      <div className="absolute inset-0  md:hidden" />
+
+      {/* Animated background elements - hidden on mobile */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-[#0C56BC]/20 to-[#2140A3]/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-[#2140A3]/20 to-[#0643A5]/20 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-[#00308F]/10 to-[#0C56BC]/10 rounded-full blur-3xl animate-spin-slow" />
@@ -99,9 +102,9 @@ export default function LoginPage() {
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-6xl flex items-center justify-center">
           {/* Login card container */}
-          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full h-[550px] relative group">
-            {/* Glass effect enhancement */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl" />
+          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full h-[550px] relative group md:bg-white/10 md:backdrop-blur-xl md:border-white/20 bg-white border-gray-200">
+            {/* Glass effect enhancement - hidden on mobile */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl hidden md:block" />
 
             {/* Left side - Design image */}
             <div className="w-1/2 hidden md:flex items-center justify-center p-0 relative overflow-hidden rounded-l-3xl">
@@ -115,8 +118,8 @@ export default function LoginPage() {
             </div>
 
             {/* Right side - Form section */}
-            <div className="md:w-1/2  bg-white/95 backdrop-blur-sm md:p-12 p-5 flex flex-col justify-center relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl" />
+            <div className="w-full md:w-1/2 bg-white/95 backdrop-blur-sm md:p-12 p-5 flex flex-col justify-center relative md:bg-white/95 md:backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl hidden md:block" />
 
               <div className="relative z-10">
                 {/* Welcome title with gradient */}
@@ -204,7 +207,7 @@ export default function LoginPage() {
                         type="email"
                         name="email"
                         placeholder="Enter your email address"
-                        className="md:w-full pl-12 p-3  pr-4 py-4 bg-white/80 border-2 border-gray-200/50 rounded-xl text-base placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
+                        className="w-full pl-12 p-3 pr-4 py-4 bg-white/80 border-2 border-gray-200/50 rounded-xl text-base placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -245,7 +248,6 @@ export default function LoginPage() {
                         required
                         autoComplete="current-password"
                         aria-label="Password"
-                        minLength={6}
                       />
                       <button
                         type="button"
