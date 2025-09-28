@@ -14,7 +14,7 @@ export default function SportsGrid() {
               <div className={styles.image_wrapper}>
                 <Image src="/sports/atheletics.png" alt="Athletics" width={150} height={150} />
                 <Image src="/sports/gradient.png" alt="" width={150} height={150} className={styles.gradient} />
-                <div className={styles.overlay_text_small}>Atheltics</div>
+                <div className={styles.overlay_text_small}>Athletics</div>
               </div>
               <div className={styles.image_wrapper}>
                 <Image src="/sports/basketball.png" alt="Basketball" width={150} height={150} />
