@@ -124,7 +124,7 @@ export default function ProfileClientPage({
     <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center">
       <User className="h-7 w-7 sm:h-10 sm:w-10 text-white" />
     </div>
-    <div className="text-center sm:text-left">
+    <div className="text-center  sm:text-left">
       <h2 className="text-lg sm:text-2xl font-bold text-white">
         {currentSession.user?.name}
       </h2>
@@ -148,7 +148,7 @@ export default function ProfileClientPage({
                 return (
                   <div
                     key={index}
-                    className="flex items-center justify-between py-2 border-b border-slate-100 last:border-b-0"
+                    className="flex flex-col items-start py-2 border-b border-slate-100 last:border-b-0"
                   >
                     <div className="flex mr-2 sm:mr-0 items-center space-x-2">
                       <Icon className={`h-3 w-3 ${field.color}`} />
