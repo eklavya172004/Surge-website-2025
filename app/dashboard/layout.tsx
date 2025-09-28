@@ -18,8 +18,6 @@ import Logo from "./../../public/footer/surge-logo.svg";
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-
-
   const navigationItems = [
     { href: "/dashboard/profile", icon: User, label: "Profile" },
     { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
@@ -44,57 +42,55 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           transform transition-transform duration-300 ease-in-out shadow-xl
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        <div>
-          {/* Header */}
-          <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-b border-white">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="transform transition-transform duration-300 hover:scale-105">
-                  <Image
-                    src={Logo}
-                    width={160}
-                    height={50}
-                    alt="Surge Logo"
-                    className="sm:w-[180px] lg:w-[190px]"
-                  />
+        <div className="flex flex-col justify-between h-full">
+          <div>
+            {/* Header */}
+            <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-b border-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="transform transition-transform duration-300 hover:scale-105">
+                    <Image
+                      src={Logo}
+                      width={160}
+                      height={50}
+                      alt="Surge Logo"
+                      className="sm:w-[180px] lg:w-[190px]"
+                    />
+                  </div>
                 </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSidebarOpen(false)}
-                className="lg:hidden p-2 rounded-lg hover:bg-[#60A5FA] transition-colors duration-200"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <nav className="mt-4 sm:mt-6 px-3 sm:px-4 space-y-1 flex-1">
-            {navigationItems.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
+                <button
+                  type="button"
                   onClick={() => setSidebarOpen(false)}
-                  className="group flex items-center px-3 sm:px-4 py-3 rounded-lg text-[#BFDBFE]
-                    transition-all duration-200 hover:bg-[#60A5FA] hover:text-white
-                    border-l-2 border-transparent hover:border-[#BFDBFE]"
-                  style={{
-                    transitionDelay: isMounted ? `${index * 50}ms` : "0ms",
-                  }}
+                  className="lg:hidden p-2 rounded-lg hover:bg-[#60A5FA] transition-colors duration-200"
                 >
-                  <Icon className="h-4 w-4 sm:h-5 sm:w-5 mr-3 sm:mr-4 transition-colors duration-200 group-hover:text-white" />
-                  <span className="font-medium flex-1 text-sm sm:text-base">
-                    {item.label}
-                  </span>
-                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <nav className="mt-4 sm:mt-6 px-3 sm:px-4 space-y-1 flex-1">
+              {navigationItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setSidebarOpen(false)}
+                    className="group flex items-center px-3 sm:px-4 py-3 rounded-lg text-[#BFDBFE]
+                      transition-all duration-200 hover:bg-[#60A5FA] hover:text-white
+                      border-l-2 border-transparent hover:border-[#BFDBFE]"
+                  >
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 mr-3 sm:mr-4 transition-colors duration-200 group-hover:text-white" />
+                    <span className="font-medium flex-1 text-sm sm:text-base">
+                      {item.label}
+                    </span>
+                    <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 opacity-0 group-hover:opacity-100 transition-all duration-200" />
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
 
           {/* Logout button */}
           <div className="p-3 sm:p-4 lg:p-6 border-t border-white">
