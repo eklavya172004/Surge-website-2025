@@ -189,7 +189,7 @@ export default function MyEventsClient() {
           )}
 
           {/* Suggested events */}
-          {(!teams || teams.length === 0) && (
+          {/* {(!teams || teams.length === 0) && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -240,7 +240,7 @@ export default function MyEventsClient() {
                 ))}
               </div>
             </motion.div>
-          )}
+          )} */}
         </div>
       </motion.section>
     </div>
