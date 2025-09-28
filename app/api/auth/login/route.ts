@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { signIn } from "next-auth/react";
 import { authRateLimiter, getClientIp } from "@/lib/rate-limiter";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/server/auth";
-import { NextAuthRequest } from "next-auth/middleware";
 
 export async function POST(req: Request) {
   // Apply rate limiting
@@ -49,6 +46,7 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
+    console.error("Login error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

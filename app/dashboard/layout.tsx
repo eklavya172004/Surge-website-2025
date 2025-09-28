@@ -100,7 +100,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <span>Logout</span>
           </button>
         </div>
-      </div>
       </aside>
 
       {/* Main content */}
