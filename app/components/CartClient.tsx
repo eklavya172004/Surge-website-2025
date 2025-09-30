@@ -11,6 +11,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
+import CartMigrationClient from "./CartMigrationClient";
 
 type CartItem = {
   id: string;
@@ -81,6 +82,7 @@ export default function CartClient() {
     return (
       <div className="min-h-screen bg-white p-3 sm:p-4 lg:p-6">
         <div className="max-w-4xl mx-auto">
+          <CartMigrationClient />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -105,6 +107,7 @@ export default function CartClient() {
     return (
       <div className="min-h-screen bg-white p-3 sm:p-4 lg:p-6">
         <div className="max-w-4xl mx-auto">
+          <CartMigrationClient />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -126,6 +129,8 @@ export default function CartClient() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6">
+        <CartMigrationClient />
+        
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

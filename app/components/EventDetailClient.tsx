@@ -5,22 +5,17 @@ import { trpc } from "@/utils/trpc";
 import styles from "../styles/EventDetail.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type Props = {
   slug: string;
 };
 
-type CartItem = {
-  eventId: string;
-  slug: string;
-  players: number;
-  accommodation: boolean;
-  accommodationDetails?: {
-    maleCount: number;
-    femaleCount: number;
-    startDate?: string;
-    endDate?: string;
-  };
+type PlayerDetails = {
+  name: string;
+  email: string;
+  rollNumber: string | null;
+  phone: string;
 };
 
 function formatDate(d?: string | Date | null) {
@@ -35,6 +30,7 @@ function formatDate(d?: string | Date | null) {
 
 export default function EventDetailClient({ slug }: Props) {
   const { data: events, isLoading, error } = trpc.event.getAllEvents.useQuery();
+  const router = useRouter();
 
   // compute event from query result to avoid needing a nullable state
   const event = useMemo(
@@ -50,6 +46,20 @@ export default function EventDetailClient({ slug }: Props) {
   const minPlayers = event?.minPlayers ?? 1;
   const maxPlayers = event?.maxPlayers ?? 1;
 
+  // Mutation for creating team with members
+  const createTeamMutation = trpc.reg.createTeamWithMembers.useMutation({
+    onSuccess: () => {
+      setMessage("Team registered successfully! Redirecting to cart...");
+      // Redirect to cart after successful registration
+      setTimeout(() => {
+        router.push("/dashboard/cart");
+      }, 1500);
+    },
+    onError: (error) => {
+      setMessage(`Error: ${error.message}`);
+    },
+  });
+
   // ensure players default respects minPlayers
   React.useEffect(() => {
     if (event) {
@@ -63,7 +73,7 @@ export default function EventDetailClient({ slug }: Props) {
   if (error) return <div className={styles.container}>Error: {error.message}</div>;
   if (!event) return <div className={styles.container}>Event not found.</div>;
 
-  function addToCart() {
+  function registerTeam() {
     if (!event) {
       setMessage("Event not available.");
       return;
@@ -74,23 +84,19 @@ export default function EventDetailClient({ slug }: Props) {
       return;
     }
 
-    const item: CartItem = {
-      eventId: event.id,
-      slug: event.slug,
-      players,
-      accommodation,
-    };
+    // Create an array of empty player objects based on the number of players
+    const playerDetails: PlayerDetails[] = Array(players).fill(null).map(() => ({
+      name: "",
+      email: "",
+      rollNumber: null,
+      phone: ""
+    }));
 
-    try {
-      const raw = localStorage.getItem("eventCart");
-      const cart: CartItem[] = raw ? JSON.parse(raw) : [];
-      cart.push(item);
-      localStorage.setItem("eventCart", JSON.stringify(cart));
-      setMessage("Added to cart — open your cart to proceed to payment.");
-    } catch (e) {
-      console.error(e);
-      setMessage("Could not add to cart (localStorage error).");
-    }
+    // Call the mutation to create the team
+    createTeamMutation.mutate({
+      eventId: event.id,
+      players: playerDetails
+    });
   }
 
   return (
@@ -116,7 +122,7 @@ export default function EventDetailClient({ slug }: Props) {
             <p>{event.about ?? "No details provided."}</p>
 
             <h4>Rules</h4>
-            <p>{event.rules ?? "No rules provided."}</p> */}
+            <p>{event.rules ?? "No rules provided."} */}
 
             <div className={styles.meta_row}>
               <div>
@@ -134,7 +140,7 @@ export default function EventDetailClient({ slug }: Props) {
 
         <aside className={styles.right}>
           <div className={styles.card}>
-            <h3>Register / Add to cart</h3>
+            <h3>Register Team</h3>
 
             <label className={styles.label}>Players</label>
             <input
@@ -159,12 +165,16 @@ export default function EventDetailClient({ slug }: Props) {
             </label>
 
             <div style={{ marginTop: 12 }}>
-              <button className={styles.button} onClick={addToCart}>
-                Add to cart
+              <button 
+                className={styles.button} 
+                onClick={registerTeam}
+                disabled={createTeamMutation.isPending}
+              >
+                {createTeamMutation.isPending ? "Registering..." : "Register Team"}
               </button>
-              <Link href="/cart">
+              <Link href="/dashboard/cart">
                 <button className={styles.button_secondary} style={{ marginLeft: 8 }}>
-                  Open cart
+                  View Cart
                 </button>
               </Link>
             </div>
