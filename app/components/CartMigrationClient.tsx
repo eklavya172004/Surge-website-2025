@@ -6,7 +6,12 @@ import { trpc } from "@/utils/trpc";
 type OldCartItem = {
   eventId: string;
   slug: string;
-  players: number;
+  players: {
+    name: string;
+    email: string;
+    rollNumber: string | null;
+    phone: string;
+  }[];
   accommodation: boolean;
   accommodationDetails?: {
     maleCount: number;
@@ -18,7 +23,7 @@ type OldCartItem = {
 
 export default function CartMigrationClient() {
   const [migrationStatus, setMigrationStatus] = useState<"idle" | "migrating" | "completed" | "error">("idle");
-  const createTeamMutation = trpc.reg.createTeamWithMembers.useMutation();
+  const migrateCartMutation = trpc.reg.migrateLocalCartToDb.useMutation();
 
   useEffect(() => {
     // Check if there are any items in localStorage that need to be migrated
@@ -32,29 +37,27 @@ export default function CartMigrationClient() {
 
         setMigrationStatus("migrating");
 
-        // Migrate each item in the cart
-        for (const item of cart) {
-          try {
-            // Create an array of player objects based on the number of players
-            const playerDetails = Array(item.players).fill(null).map((_, i) => ({
-              name: `Player ${i + 1}`,
-              email: `player${i + 1}@example.com`,
-              rollNumber: null,
-              phone: ""
-            }));
+        // Migrate all items in the cart at once using the new migration API
+        const result = await migrateCartMutation.mutateAsync({
+          localCart: cart.map(item => ({
+            eventId: item.eventId,
+            players: item.players.map(player => ({
+              name: player.name,
+              email: player.email,
+              rollNumber: player.rollNumber,
+              phone: player.phone,
+            }))
+          }))
+        });
 
-            // Create the team in the database
-            await createTeamMutation.mutateAsync({
-              eventId: item.eventId,
-              players: playerDetails
-            });
-          } catch (error) {
-            console.error(`Failed to migrate item ${item.eventId}:`, error);
-            // Continue with other items even if one fails
-          }
+        // Check the results and provide feedback
+        const failedMigrations = result.results.filter(r => !r.success);
+        if (failedMigrations.length > 0) {
+          console.warn("Some cart items failed to migrate:", failedMigrations);
+          // Still remove localStorage since successfully migrated items are now in DB
         }
 
-        // Clear localStorage after successful migration
+        // Clear localStorage after migration attempt
         localStorage.removeItem("eventCart");
         setMigrationStatus("completed");
       } catch (error) {
