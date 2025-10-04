@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   ChevronRight,
+  CreditCard,
 } from "lucide-react";
 import Image from "next/image";
 import Logo from "./../../public/footer/surge-logo.svg";
@@ -23,6 +24,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     { href: "/dashboard/register", icon: Calendar, label: "Register for Events" },
     { href: "/dashboard/cart", icon: ShoppingCart, label: "Cart" },
     { href: "/dashboard/myevents", icon: CalendarCheck, label: "Registered Events" },
+    { href: "/dashboard/payment", icon: CreditCard, label: "Payment" },
   ];
 
   return (

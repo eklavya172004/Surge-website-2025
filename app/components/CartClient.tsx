@@ -350,7 +350,7 @@ export default function CartClient() {
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => alert("Proceed to payment")}
+                  onClick={() => window.open("https://rzp.io/rzp/LVCNXd84","_blank")}
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                   className={`flex items-center px-6 sm:px-8 py-3 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base shadow-lg transition-all duration-300 w-full sm:w-auto justify-center ${

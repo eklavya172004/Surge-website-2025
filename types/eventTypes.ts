@@ -32,7 +32,13 @@ export type AccommodationDetails = {
   femaleCount: number | null;
   isAlloted: boolean | null;
 };
-
+export type PaymentDetails = {
+  id: string;
+  amount: number;
+  paymentStatus: string; // or restrict to your enum: "PENDING" | "SUCCESS" | "FAILED"
+  paymentProofUrl: string | null;
+  createdAt: Date;
+};
 export type Team = {
   id: string;
   eventId: string;
@@ -41,6 +47,7 @@ export type Team = {
   Event: Event | null;
   TeamMembers: TeamMember[];
   AccommodationDetails: AccommodationDetails | null;
+  PaymentDetails?: PaymentDetails | null; 
 };
 
 // Type for getAllEvents API response
