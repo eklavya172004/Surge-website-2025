@@ -85,7 +85,7 @@ export default function MyEventsClient() {
                               width={300} 
                               height={200} 
                               className="w-full h-full object-cover"
-                            />
+                            />  
                           ) : (
                             <div className="text-gray-400 text-2xl sm:text-4xl">⚽</div>
                           )}
