@@ -76,7 +76,7 @@ export default function MyEventsClient() {
                 >
                   <div className="p-4 sm:p-6">
                     <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
-                      <div className="w-full lg:w-1/4">
+                      {/* <div className="w-full lg:w-1/4">
                         <div className="aspect-video rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                           {team.Event?.eventImg ? (
                             <Image 
@@ -90,7 +90,7 @@ export default function MyEventsClient() {
                             <div className="text-gray-400 text-2xl sm:text-4xl">⚽</div>
                           )}
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="flex-1">
                         <div className="flex flex-col gap-4">
@@ -126,7 +126,7 @@ export default function MyEventsClient() {
                                   ? "bg-green-100 text-green-800" 
                                   : "bg-yellow-100 text-yellow-800"
                               }`}>
-                                {team.paymentDetailsId ? "Paid" : "Pending"}
+                                {team.PaymentDetails?.paymentStatus === "PAID" ? "Paid" : "Pending"}
                               </div>
                             </div>
                           </div>
