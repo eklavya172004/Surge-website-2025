@@ -9,6 +9,9 @@ import {
   CreditCard,
   ArrowRight,
   AlertCircle,
+  X,
+  CheckCircle,
+  Info,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import CartMigrationClient from "./CartMigrationClient";
@@ -34,6 +37,8 @@ export default function CartClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isButtonActive, setIsButtonActive] = useState(false);
+  const [showInstructionsDialog, setShowInstructionsDialog] = useState(false);
+  const [hasReadInstructions, setHasReadInstructions] = useState(false);
 
   const utils = trpc.useUtils();
 
@@ -77,6 +82,23 @@ export default function CartClient() {
     setIsButtonActive(false);
   };
 
+  const handleProceedToPayment = () => {
+    setShowInstructionsDialog(true);
+  };
+
+  const handleConfirmPayment = () => {
+    if (hasReadInstructions) {
+      window.open("https://rzp.io/rzp/LVCNXd84", "_blank");
+      setShowInstructionsDialog(false);
+      setHasReadInstructions(false);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setShowInstructionsDialog(false);
+    setHasReadInstructions(false);
+  };
+
   // Loading state
   if (isLoading || loading) {
     return (
@@ -94,7 +116,9 @@ export default function CartClient() {
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 className="w-8 h-8 sm:w-12 sm:h-12 border-4 border-blue-500 border-t-transparent rounded-full"
               />
-              <p className="text-gray-600 font-medium text-sm sm:text-base">Loading your cart...</p>
+              <p className="text-gray-600 font-medium text-sm sm:text-base">
+                Loading your cart...
+              </p>
             </div>
           </motion.div>
         </div>
@@ -118,7 +142,9 @@ export default function CartClient() {
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                 Error Loading Cart
               </h2>
-              <p className="text-gray-600 text-sm sm:text-base">Please try refreshing the page</p>
+              <p className="text-gray-600 text-sm sm:text-base">
+                Please try refreshing the page
+              </p>
             </div>
           </motion.div>
         </div>
@@ -130,7 +156,7 @@ export default function CartClient() {
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto p-3 sm:p-4 lg:p-6">
         <CartMigrationClient />
-        
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -157,7 +183,9 @@ export default function CartClient() {
             >
               <div className="flex items-center">
                 <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-2 sm:mr-3 flex-shrink-0" />
-                <p className="text-red-700 font-medium text-sm sm:text-base break-words">{error}</p>
+                <p className="text-red-700 font-medium text-sm sm:text-base break-words">
+                  {error}
+                </p>
               </div>
             </motion.div>
           )}
@@ -293,14 +321,7 @@ export default function CartClient() {
                                     {member.name}
                                   </span>
                                 </div>
-                                <div className="flex items-start">
-                                  {/* <span className="font-semibold text-gray-900 w-16 sm:w-20 flex-shrink-0">
-                                    Roll No:
-                                  </span>
-                                  <span className="text-gray-800 ml-2 break-words">
-                                    {member.rollNumber}
-                                  </span> */}
-                                </div>
+
                                 <div className="flex items-start">
                                   <span className="font-semibold text-gray-900 w-16 sm:w-20 flex-shrink-0">
                                     Email:
@@ -337,7 +358,9 @@ export default function CartClient() {
             >
               <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
                 <div className="text-center sm:text-left">
-                  <p className="text-blue-100 font-medium mb-1 sm:mb-2 text-sm sm:text-base">Total Amount</p>
+                  <p className="text-blue-100 font-medium mb-1 sm:mb-2 text-sm sm:text-base">
+                    Total Amount
+                  </p>
                   <motion.div
                     initial={{ scale: 0.8 }}
                     animate={{ scale: 1 }}
@@ -350,7 +373,7 @@ export default function CartClient() {
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => window.open("https://rzp.io/rzp/LVCNXd84","_blank")}
+                  onClick={handleProceedToPayment}
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                   className={`flex items-center px-6 sm:px-8 py-3 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base shadow-lg transition-all duration-300 w-full sm:w-auto justify-center ${
@@ -368,6 +391,153 @@ export default function CartClient() {
           </div>
         )}
       </div>
+
+      {/* Instructions Dialog */}
+      <AnimatePresence>
+        {showInstructionsDialog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-white bg-opacity-95 flex items-center justify-center z-50 p-4"
+            onClick={handleCloseDialog}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Dialog Header */}
+              <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-t-2xl">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center">
+                    <Info className="w-6 h-6 mr-3" />
+                    <h2 className="text-2xl font-bold">Payment Instructions</h2>
+                  </div>
+                  <button
+                    onClick={handleCloseDialog}
+                    className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition-all"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <p className="text-blue-100 mt-2 text-sm">
+                  Please read carefully before proceeding
+                </p>
+              </div>
+
+              {/* Dialog Content */}
+              <div className="p-6 space-y-5">
+                {/* Instruction Steps */}
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                      1
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-gray-800 font-medium">
+                        You will be redirected to the payment portal
+                      </p>
+                      <p className="text-gray-600 text-sm mt-1">
+                        Complete your payment on the Razorpay payment gateway
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4 p-4 bg-green-50 rounded-xl border border-green-100">
+                    <div className="flex-shrink-0 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
+                      2
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-gray-800 font-medium">
+                        Copy the Transaction ID after payment
+                      </p>
+                      <p className="text-gray-600 text-sm mt-1">
+                        Make sure to save or copy your transaction ID immediately
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4 p-4 bg-purple-50 rounded-xl border border-purple-100">
+                    <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                      3
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-gray-800 font-medium">
+                        Paste the Transaction ID in the Payment Tab
+                      </p>
+                      <p className="text-gray-600 text-sm mt-1">
+                        Submit the transaction ID for verification on the current transaction page
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Important Notice */}
+                <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-lg">
+                  <div className="flex items-start">
+                    <AlertCircle className="w-5 h-5 text-orange-500 mr-3 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold text-orange-800 mb-1">
+                        Important Notice
+                      </p>
+                      <p className="text-orange-700 text-sm">
+                        We will notify you about the status of your payment, but you{" "}
+                        <span className="font-bold">must follow these steps</span> on a mandatory basis for your payment to be counted.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Checkbox Confirmation */}
+                <div className="pt-4 border-t border-gray-200">
+                  <label className="flex items-start space-x-3 cursor-pointer group">
+                    <div className="relative  flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={hasReadInstructions}
+                        onChange={(e) => setHasReadInstructions(e.target.checked)}
+                        className="w-5 h-5 border-gray-300 rounded focus:ring-2  cursor-pointer"
+                      />
+                      {hasReadInstructions && (
+                        <CheckCircle className="w-6 h-6 text-black bg-white absolute pointer-events-none" />
+                      )}
+                    </div>
+                    <span className="text-gray-700 font-medium text-sm group-hover:text-gray-900 transition-colors">
+                      I have read and understood the payment instructions properly
+                    </span>
+                  </label>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    onClick={handleCloseDialog}
+                    className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-all duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleConfirmPayment}
+                    disabled={!hasReadInstructions}
+                    className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center ${
+                      hasReadInstructions
+                        ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    <CreditCard className="w-5 h-5 mr-2" />
+                    Proceed to Payment
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

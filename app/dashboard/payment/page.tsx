@@ -19,9 +19,10 @@ import { trpc } from "@/utils/trpc";
 
 export default function PaymentPage() {
   const [transactionId, setTransactionId] = useState("");
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   // Fetch teams (paid + unpaid)
-  const { data: teams, isLoading, error } = trpc.event.getMyEvents.useQuery();
+  const { data: teams, isLoading, error, refetch } = trpc.event.getMyEvents.useQuery();
 
   // Mutation for submitting new payment
   const { mutateAsync, isPending } = trpc.payment.finalizePayment.useMutation();
@@ -46,8 +47,12 @@ export default function PaymentPage() {
         transactionId,
         teamIds: unpaidTeamIds,
       });
-      alert(`Payment recorded successfully! Amount: ₹${payment.amount}`);
       setTransactionId("");
+      setShowSuccessDialog(true);
+      setTimeout(() => {
+        setShowSuccessDialog(false);
+        refetch();
+      }, 3000);
     } catch (err: any) {
       console.error(err);
       alert("Failed to save payment");
@@ -149,6 +154,44 @@ export default function PaymentPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br  py-6 sm:py-8 px-3 sm:px-4 md:px-8">
+      {/* Success Dialog */}
+      <AnimatePresence>
+        {showSuccessDialog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowSuccessDialog(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6"
+              >
+                <CheckCircle className="w-12 h-12 text-white" />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-3">Thank You for Payment!</h3>
+              <p className="text-gray-600 text-base mb-6">
+                We will update your payment status in few days.
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                <Clock className="w-4 h-4" />
+                <span>This will close automatically...</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
