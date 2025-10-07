@@ -72,7 +72,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
             {/* Navigation */}
             <nav className="mt-4 sm:mt-6 px-3 sm:px-4 space-y-1 flex-1">
-              {navigationItems.map((item, index) => {
+              {navigationItems.map((item, _index) => {
                 const Icon = item.icon;
                 return (
                   <Link

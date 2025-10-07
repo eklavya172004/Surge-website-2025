@@ -67,7 +67,7 @@ export default function CartMigrationClient() {
     };
 
     migrateLocalStorageCart();
-  }, []);
+  }, [migrateCartMutation]);
 
   if (migrationStatus === "migrating") {
     return (
