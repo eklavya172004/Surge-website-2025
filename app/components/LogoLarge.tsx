@@ -1,7 +1,6 @@
-"use client";
-
 import { RefObject, useState } from "react";
 import styles from "../styles/LogoLarge.module.css";
+import Image from "next/image";
 
 interface LogoLargeProps {
   logoLargeRef: RefObject<HTMLDivElement | null>;
@@ -48,7 +47,7 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
               position: "absolute",
               top: "50%",
               left: "50%",
-              transform: "translate(-50%, -50%) scale(1.1)", // Scale up by 5%
+              transform: "translate(-50%, -50%) scale(1.1)",
               width: "100%",
               height: "100%",
               objectFit: "cover",
@@ -57,18 +56,18 @@ export default function LogoLarge({ logoLargeRef }: LogoLargeProps) {
         )}
 
         {/* Overlay (triggers video once loaded) */}
-        <img
+        <Image
           src="/Subtract.svg"
           alt="Logo overlay"
           width={800}
           height={600}
           className={styles.logoOverlay}  
-          onLoad={() => setOverlayLoaded(true)} // signal when loaded
+          onLoad={() => setOverlayLoaded(true)}
           style={{
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -50%) scale(1.15)", // Scale up by 15%
+            transform: "translate(-50%, -50%) scale(1.15)",
             width: "100%",
             height: "100%",
             zIndex: 2,

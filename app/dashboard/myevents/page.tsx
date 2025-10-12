@@ -1,21 +1,11 @@
 "use client";
 import React from "react";
 import { trpc } from "@/utils/trpc";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Calendar, MapPin, Users, CreditCard, UserCheck } from "lucide-react";
 
-interface EventSummary {
-  id: string;
-  name: string;
-  eventImg?: string | null;
-  venue?: string | null;
-  pricePerPlayer?: number | null;
-}
-
 export default function MyEventsClient() {
   const { data: teams, isLoading, error } = trpc.event.getMyEvents.useQuery();
-  const { data: allEvents } = trpc.event.getAllEvents.useQuery();
 
   if (isLoading) return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -33,8 +23,6 @@ export default function MyEventsClient() {
       </div>
     </div>
   );
-
-  const suggestedEvents: EventSummary[] = (allEvents ?? []).slice(0, 5);
 
   return (
     <div className="min-h-screen bg-white">

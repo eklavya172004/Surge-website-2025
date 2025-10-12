@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Session } from "next-auth";
 import { User, Mail, School, Phone, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -14,7 +14,6 @@ export default function ProfileClientPage({
 }) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [animate, setAnimate] = useState(false);
 
   const currentSession = sessionData || session;
 
@@ -26,10 +25,6 @@ export default function ProfileClientPage({
 
     if (currentSession && !currentSession.user?.emailVerified) {
       router.push("/auth/verify-request");
-    }
-
-    if (status === "authenticated" && currentSession) {
-      setAnimate(true);
     }
   }, [currentSession, status, router]);
 

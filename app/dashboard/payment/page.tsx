@@ -43,7 +43,7 @@ export default function PaymentPage() {
     }
 
     try {
-      const payment = await mutateAsync({
+      await mutateAsync({
         transactionId,
         teamIds: unpaidTeamIds,
       });
@@ -53,7 +53,7 @@ export default function PaymentPage() {
         setShowSuccessDialog(false);
         refetch();
       }, 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       alert("Failed to save payment");
     }
@@ -403,7 +403,25 @@ export default function PaymentPage() {
                         </div>
 
                         <div className="space-y-3 sm:space-y-4">
-                          {payment.teams.map((team) => (
+                          {payment.teams.map((team: {
+                            id: string;
+                            name: string;
+                            Event?: {
+                              name: string;
+                              pricePerPlayer?: number;
+                            };
+                            TeamMembers?: {
+                              id: string;
+                              name: string;
+                            }[];
+                            PaymentDetails?: {
+                              paymentStatus?: string;
+                              amount?: number;
+                              paymentProofUrl?: string;
+                              createdAt?: Date;
+                            };
+                            paymentDetailsId?: string;
+                          }) => (
                             <motion.div
                               key={team.id}
                               initial={{ opacity: 0, x: -10 }}
@@ -415,7 +433,7 @@ export default function PaymentPage() {
                                   <p className="font-bold text-gray-800 text-base sm:text-lg break-words">{team.name}</p>
                                   <p className="text-xs sm:text-sm text-gray-600 flex items-center gap-1 mt-1">
                                     <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                                    <span className="break-words">{team.Event.name}</span>
+                                    <span className="break-words">{team.Event?.name}</span>
                                   </p>
                                 </div>
                                 <div className="text-right flex-shrink-0">
@@ -430,11 +448,11 @@ export default function PaymentPage() {
                                 <div className="flex items-center gap-2 mb-2">
                                   <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600 flex-shrink-0" />
                                   <p className="text-xs sm:text-sm font-semibold text-gray-700">
-                                    Team Members ({team.TeamMembers.length})
+                                    Team Members ({team.TeamMembers?.length || 0})
                                   </p>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                  {team.TeamMembers.map((member) => (
+                                  {(team.TeamMembers || []).map((member) => (
                                     <div
                                       key={member.id}
                                       className="bg-white px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm text-gray-700 border border-blue-100 break-words"
