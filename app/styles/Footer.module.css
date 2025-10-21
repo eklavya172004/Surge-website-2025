@@ -6,7 +6,7 @@
   position: relative;
   padding: 80px;
   box-sizing: border-box;
-  min-height: 450px;
+  min-height: 500px;
   margin-top: 40px; /* Changed from top: 200px to margin-top for better flow */
 }
 
@@ -106,6 +106,127 @@
   font-style: normal;
 }
 
+.feedbackSection {
+  width: 100%;
+  max-width: 300px;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 7vw;
+  /* background-color: rgb(86, 93, 175); */
+}
+
+@media (min-width: 1025px) {
+  .feedbackSection {
+    margin-right: 7vw;
+  }
+}
+@media (max-width: 1025px) {
+  .feedbackSection {
+    margin: auto;
+  }
+}
+
+
+.feedbackSection h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 10px 0;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.formInput,
+.formTextarea {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: background-color 0.2s ease-in-out;
+  width: 100%;
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.starRating {
+  display: flex;
+  gap: 4px;
+  align-self: flex-start;
+}
+
+.starWrapper {
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.starWrapper:hover {
+  transform: scale(1.1);
+}
+
+.starFilled,
+.starEmpty {
+  font-size: 18px;
+  transition: color 0.2s ease-in-out;
+}
+
+.starFilled {
+  color: #95a4ff;
+}
+
+.starEmpty {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.submitButton {
+  background-color: #95a4ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  align-self: center;
+  width: auto;
+  min-width: 100px;
+}
+
+.submitButton:hover {
+  background-color: white;
+  color: #304ffe;
+}
+
 .rightSection {
   display: flex;
   flex-direction: column;
@@ -123,6 +244,7 @@
   display: flex;
   gap: 20px;
   font-size: 24px;
+  align-self: flex-end;
 }
 
 .socials a {
@@ -146,6 +268,7 @@
 @media (max-width: 1024px) {
   .footer {
     padding: 60px 40px;
+    min-height: auto;
   }
   
   .content {
@@ -176,6 +299,27 @@
   .footerLine {
     width: calc(100% - 80px);
     left: 40px;
+  }
+
+  .feedbackSection {
+    align-self: center;
+    max-width: 100%;
+  }
+
+  .feedbackSection h4 {
+    text-align: center;
+  }
+
+  .feedbackForm {
+    align-items: center;
+  }
+
+  .starRating {
+    align-self: center;
+  }
+
+  .socials {
+    align-self: center;
   }
 }
 
@@ -214,6 +358,22 @@
     font-size: 12px;
   }
   
+  .feedbackSection h4 {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .formInput,
+  .formTextarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .starFilled,
+  .starEmpty {
+    font-size: 16px;
+  }
+  
   .rightSection {
     align-items: center;
   }
@@ -231,5 +391,14 @@
     width: calc(100% - 40px);
     left: 20px;
     bottom: 30px;
+  }
+
+  .feedbackForm {
+    gap: 10px;
+  }
+
+  .submitButton {
+    font-size: 14px;
+    padding: 8px;
   }
 }
