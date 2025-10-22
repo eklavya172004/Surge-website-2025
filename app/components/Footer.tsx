@@ -23,7 +23,9 @@ export default function Footer() {
       rating: formData.get('rating'),
       feedback: formData.get('feedback'),
     };
-    console.log('form submitted', data);
+    console.log('form submitted with data: ', data);
+    e.currentTarget.reset();
+    setRating(0);
   };
 
   return (
