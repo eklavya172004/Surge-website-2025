@@ -74,7 +74,8 @@ export default function BlueBall() {
       const stickyVh = isMobile ? 0.5 : 1.0;
       entryHeight = innerHeight * entryVh;
       stickyHeight = innerHeight * stickyVh;
-      stickyStartY = containerRef.current?.offsetTop! + entryHeight;
+      const containerOffset = containerRef.current?.offsetTop;
+      stickyStartY = (containerOffset || 0) + entryHeight;
     };
 
     const handleScroll = () => {

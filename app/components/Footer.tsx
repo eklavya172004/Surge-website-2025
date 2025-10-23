@@ -15,17 +15,49 @@ import Link from "next/link";
 export default function Footer() {
   const [rating, setRating] = useState(0);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const name = formData.get('name') as string;
+    const feedback = formData.get('feedback') as string;
+    
     const data = {
-      name: formData.get('name'),
-      rating: formData.get('rating'),
-      feedback: formData.get('feedback'),
+      name: name || null,
+      rating: rating, // Use the rating state directly
+      feedback,
     };
-    console.log('form submitted with data: ', data);
-    e.currentTarget.reset();
-    setRating(0);
+
+    try {
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage({ type: 'success', text: 'Thank you for your feedback!' });
+        form.reset();
+        setRating(0);
+      } else {
+        setSubmitMessage({ type: 'error', text: result.error || 'Failed to submit feedback' });
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      setSubmitMessage({ type: 'error', text: 'Network error. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -94,8 +126,7 @@ export default function Footer() {
               <input
                 type="text"
                 name="name"
-                placeholder="Your Name"
-                required
+                placeholder="Your Name (Optional)"
                 className={styles.formInput}
               />
               <div className={styles.starRating}>
@@ -113,16 +144,24 @@ export default function Footer() {
                   </span>
                 ))}
               </div>
-              <input type="hidden" name="rating" value={rating} />
               <textarea
                 name="feedback"
                 placeholder="Your Feedback"
                 required
                 className={styles.formTextarea}
               />
-              <button type="submit" className={styles.submitButton}>
-                Submit
+              <button 
+                type="submit" 
+                className={styles.submitButton}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
+              {submitMessage && (
+                <div className={`${styles.message} ${styles[submitMessage.type]}`}>
+                  {submitMessage.text}
+                </div>
+              )}
             </form>
           </div>
 

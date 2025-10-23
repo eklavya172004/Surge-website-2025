@@ -201,6 +201,15 @@ enum Locations {
   VIRTUAL
 }
 
+model Feedback {
+  id        String   @id @default(cuid())
+  name      String?  @db.VarChar(100)
+  rating    Int      @default(0) @db.SmallInt
+  feedback  String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum UploadStatus {
   PENDING
   UPLOADED

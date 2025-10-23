@@ -227,6 +227,27 @@
   color: #304ffe;
 }
 
+.message {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+}
+
+.message.success {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.5);
+}
+
+.message.error {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.5);
+}
+
 .rightSection {
   display: flex;
   flex-direction: column;
