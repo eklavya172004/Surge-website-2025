@@ -5,16 +5,22 @@ import React from "react";
 export default function ContactUs() {
   const coordinators = [
     {
-      name: "Ananth",
-      image: "/contact/Ananth_Chairperson.png",
-      role: "Chairperson",
-      phone: "8870819312",
-    },
-    {
       name: "Girish Rajendran",
       image: "/contact/Girish Rajendran co chairperson.png",
       role: "Co-Chairperson",
       phone: "7418444327",
+    },
+    {
+      name:"Prithviraj Jhunjhunwala",
+      image:"/contact/prithviraj.png",
+      role:"Co - Chairperson",
+      phone:"+91 6290 742 854"
+    },
+    {
+      name: "Ananth",
+      image: "/contact/Ananth_Chairperson.png",
+      role: "Chairperson",
+      phone: "8870819312",
     },
     {
       name: "Ashwin Srv",
@@ -99,6 +105,19 @@ export default function ContactUs() {
           name: "Devanshi Mitruka",
           image: "/contact/Devanshi Mitruka- Design Lead.jpg",
         },
+        {
+          name: "Siddh Jain",
+          image: "/contact/siddh.png",
+        }
+      ],
+    },
+    {
+      category: "Creative Lead",
+      members: [
+        {
+          name: "Harshita",
+          image: "/contact/harshita.png",
+        },
       ],
     },
   ];
@@ -153,7 +172,7 @@ export default function ContactUs() {
             filter: "none",
           }}
         >
-          CONTACT US
+          Meet the Team
         </h1>
         <div className="section-line mb-16" />
 
