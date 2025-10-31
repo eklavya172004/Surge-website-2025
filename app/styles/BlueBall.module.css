@@ -11,26 +11,14 @@
 
 .blueBallContainer {
   position: relative;
-  height: calc(20vh + 100vh); /* Updated for new entryVh */
+  min-height: 100vh;
   background: #fff;
-  /* Removed overflow: hidden to enable proper sticky behavior */
-  padding: 2rem 2rem 0 2rem; /* Padding only top for spacer */
-}
-
-.entrySpacer {
-  height: 20vh; /* Matches new entryVh */
-}
-
-.stickyWrapper {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: block;
-  background: #fff;
-  z-index: 1;
-  will-change: transform;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 0 2rem 2rem 2rem; /* Moved padding here for content spacing */
+  overflow: hidden;
+  padding: 2rem;
 }
 
 /* Ball styles */
@@ -39,15 +27,8 @@
   top: 50%;
   width: 600px;
   height: 600px;
-  transform: translateY(-50%) translate3d(var(--tx, 0px), 0px, 0px);
+  transform: translateY(-50%);
   z-index: 1;
-  will-change: transform;
-}
-
-.ball img {
-  transform: rotate(var(--rotate, 0deg));
-  will-change: transform;
-  display: block;
 }
 
 .leftBall {
@@ -59,13 +40,8 @@
 }
 
 .content {
-  
-  position: relative;
   max-width: 900px;
   z-index: 2;
-  opacity: 1; /* Always visible, no animation */
-  /* No transform: scrolls naturally with sticky */
-  margin: 0 auto;
 }
 
 .title {
@@ -75,7 +51,9 @@
   line-height: 1.1;
   color: #101044;
   margin-bottom: 1.5rem;
-  padding-top:25vh;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 3s ease, transform 3s ease;
 }
 
 .text {
@@ -83,6 +61,9 @@
   font-size: 1rem;
   line-height: 1.6;
   color: #222;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 3s ease, transform 3s ease;
 }
 
 .text a {
@@ -91,24 +72,40 @@
   font-weight: 600;
 }
 
+/* Scroll Animation */
+.animateOnScroll {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* Ball-specific animation */
+.ball.animateOnScroll {
+  opacity: 0;
+  /* Rotate 90 degrees and move from the side */
+  transform: translateY(-50%) rotate(90deg);
+  transition: opacity 2s ease-out, transform 2s ease-out;
+}
+
+.ball.show {
+  opacity: 1;
+  /* Animate to original position and no rotation */
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.content .show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (max-width: 767px) {
   .leftBall,
   .rightBall {
     display: none;
   }
 
-  .blueBallContainer {
-    height: calc(20vh + 50vh); /* Updated for new entryVh */
-    padding: 0.5rem 0.5rem 0 0.5rem;
-  }
-
-  .entrySpacer {
-    height: 20vh; /* Matches new entryVh */
-  }
-
-  .stickyWrapper {
-    height: 50vh;
-    padding: 0 0.5rem 0.5rem 0.5rem;
+  .blueBallContainer{
+    margin-bottom: 0;
+      padding: 0.5rem;
   }
 
   .title {
