@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import dotenv from "dotenv"
-dotenv.config({path:"../.env.development"})
+import dotenv from "dotenv";
+dotenv.config({ path: "../.env.development" });
 
 const db = new PrismaClient();
 
-async function deleteTeam(teamId: string) {
-  if (!teamId || teamId === "") {
+async function deleteTeam(teamId) {
+  if (!teamId) {
     console.error("Team ID is required.");
     return;
   }
@@ -14,7 +14,7 @@ async function deleteTeam(teamId: string) {
   try {
     const team = await db.team.findUnique({
       where: { id: teamId },
-      include: { TeamMembers: true }, // optional: adjust relation name if needed
+      include: { TeamMembers: true },
     });
 
     if (!team) {
@@ -22,10 +22,7 @@ async function deleteTeam(teamId: string) {
       return;
     }
 
-    const result = await db.team.delete({
-      where: { id: teamId },
-    });
-
+    const result = await db.team.delete({ where: { id: teamId } });
     console.log(`✅ Team with ID ${teamId} deleted successfully.`);
     console.log("Delete result:", result);
   } catch (error) {
@@ -34,12 +31,8 @@ async function deleteTeam(teamId: string) {
 }
 
 async function main() {
-  const teamIds = ["cmgl15r9s0002jl096r0ra4jp"]; // your target team ID(s)
-
-  for (const teamId of teamIds) {
-    await deleteTeam(teamId);
-  }
-
+  const teamIds = ["cmh2clogi0002ky09pvkqooem"];
+  for (const id of teamIds) await deleteTeam(id);
   await db.$disconnect();
   console.log("✅ All teams processed and DB disconnected.");
 }

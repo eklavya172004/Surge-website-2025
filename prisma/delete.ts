@@ -54,7 +54,7 @@ async function getUser(userId: string) {
   }
 }
 
-const deleteUserIds = ["33fd65e1-6624-453e-ba4f-07e5d2e10b67",""];
+const deleteUserIds = ["cmgr06v10000cjr09spprmdxn"];
 
 async function main() {
   for (const userId of deleteUserIds) {

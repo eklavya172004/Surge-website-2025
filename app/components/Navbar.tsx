@@ -30,7 +30,11 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
   const handleRegisterClick = () => { 
     router.push('/auth/register'); 
   }; 
- 
+
+  const handleContactClick = () => {
+    router.push('/contact');
+  }
+  
   return ( 
 <nav className={styles.nav}> 
   {/* Left nav links */} 
@@ -99,7 +103,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
     >
       REGISTER
     </li>
-    <li className="hidden md:block cursor-pointer">CONTACT</li>
+    <li className="hidden md:block cursor-pointer" onClick={handleContactClick}>CONTACT</li>
     <li onClick={handleLoginClick} style={{ cursor: 'pointer',width:'fit-content' }}>LOGIN</li> 
   </ul> 
 </nav> 

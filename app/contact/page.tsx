@@ -41,8 +41,15 @@ export default function ContactUs() {
       phone: "9502985728",
     },
   ];
-
+  
   const leads = [
+    {
+      category: "PR",
+      members: [
+        { name: "Diggaj Rupani", image: "/contact/Diggaj Rupani_PR Lead.jpg" },
+        { name: "Tanisha", image: "/contact/Tanisha_PR lead.png" },
+      ],
+    },
     {
       category: "Sponsorship",
       members: [
@@ -72,13 +79,6 @@ export default function ContactUs() {
       members: [
         { name: "Shree", image: "/contact/Shree_Webdev Lead.png" },
         { name: "Eklavya", image: "/contact/eklavya_dev_lead.jpg" },
-      ],
-    },
-    {
-      category: "PR",
-      members: [
-        { name: "Diggaj Rupani", image: "/contact/Diggaj Rupani_PR Lead.jpg" },
-        { name: "Tanisha", image: "/contact/Tanisha_PR lead.png" },
       ],
     },
     {
