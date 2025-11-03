@@ -47,7 +47,7 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
 
     if (format === 'csv') {
       // Create CSV content
-      let csvContent = 'College Name,Sport,Team ID,Player Name\n';
+      let csvContent = 'College Name,Sport,Team ID,Player Name,Player Email,Player Phone\n';
 
       // Sort colleges alphabetically
       const sortedColleges = Object.keys(groupedTeams).sort();
@@ -63,11 +63,11 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
             // Add a row for each team member
             if (team.TeamMembers.length > 0) {
               for (const member of team.TeamMembers) {
-                csvContent += `${escapeCSVValue(college)},${escapeCSVValue(sport)},${escapeCSVValue(team.id)},${escapeCSVValue(member.name)}\n`;
+                csvContent += `${escapeCSVValue(college)},${escapeCSVValue(sport)},${escapeCSVValue(team.id)},${escapeCSVValue(member.name)},${escapeCSVValue(member.email)},${escapeCSVValue(member.phone)}\n`;
               }
             } else {
               // Add a row with empty player name if no members
-              csvContent += `${escapeCSVValue(college)},${escapeCSVValue(sport)},${escapeCSVValue(team.id)},\n`;
+              csvContent += `${escapeCSVValue(college)},${escapeCSVValue(sport)},${escapeCSVValue(team.id)},,,\n`;
             }
           }
         }
@@ -82,7 +82,7 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
     } else if (format === 'xlsx') {
       // Prepare data for Excel
       const excelData = [];
-      excelData.push(['College Name', 'Sport', 'Team ID', 'Player Name']);
+      excelData.push(['College Name', 'Sport', 'Team ID', 'Player Name', 'Player Email', 'Player Phone']);
 
       // Sort colleges alphabetically
       const sortedColleges = Object.keys(groupedTeams).sort();
@@ -98,11 +98,11 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
             // Add a row for each team member
             if (team.TeamMembers.length > 0) {
               for (const member of team.TeamMembers) {
-                excelData.push([college, sport, team.id, member.name]);
+                excelData.push([college, sport, team.id, member.name, member.email, member.phone]);
               }
             } else {
               // Add a row with empty player name if no members
-              excelData.push([college, sport, team.id, '']);
+              excelData.push([college, sport, team.id, '', '', '']);
             }
           }
         }
