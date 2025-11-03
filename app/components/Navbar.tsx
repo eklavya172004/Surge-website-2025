@@ -103,7 +103,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
     >
       REGISTER
     </li>
-    <li className="hidden md:block cursor-pointer" onClick={handleContactClick}>CONTACT</li>
+    <li className="hidden md:block cursor-pointer w-fit" onClick={handleContactClick}>CONTACT</li>
     <li onClick={handleLoginClick} style={{ cursor: 'pointer',width:'fit-content' }}>LOGIN</li> 
   </ul> 
 </nav> 

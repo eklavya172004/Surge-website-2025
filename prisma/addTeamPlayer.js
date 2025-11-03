@@ -9,10 +9,10 @@ async function main(){
 
     const newPlayers = [
     {
-      name: "Sabiha khan",
-      phone: "9105589550",
-      rollNumber:"2024406014",
-      email: "sabihakhan89329@gmail.com",
+      name: "Nida Parveen",
+      phone: "8630535214",
+      rollNumber:"2022-306-046",
+      email: "nidaparveen2226@gmail.com",
     },
     ]
 
