@@ -11,7 +11,9 @@
     "lint": "eslint",
     "test:email": "npx tsx test-email.ts",
     "pushdev": "dotenv -e .env.development -- npx prisma db push",
-    "pushprod": "dotenv -e .env.local -- npx prisma db push"
+    "pushprod": "dotenv -e .env.local -- npx prisma db push",
+    "export-teams": "tsx scripts/export_teams.ts",
+    "export-teams-excel": "tsx scripts/export_teams_excel.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.27.0",
@@ -36,6 +38,7 @@
     "superjson": "^2.2.2",
     "ts-node": "^10.9.2",
     "uuid": "^13.0.0",
+    "xlsx": "^0.18.5",
     "zod": "^4.1.8"
   },
   "devDependencies": {
