@@ -23,7 +23,9 @@ The exported files will contain these columns:
 - College Name: Name of the college the team belongs to
 - Sport: Name of the sport/event
 - Team ID: Unique identifier for the team
-- Team Members: List of team members with their names and emails
+- Player Name: Name of the team member
+- Player Email: Email address of the team member
+- Player Phone: Phone number of the team member
 
 ## Notes
 
