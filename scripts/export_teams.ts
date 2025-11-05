@@ -18,19 +18,26 @@ function escapeCSVValue(value: string): string {
 
 async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
   try {
-    // Fetch all teams with related data
+    // Fetch all teams with related data, including all team members
     const teams = await prisma.team.findMany({
       include: {
         registeredBy: true,
         Event: true,
-        TeamMembers: true // Include all team members, regardless of verification status
+        PaymentDetails: true, // Include payment details for filtering
+        TeamMembers: true // Include all team members regardless of verification status
       }
     });
 
-    // Group teams by college and then by sport
-    const groupedTeams: Record<string, Record<string, typeof teams>> = {};
+    // Filter teams based on payment status (only include teams with PAID, PENDING, or MANUAL status)
+    const filteredTeams = teams.filter(team => {
+      const paymentStatus = team.PaymentDetails?.paymentStatus;
+      return paymentStatus === 'PAID' || paymentStatus === 'PENDING' || paymentStatus === 'MANUAL';
+    });
 
-    teams.forEach(team => {
+    // Group teams by college and then by sport
+    const groupedTeams: Record<string, Record<string, typeof filteredTeams>> = {};
+
+    filteredTeams.forEach(team => {
       const collegeName = team.registeredBy.collegeName;
       const sportName = team.Event.name;
 
@@ -60,13 +67,13 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
           const teamsInSport = groupedTeams[college][sport];
 
           for (const team of teamsInSport) {
-            // Add a row for each team member
+            // Add a row for each verified team member
             if (team.TeamMembers.length > 0) {
               for (const member of team.TeamMembers) {
                 csvContent += `${escapeCSVValue(college)},${escapeCSVValue(sport)},${escapeCSVValue(team.id)},${escapeCSVValue(member.name)},${escapeCSVValue(member.email)},${escapeCSVValue(member.phone)}\n`;
               }
             } else {
-              // Add a row with empty player name if no members
+              // Add a row with empty player name if no verified members
               csvContent += `${escapeCSVValue(college)},${escapeCSVValue(sport)},${escapeCSVValue(team.id)},,,\n`;
             }
           }
@@ -95,13 +102,13 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
           const teamsInSport = groupedTeams[college][sport];
 
           for (const team of teamsInSport) {
-            // Add a row for each team member
+            // Add a row for each verified team member
             if (team.TeamMembers.length > 0) {
               for (const member of team.TeamMembers) {
                 excelData.push([college, sport, team.id, member.name, member.email, member.phone]);
               }
             } else {
-              // Add a row with empty player name if no members
+              // Add a row with empty player name if no verified members
               excelData.push([college, sport, team.id, '', '', '']);
             }
           }
@@ -121,8 +128,23 @@ async function exportTeams(format: 'csv' | 'xlsx' = 'csv') {
       console.log(`Teams exported successfully to ${filePath} in Excel format`);
     }
 
-    console.log(`Total teams exported: ${teams.length}`);
+    // Count total verified members across all filtered teams
+    const totalVerifiedMembers = filteredTeams.reduce((total, team) => total + team.TeamMembers.length, 0);
+    console.log(`Total teams exported: ${filteredTeams.length}`);
+    console.log(`Total members exported: ${totalVerifiedMembers}`);
     console.log(`Colleges represented: ${Object.keys(groupedTeams).length}`);
+    
+    // Calculate and display payment status breakdown
+    const paymentStatusCount = filteredTeams.reduce((acc, team) => {
+      const status = team.PaymentDetails?.paymentStatus || 'UNKNOWN';
+      acc[status] = (acc[status] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    console.log('Payment status breakdown:');
+    Object.entries(paymentStatusCount).forEach(([status, count]) => {
+      console.log(`  ${status}: ${count}`);
+    });
     
   } catch (error) {
     console.error('Error exporting teams:', error);

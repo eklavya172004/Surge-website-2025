@@ -1,8 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 /prisma/events.csv
-./QWEN.md
-
+/.qwen/
+/QWEN.md
 # dependencies
+
 /node_modules
 /.pnp
 .pnp.*
