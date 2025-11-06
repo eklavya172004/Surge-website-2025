@@ -31,7 +31,7 @@ async function deleteTeam(teamId) {
 }
 
 async function main() {
-  const teamIds = ["cmhgoieok000iju09t547c0cu"];
+  const teamIds = ["cmhlqz7h9000vjr09kyv6chef"];
   for (const id of teamIds) await deleteTeam(id);
   await db.$disconnect();
   console.log("✅ All teams processed and DB disconnected.");

@@ -7,19 +7,19 @@ const prisma = new PrismaClient();
 
 async function main() {
   const oldPlayer = {
-    // name: "Rachit Tomar",
-    email: "tomarrachit71@gmail.com"
-    // rollNumber: "231068",
+    name: "aaryan bhandari",
+    email: "aaryanbhandari28@gmail.com",
+    rollNumber: "6584",
     // phone: "8076553030", 
-    // teamId:"cmh51b8sm0009js0918if2vks"
+    teamId:"cmgiclkwq0004kw093e4ngsch"
   };
 
   // New player details
   const newPlayer = {
-    name: "rudrajit chaliha",
-    email: "rudrajitcha@gmail.com",
-    rollNumber: "25510155",
-    phone: "6003048025",
+    name: "Gagan Nath",
+    email: "gagannath310@gmail.com",
+    rollNumber: "245292060",
+    phone: "8882860825",
   };
 
   const existingPlayer = await prisma.teamMember.findFirst({

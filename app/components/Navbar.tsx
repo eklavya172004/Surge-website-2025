@@ -35,11 +35,16 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
     router.push('/contact');
   }
   
+
+  const handleSponsors = () => {
+    router.push('/sponsors');
+  }
+
   return ( 
 <nav className={styles.nav}> 
   {/* Left nav links */} 
   <ul style={{ position: 'relative', zIndex: 1300 }}> 
-    <li>ABOUT</li> 
+    <li onClick={handleSponsors}>SPONSORS</li> 
     <li>HOME</li> 
     <li  
       className={styles.externalLink} 

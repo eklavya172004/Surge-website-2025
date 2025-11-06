@@ -5,14 +5,14 @@ dotenv.config({path:"../.env.development"})
 const prisma = new PrismaClient();
 
 async function main(){
-    const teamId = "cmh8nnk690002lb09o24gmv2c";
+    const teamId = "cmhev8pnu0004jp097kcmed5a";
 
     const newPlayers = [
     {
-      name: "Nida Parveen",
-      phone: "8630535214",
-      rollNumber:"2022-306-046",
-      email: "nidaparveen2226@gmail.com",
+      name: "Prananjay singh ",
+      phone: "",
+      rollNumber:"21252867",
+      email: "prananjay20072002@gmail.com",
     },
     ]
 
