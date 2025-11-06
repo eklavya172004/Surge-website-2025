@@ -3,103 +3,103 @@
 import React from "react";
 
 export default function Sponsors() {
-  const sponsors = [
-    {
-      name: "Blue Tokai Coffee",
-      url: "https://bluetokaicoffee.com/?srsltid=AfmBOoprc30US3d7mK2viawyvZ6swREykqh3IIyF5lr6DGADVhpETbzn",
-      logo: "/sponsors/blueTicTac.png"
-    },
-    {
-      name: "Netweb",
-      url: "https://www.netwebindia.com/",
-      logo: "/sponsors/newtab.png"
-    },
-    {
-        name: "Policy Bazaar",
-        url: "https://www.policybazaar.com/?pb_source=google_brand&pb_medium=ppc&pb_term=Policy%20bazaar&pb_campaign=Policy_Bazaar_Tier_100Brand_19jun&gad_source=1&gad_campaignid=20813880917&gbraid=0AAAAADwVZjJtqP_r8TLbxxXaNLhTO6XyK&gclid=Cj0KCQjw35bIBhDqARIsAGjd-cadMBgnAsNHnHnZLEBdibthiWhjjdXk1Y_3ktUG7lk6YtT3zaXfnL8aAoogEALw_wcB",
-        logo: "/sponsors/pb2.png"
-    },
-    {
-        name: "pbpartners",
-        url: "https://www.pbpartners.com/",
-        logo: "/sponsors/pb.png"
-    },
-    {
-        name:"Babolat",
-        url: "https://www.babolattennis.in/",
-        logo: "/sponsors/bb copy.jpg"
-    },
-    {
-        name:"leap scholar",
-        url:"https://leapscholar.com/",
-        logo:"sponsors/ls.png"
-    },
-    {
-        name:"micolube",
-        url:"https://micolube.com/",
-        logo:"/sponsors/mico.png"
-    },
-    {
-        name:"LIMR recycling",
-        url:"",
-        logo:"/sponsors/limr.png"
-    },
-    {
-        name:"Jewels Of Ada",
-        url:"https://www.jewelsofada.com/",
-        logo:"/sponsors/joa.png"
-    },
-    {
-        name:"VEDWELL",
-        url:"",
-        logo:"/sponsors/vedwell.png"
-    },
-    {
-        name:"MORDE",
-        url:"",
-        logo:"/sponsors/morde.png"
-    },
-    {
-        name:"COCA-COLA",
-        url:"",
-        logo:"/sponsors/coco.png"
-    },
-    {
-        name:"MYOP",
-        url:"",
-        logo:"/sponsors/myop.png"
-    },
-    {
-        name:"FUJIFLM",
-        url:"",
-        logo:"/sponsors/fujifilm.png"
-    },
-    {
-        name:"SMAAASH",
-        url:"",
-        logo:"/sponsors/smaaash.png"
-    },
-    {
-        name:"EASEMYTRIP",
-        url:"",
-        logo:"/sponsors/emp.png"
-    },
-    {
-        name:"EXTRATIMESTORE",
-        url:"",
-        logo:"/sponsors/ets.png"
-    },
-    {
-        name:"Ceres foods",
-        url:"",
-        logo:"/sponsors/ceres.png"
-    },
-    {
-        name:"Morde",
-        url:"",
-        logo:"/sponsors/morde2.png"
-    }
-  ];
+  const sponsors =[
+  {
+    name: "Blue Tokai Coffee",
+    url: "https://bluetokaicoffee.com/?srsltid=AfmBOoprc30US3d7mK2viawyvZ6swREykqh3IIyF5lr6DGADVhpETbzn",
+    logo: "/sponsors/blueTicTac.png"
+  },
+  {
+    name: "Netweb",
+    url: "https://www.netwebindia.com/",
+    logo: "/sponsors/newtab.png"
+  },
+  {
+    name: "Policy Bazaar",
+    url: "https://www.policybazaar.com/?pb_source=google_brand&pb_medium=ppc&pb_term=Policy%20bazaar&pb_campaign=Policy_Bazaar_Tier_100Brand_19jun&gad_source=1&gad_campaignid=20813880917&gbraid=0AAAAADwVZjJtqP_r8TLbxxXaNLhTO6XyK&gclid=Cj0KCQjw35bIBhDqARIsAGjd-cadMBgnAsNHnHnZLEBdibthiWhjjdXk1Y_3ktUG7lk6YtT3zaXfnL8aAoogEALw_wcB",
+    logo: "/sponsors/pb2.png"
+  },
+  {
+    name: "pbpartners",
+    url: "https://www.pbpartners.com/",
+    logo: "/sponsors/pb.png"
+  },
+  {
+    name: "Babolat",
+    url: "https://www.babolattennis.in/",
+    logo: "/sponsors/bb copy.jpg"
+  },
+  {
+    name: "leap scholar",
+    url: "https://leapscholar.com/",
+    logo: "sponsors/ls.png"
+  },
+  {
+    name: "micolube",
+    url: "https://micolube.com/",
+    logo: "/sponsors/mico.png"
+  },
+  {
+    name: "LIMR recycling",
+    url: "https://limrrecycling.com/",
+    logo: "/sponsors/limr.png"
+  },
+  {
+    name: "Jewels Of Ada",
+    url: "https://www.jewelsofada.com/",
+    logo: "/sponsors/joa.png"
+  },
+  {
+    name: "VEDWELL",
+    url: "https://www.vedwell.com/",
+    logo: "/sponsors/vedwell.png"
+  },
+  {
+    name: "MORDE",
+    url: "https://www.morde.com/",
+    logo: "/sponsors/morde.png"
+  },
+  {
+    name: "COCA-COLA",
+    url: "https://www.coca-cola.com/in/en",
+    logo: "/sponsors/coco.png"
+  },
+  {
+    name: "MYOP",
+    url: "https://myop.in/",
+    logo: "/sponsors/myop.png"
+  },
+  {
+    name: "FUJIFLM",
+    url: "",                        // (URL not found)
+    logo: "/sponsors/fujifilm.png"
+  },
+  {
+    name: "SMAAASH",
+    url: "",                        // (URL not found)
+    logo: "/sponsors/smaaash.png"
+  },
+  {
+    name: "EASEMYTRIP",
+    url: "",                        // (URL not found)
+    logo: "/sponsors/emp.png"
+  },
+  {
+    name: "EXTRATIMESTORE",
+    url: "",                        // (URL not found/ad ambiguous)
+    logo: "/sponsors/ets.png"
+  },
+  {
+    name: "Ceres foods",
+    url: "",                        // (URL not found)
+    logo: "/sponsors/ceres.png"
+  },
+  {
+    name: "Morde",
+    url: "https://www.morde.com/",
+    logo: "/sponsors/morde2.png"
+  }
+];
 
   return (
     <div className="min-h-screen relative overflow-hidden py-12 px-4 md:px-8">
@@ -158,9 +158,6 @@ export default function Sponsors() {
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4" style={{ fontFamily: 'Anton, sans-serif' }}>
             OUR SPONSORS
           </h1>
-          <p className="text-xl text-blue-200">
-            Powered by excellence
-          </p>
         </div>
         
         <div className="section-line mb-16" />
