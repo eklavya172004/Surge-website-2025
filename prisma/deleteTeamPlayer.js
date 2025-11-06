@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 async function main() {
   // ✅ Team ID from which the player must be removed
-  const teamId = "cmh7kiqmx0002l809p2px2m5s";
+  const teamId = "cmgowcous0002jr095arspltx";
 
   // ✅ Player ID to remove
-  const playerId = "cmh7kiqqq000al809zd5ibutq";
+  const playerId = "cmgowcowb0005jr09jsymw9pt";
 
   // 1️⃣ Check if the player exists in that team
   const existingPlayer = await prisma.teamMember.findFirst({
