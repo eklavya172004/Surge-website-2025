@@ -12,91 +12,92 @@ export default function Sponsors() {
     {
       name: "Netweb",
       url: "https://www.netwebindia.com/",
+      logo: "/sponsors/newtab.png"
     },
     {
         name: "Policy Bazaar",
         url: "https://www.policybazaar.com/?pb_source=google_brand&pb_medium=ppc&pb_term=Policy%20bazaar&pb_campaign=Policy_Bazaar_Tier_100Brand_19jun&gad_source=1&gad_campaignid=20813880917&gbraid=0AAAAADwVZjJtqP_r8TLbxxXaNLhTO6XyK&gclid=Cj0KCQjw35bIBhDqARIsAGjd-cadMBgnAsNHnHnZLEBdibthiWhjjdXk1Y_3ktUG7lk6YtT3zaXfnL8aAoogEALw_wcB",
-        logo: ""
+        logo: "/sponsors/pb2.png"
     },
     {
         name: "pbpartners",
         url: "https://www.pbpartners.com/",
-        logo: "/sponsors/newtab.png"
+        logo: "/sponsors/pb.png"
     },
     {
         name:"Babolat",
         url: "https://www.babolattennis.in/",
-        logo: "/path/to/babolatlogo.png"
+        logo: "/sponsors/bb copy.jpg"
     },
     {
         name:"leap scholar",
         url:"https://leapscholar.com/",
-        logo:""
+        logo:"sponsors/ls.png"
     },
     {
         name:"micolube",
         url:"https://micolube.com/",
-        logo:""
+        logo:"/sponsors/mico.png"
     },
     {
         name:"LIMR recycling",
         url:"",
-        logo:""
+        logo:"/sponsors/limr.png"
     },
     {
         name:"Jewels Of Ada",
         url:"https://www.jewelsofada.com/",
-        logo:""
+        logo:"/sponsors/joa.png"
     },
     {
         name:"VEDWELL",
         url:"",
-        logo:""
+        logo:"/sponsors/vedwell.png"
     },
     {
         name:"MORDE",
         url:"",
-        logo:""
+        logo:"/sponsors/morde.png"
     },
     {
         name:"COCA-COLA",
         url:"",
-        logo:""
+        logo:"/sponsors/coco.png"
     },
     {
         name:"MYOP",
         url:"",
-        logo:""
+        logo:"/sponsors/myop.png"
     },
     {
         name:"FUJIFLM",
         url:"",
-        logo:""
+        logo:"/sponsors/fujifilm.png"
     },
     {
         name:"SMAAASH",
         url:"",
-        logo:""
+        logo:"/sponsors/smaaash.png"
     },
     {
         name:"EASEMYTRIP",
         url:"",
-        logo:""
+        logo:"/sponsors/emp.png"
     },
     {
         name:"EXTRATIMESTORE",
         url:"",
-        logo:""
+        logo:"/sponsors/ets.png"
     },
     {
         name:"Ceres foods",
         url:"",
-        logo:""
+        logo:"/sponsors/ceres.png"
     },
     {
         name:"Morde",
         url:"",
-        logo:""
+        logo:"/sponsors/morde2.png"
     }
   ];
 
