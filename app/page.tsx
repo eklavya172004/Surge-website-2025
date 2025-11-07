@@ -22,7 +22,7 @@ export default function HomePage() {
       <BlueBall/>
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />
       <SportsGrid/>
-      <Timer />
+      {/* <Timer /> */}
       <Map/>
       <Footer />
     </div>

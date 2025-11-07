@@ -90,6 +90,17 @@ export default function BlueBall() {
             '"Where unwavering passion meets rising sports ambitions, Surge\'s 3-day extravaganza invites everyone—athletes and fans alike—into a celebration of realized dreams. From intense tournaments to thrilling one-on-one battles, the event promises a blend of physical and mental challenges where records will be set, shattered, and surpassed."'
           }
         </p>
+
+        {/* View Live Scores Section */}
+        <a
+          href="https://surgescores.netlify.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.liveScoresContainer}
+        >
+          <span className={styles.redDot}></span>
+          <span className={styles.liveScoresText}>View Live Scores</span>
+        </a>
       </div>
     </section>
   );
