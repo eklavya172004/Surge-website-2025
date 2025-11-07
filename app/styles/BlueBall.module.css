@@ -135,3 +135,50 @@
     font-size: 1rem;
   }
 }
+
+.liveScoresContainer {
+  display: inline-flex;
+  align-items: center;
+  background-color: #ffecec; /* light red background */
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.liveScoresContainer:hover {
+  background-color: #ffd6d6;
+}
+
+.redDot {
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+.liveScoresText {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: red;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 767px) {
+  .liveScoresContainer {
+    padding: 0.4rem 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .liveScoresText {
+    font-size: 1rem;
+  }
+}
