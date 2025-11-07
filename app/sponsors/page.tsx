@@ -5,9 +5,9 @@ import React from "react";
 export default function Sponsors() {
   const sponsors =[
   {
-    name: "Blue Tokai Coffee",
-    url: "https://bluetokaicoffee.com/?srsltid=AfmBOoprc30US3d7mK2viawyvZ6swREykqh3IIyF5lr6DGADVhpETbzn",
-    logo: "/sponsors/blueTicTac.png"
+    name: "Starbucks",
+    url: "",
+    logo: "/sponsors/starbucks.jpg"
   },
   {
     name: "Netweb",
@@ -15,14 +15,24 @@ export default function Sponsors() {
     logo: "/sponsors/newtab.png"
   },
   {
-    name: "Policy Bazaar",
-    url: "https://www.policybazaar.com/?pb_source=google_brand&pb_medium=ppc&pb_term=Policy%20bazaar&pb_campaign=Policy_Bazaar_Tier_100Brand_19jun&gad_source=1&gad_campaignid=20813880917&gbraid=0AAAAADwVZjJtqP_r8TLbxxXaNLhTO6XyK&gclid=Cj0KCQjw35bIBhDqARIsAGjd-cadMBgnAsNHnHnZLEBdibthiWhjjdXk1Y_3ktUG7lk6YtT3zaXfnL8aAoogEALw_wcB",
-    logo: "/sponsors/pb2.png"
+    name: "Yonex",
+    url: "",
+    logo: "/sponsors/yonex.jpg"
   },
+  // {
+  //   name: "Policy Bazaar",
+  //   url: "https://www.policybazaar.com/?pb_source=google_brand&pb_medium=ppc&pb_term=Policy%20bazaar&pb_campaign=Policy_Bazaar_Tier_100Brand_19jun&gad_source=1&gad_campaignid=20813880917&gbraid=0AAAAADwVZjJtqP_r8TLbxxXaNLhTO6XyK&gclid=Cj0KCQjw35bIBhDqARIsAGjd-cadMBgnAsNHnHnZLEBdibthiWhjjdXk1Y_3ktUG7lk6YtT3zaXfnL8aAoogEALw_wcB",
+  //   logo: "/sponsors/pb2.png"
+  // },
   {
-    name: "pbpartners",
+    name: "Policy Bazaar",
     url: "https://www.pbpartners.com/",
     logo: "/sponsors/pb.png"
+  },
+  {
+    name: "Nestle",
+    url: "",
+    logo: "/sponsors/maggie.jpg"
   },
   {
     name: "Babolat",
@@ -55,9 +65,9 @@ export default function Sponsors() {
     logo: "/sponsors/vedwell.png"
   },
   {
-    name: "MORDE",
+    name: "Sodexo",
     url: "https://www.morde.com/",
-    logo: "/sponsors/morde.png"
+    logo: "/sponsors/sodexo.jpg"
   },
   {
     name: "COCA-COLA",
@@ -98,7 +108,22 @@ export default function Sponsors() {
     name: "Morde",
     url: "https://www.morde.com/",
     logo: "/sponsors/morde2.png"
-  }
+  },
+  {
+    name: "Zest",
+    url: "",
+    logo: "/sponsors/zest.jpg"
+  },
+  {
+    name: "Pladis",
+    url: "",
+    logo: "/sponsors/pladis.jpg"
+  },
+  {
+    name: "Doyene Sports Club",
+    url: "",
+    logo: "/sponsors/doyene.jpg"
+  },
 ];
 
   return (
