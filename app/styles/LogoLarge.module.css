@@ -7,10 +7,14 @@
   transition: all 0.3s ease;
   top:45px;
 }
-
 @media (max-width: 768px) {
+  .logoLarge {
+    display: none !important;
+    z-index: -1;
+  }
   .logoVideo,
   .logoOverlay {
     display: none !important;
+    z-index: -1;
   }
 }
