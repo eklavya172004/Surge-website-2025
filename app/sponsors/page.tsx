@@ -5,9 +5,19 @@ import React from "react";
 export default function Sponsors() {
   const sponsors =[
   {
-    name: "Blue Tokai Coffee",
-    url: "https://bluetokaicoffee.com/?srsltid=AfmBOoprc30US3d7mK2viawyvZ6swREykqh3IIyF5lr6DGADVhpETbzn",
-    logo: "/sponsors/blueTicTac.png"
+    name: "LIMR recycling",
+    url: "https://limrrecycling.com/",
+    logo: "/sponsors/limr.png"
+  },
+  {
+    name: "Morde",
+    url: "https://www.morde.com/",
+    logo: "/sponsors/morde2.png"
+  },
+    {
+    name: "Pladis",
+    url: "",
+    logo: "/sponsors/pladis.jpg"
   },
   {
     name: "Netweb",
@@ -16,13 +26,28 @@ export default function Sponsors() {
   },
   {
     name: "Policy Bazaar",
-    url: "https://www.policybazaar.com/?pb_source=google_brand&pb_medium=ppc&pb_term=Policy%20bazaar&pb_campaign=Policy_Bazaar_Tier_100Brand_19jun&gad_source=1&gad_campaignid=20813880917&gbraid=0AAAAADwVZjJtqP_r8TLbxxXaNLhTO6XyK&gclid=Cj0KCQjw35bIBhDqARIsAGjd-cadMBgnAsNHnHnZLEBdibthiWhjjdXk1Y_3ktUG7lk6YtT3zaXfnL8aAoogEALw_wcB",
-    logo: "/sponsors/pb2.png"
-  },
-  {
-    name: "pbpartners",
     url: "https://www.pbpartners.com/",
     logo: "/sponsors/pb.png"
+  },
+    {
+    name: "leap scholar",
+    url: "https://leapscholar.com/",
+    logo: "sponsors/ls.png"
+  },
+  {
+    name: "VEDWELL",
+    url: "https://www.vedwell.com/",
+    logo: "/sponsors/vedwell.png"
+  },
+    {
+    name: "micolube",
+    url: "https://micolube.com/",
+    logo: "/sponsors/mico.png"
+  },
+    {
+    name: "Zest",
+    url: "",
+    logo: "/sponsors/zest.jpg"
   },
   {
     name: "Babolat",
@@ -30,49 +55,34 @@ export default function Sponsors() {
     logo: "/sponsors/bb copy.jpg"
   },
   {
-    name: "leap scholar",
-    url: "https://leapscholar.com/",
-    logo: "sponsors/ls.png"
+    name: "Yonex",
+    url: "",
+    logo: "/sponsors/yonex.jpg"
   },
   {
-    name: "micolube",
-    url: "https://micolube.com/",
-    logo: "/sponsors/mico.png"
+    name: "EXTRATIMESTORE",
+    url: "",                        // (URL not found/ad ambiguous)
+    logo: "/sponsors/ets.png"
   },
-  {
-    name: "LIMR recycling",
-    url: "https://limrrecycling.com/",
-    logo: "/sponsors/limr.png"
-  },
-  {
-    name: "Jewels Of Ada",
-    url: "https://www.jewelsofada.com/",
-    logo: "/sponsors/joa.png"
-  },
-  {
-    name: "VEDWELL",
-    url: "https://www.vedwell.com/",
-    logo: "/sponsors/vedwell.png"
-  },
-  {
-    name: "MORDE",
-    url: "https://www.morde.com/",
-    logo: "/sponsors/morde.png"
-  },
-  {
+    {
     name: "COCA-COLA",
     url: "https://www.coca-cola.com/in/en",
     logo: "/sponsors/coco.png"
   },
   {
-    name: "MYOP",
-    url: "https://myop.in/",
-    logo: "/sponsors/myop.png"
+    name: "Sodexo",
+    url: "",
+    logo: "/sponsors/sodexo.jpg"
   },
   {
-    name: "FUJIFLM",
-    url: "https://global.fujifilm.com/en/",                        // (URL not found)
-    logo: "/sponsors/fujifilm.png"
+    name: "Nestle",
+    url: "",
+    logo: "/sponsors/maggie.jpg"
+  },
+  {
+    name: "Starbucks",
+    url: "",
+    logo: "/sponsors/starbucks.jpg"
   },
   {
     name: "SMAAASH",
@@ -80,24 +90,34 @@ export default function Sponsors() {
     logo: "/sponsors/smaaash.png"
   },
   {
-    name: "EASEMYTRIP",
-    url: "",                        // (URL not found)
-    logo: "/sponsors/emp.png"
-  },
-  {
-    name: "EXTRATIMESTORE",
-    url: "",                        // (URL not found/ad ambiguous)
-    logo: "/sponsors/ets.png"
-  },
-  {
     name: "Ceres foods",
     url: "",                        // (URL not found)
     logo: "/sponsors/ceres.png"
   },
   {
-    name: "Morde",
-    url: "https://www.morde.com/",
-    logo: "/sponsors/morde2.png"
+    name: "FUJIFLM",
+    url: "https://global.fujifilm.com/en/",                        
+    logo: "/sponsors/fujifilm.png"
+  },
+  {
+    name: "MYOP",
+    url: "https://myop.in/",
+    logo: "/sponsors/myop.png"
+  },
+  {
+    name: "EASEMYTRIP",
+    url: "",                        // (URL not found)
+    logo: "/sponsors/emp.png"
+  },
+  {
+    name: "Doyene Sports Club",
+    url: "",
+    logo: "/sponsors/doyene.jpg"
+  },
+  {
+    name: "Jewels Of Ada",
+    url: "https://www.jewelsofada.com/",
+    logo: "/sponsors/joa.png"
   }
 ];
 
