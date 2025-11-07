@@ -71,7 +71,7 @@ export default function Sponsors() {
   },
   {
     name: "FUJIFLM",
-    url: "",                        // (URL not found)
+    url: "https://global.fujifilm.com/en/",                        // (URL not found)
     logo: "/sponsors/fujifilm.png"
   },
   {
@@ -106,46 +106,22 @@ export default function Sponsors() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
         
-        .animated-bg {
-          background: 
-            linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%),
-            radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 40% 20%, rgba(96, 165, 250, 0.06) 0%, transparent 50%);
-        }
-        
-        .grid-overlay {
-          background-image: 
-            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-        
-        .card {
-          backdrop-filter: blur(12px);
-          background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-          border: 1px solid rgba(147, 197, 253, 0.2);
+        .sponsor-card {
           transition: all 0.3s ease;
         }
         
-        .card:hover {
-          transform: translateY(-8px);
-          border-color: rgba(147, 197, 253, 0.5);
-          box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        .sponsor-card:hover {
+          transform: translateY(-4px);
         }
         
-        .section-line {
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #3b82f6, transparent);
-        }
-
         .sponsor-logo-wrapper {
           background: rgba(255, 255, 255, 0.95);
           transition: all 0.3s ease;
         }
 
-        .card:hover .sponsor-logo-wrapper {
+        .sponsor-card:hover .sponsor-logo-wrapper {
           background: rgba(255, 255, 255, 1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
       `}</style>
 
@@ -163,7 +139,7 @@ export default function Sponsors() {
         <div className="section-line mb-16" />
 
         {/* Sponsors Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-8 md:mb-16">
           {sponsors.map((sponsor, index) => (
             <a
               key={index}
