@@ -45,7 +45,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
   {/* Left nav links */} 
   <ul style={{ position: 'relative', zIndex: 1300 }}> 
     <li onClick={handleSponsors}>SPONSORS</li> 
-    <li>HOME</li> 
+    <li><b><a href="https://surgescores.netlify.app/">Scores</a></b></li> 
     <li  
       className={styles.externalLink} 
       onClick={handleRulebookClick} 
