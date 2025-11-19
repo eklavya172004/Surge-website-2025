@@ -92,7 +92,7 @@ export default function BlueBall() {
         </p>
 
         {/* View Live Scores Section */}
-        <a
+        {/* <a
           href="https://surgescores.netlify.app/"
           target="_blank"
           rel="noopener noreferrer"
@@ -100,7 +100,7 @@ export default function BlueBall() {
         >
           <span className={styles.redDot}></span>
           <span className={styles.liveScoresText}>View Live Scores</span>
-        </a>
+        </a> */}
       </div>
     </section>
   );
