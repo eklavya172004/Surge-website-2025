@@ -1,32 +1,12 @@
-# Team Export Scripts
+# Surge 2025 - Official Fest Website
+Official repository for the **Surge 2025** website. 
 
-These scripts allow you to export team information from the database, sorted by college and sport.
+## Preview
+![Surge 2025 Screenshot](./screenshot/surge.png)
 
-## Scripts
-
-### `export_teams.ts`
-Exports team data to CSV format by default, but can also export to Excel format.
-
-**Usage:**
-- CSV format (default): `npm run export-teams`
-- Excel format: `npm run export-teams xlsx`
-
-### `export_teams_excel.ts`
-Exports team data specifically to Excel format.
-
-**Usage:**
-- Excel format: `npm run export-teams-excel`
-
-## Data Structure
-
-The exported files will contain these columns:
-- College Name: Name of the college the team belongs to
-- Sport: Name of the sport/event
-- Team ID: Unique identifier for the team
-- Team Members: List of team members with their names and emails
-
-## Notes
-
-- Only verified team members are included in the export
-- Teams are sorted first by college name alphabetically, then by sport name alphabetically
-- The export includes all required information in an easily readable format
+## About the Project
+This website is designed to provide:
+- **Event Listings:** Comprehensive details about all competitions and activities.
+- **Registration System:** Easy sign-ups for various events.
+- **Schedules:** Real-time updates on fest timings and venues.
+- **Responsive Design:** Optimized for both desktop and mobile devices.
