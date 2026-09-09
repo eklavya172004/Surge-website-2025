@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { trpc } from '@/utils/trpc';
 import Image from 'next/image';
+import Link from 'next/link';
+import { Bed, AlertCircle, ArrowRight } from 'lucide-react';
 
 interface AccommodationProps {
   teamId: string;
@@ -37,24 +39,26 @@ const Accommodation: React.FC = () => {
     }
   }, [teams]);
 
-  const rates = {
+  const rates: Record<number, number> = {
     1: 500,
     2: 800,
     3: 1000,
   };
 
   const calculateDays = (startDate: string, endDate: string) => {
+    if (!startDate || !endDate) return 1;
     const start = new Date(startDate);
     const end = new Date(endDate);
     const diffTime = Math.abs(end.getTime() - start.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays as 1 | 2 | 3;
+    return Math.max(1, Math.min(3, diffDays || 1));
   };
 
   const calculateTotal = (data: AccommodationProps) => {
     const days = calculateDays(data.startDate, data.endDate);
-    const maleTotal = data.maleCount * rates[days];
-    const femaleTotal = data.femaleCount * rates[days];
+    const ratePerPerson = rates[days] || 1000;
+    const maleTotal = (data.maleCount || 0) * ratePerPerson;
+    const femaleTotal = (data.femaleCount || 0) * ratePerPerson;
     return maleTotal + femaleTotal;
   };
 
@@ -127,8 +131,9 @@ const Accommodation: React.FC = () => {
       return;
     }
 
-    if (startDate < "2024-11-14" || endDate > "2024-11-17") {
-      setMessage("Invalid date range.");
+    const days = calculateDays(startDate, endDate);
+    if (days < 1) {
+      setMessage("End date must be after start date.");
       return;
     }
 
@@ -188,9 +193,46 @@ const Accommodation: React.FC = () => {
     }
   };
 
-  if (isLoading) return <div className="text-center">Loading...</div>;
-  if (isError) return <div className="text-center text-red-500">Error loading teams.</div>;
-  if (!teams || teams.length === 0) return <div className="text-center text-lg">No teams verified yet.</div>;
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-gray-600 font-medium text-sm">Loading accommodation details...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="p-8 text-center bg-white rounded-2xl border border-red-200 max-w-md mx-auto my-12 shadow-sm">
+        <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
+        <h3 className="text-lg font-bold text-gray-800 mb-1">Error Loading Accommodation</h3>
+        <p className="text-gray-600 text-sm">Failed to fetch verified teams. Please try again.</p>
+      </div>
+    );
+  }
+
+  if (!teams || teams.length === 0) {
+    return (
+      <div className="p-8 sm:p-12 text-center bg-white rounded-3xl border border-blue-100 max-w-xl mx-auto my-8 shadow-xl">
+        <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+          <Bed className="w-8 h-8" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">No Verified Teams Yet</h3>
+        <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+          Campus accommodation booking is unlocked only for teams with confirmed (<strong>PAID</strong>) event registrations. 
+          Once your sports registration fee is paid, your teams will appear here so you can request beds and check-in dates.
+        </p>
+        <Link
+          href="/dashboard/payment"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all text-sm"
+        >
+          <span>Go to Payment Hub</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <main className="max-w-4xl mx-auto py-8 px-6 text-white">
@@ -244,8 +286,6 @@ const Accommodation: React.FC = () => {
                   className="bg-gray-900 border border-gray-600 rounded-md p-2 text-white focus:outline-none focus:border-[#F4AC18] focus:ring-2 focus:ring-[#F4AC18]/20"
                   name="startDate"
                   id={team.id}
-                  min="2024-11-14"
-                  max="2024-11-17"
                   defaultValue={team.AccommodationDetails?.startDate}
                   onChange={handleInputChange}
                 />
@@ -255,8 +295,6 @@ const Accommodation: React.FC = () => {
                   className="bg-gray-900 border border-gray-600 rounded-md p-2 text-white focus:outline-none focus:border-[#F4AC18] focus:ring-2 focus:ring-[#F4AC18]/20"
                   name="endDate"
                   id={team.id}
-                  min="2024-11-14"
-                  max="2024-11-17"
                   defaultValue={team.AccommodationDetails?.endDate}
                   onChange={handleInputChange}
                 />

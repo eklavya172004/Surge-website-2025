@@ -109,12 +109,12 @@ export default function MyEventsClient() {
                                 <div className="text-xs sm:text-sm text-slate-500 mb-1">Team ID</div>
                                 <div className="font-mono text-sm sm:text-lg font-bold text-indigo-600 break-all">{team.id}</div>
                               </div>
-                              <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                team.paymentDetailsId 
-                                  ? "bg-green-100 text-green-800" 
-                                  : "bg-yellow-100 text-yellow-800"
+                              <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                team.PaymentDetails?.paymentStatus === "PAID"
+                                  ? "bg-green-100 text-green-800 border border-green-200" 
+                                  : "bg-yellow-100 text-yellow-800 border border-yellow-200"
                               }`}>
-                                {team.PaymentDetails?.paymentStatus === "PAID" ? "Paid" : "Pending"}
+                                {team.PaymentDetails?.paymentStatus === "PAID" ? "PAID" : "PENDING"}
                               </div>
                             </div>
                           </div>

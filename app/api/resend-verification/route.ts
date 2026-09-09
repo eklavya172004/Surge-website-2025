@@ -102,7 +102,14 @@ export async function POST(req: Request) {
 
     // Send verification email
     const verificationUrl = `${process.env.NEXTAUTH_URL}/api/verify-email?token=${verificationToken}`;
-    
+
+    if (process.env.NODE_ENV !== "production") {
+      console.log("\n=======================================================");
+      console.log(`🔗 [DEV VERIFICATION LINK] Click to verify ${email}:`);
+      console.log(`${verificationUrl}`);
+      console.log("=======================================================\n");
+    }
+
     try {
       const emailResult = await resend.emails.send({
         from: process.env.EMAIL_FROM,

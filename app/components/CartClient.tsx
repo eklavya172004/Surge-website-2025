@@ -9,11 +9,9 @@ import {
   CreditCard,
   ArrowRight,
   AlertCircle,
-  X,
-  CheckCircle,
-  Info,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/navigation";
 import CartMigrationClient from "./CartMigrationClient";
 
 type CartItem = {
@@ -33,12 +31,11 @@ type CartItem = {
 };
 
 export default function CartClient() {
+  const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isButtonActive, setIsButtonActive] = useState(false);
-  const [showInstructionsDialog, setShowInstructionsDialog] = useState(false);
-  const [hasReadInstructions, setHasReadInstructions] = useState(false);
 
   const utils = trpc.useUtils();
 
@@ -83,20 +80,7 @@ export default function CartClient() {
   };
 
   const handleProceedToPayment = () => {
-    setShowInstructionsDialog(true);
-  };
-
-  const handleConfirmPayment = () => {
-    if (hasReadInstructions) {
-      window.open("https://rzp.io/rzp/LVCNXd84", "_blank");
-      setShowInstructionsDialog(false);
-      setHasReadInstructions(false);
-    }
-  };
-
-  const handleCloseDialog = () => {
-    setShowInstructionsDialog(false);
-    setHasReadInstructions(false);
+    router.push("/dashboard/payment");
   };
 
   // Loading state
@@ -391,153 +375,6 @@ export default function CartClient() {
           </div>
         )}
       </div>
-
-      {/* Instructions Dialog */}
-      <AnimatePresence>
-        {showInstructionsDialog && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white bg-opacity-95 flex items-center justify-center z-50 p-4"
-            onClick={handleCloseDialog}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Dialog Header */}
-              <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-t-2xl">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center">
-                    <Info className="w-6 h-6 mr-3" />
-                    <h2 className="text-2xl font-bold">Payment Instructions</h2>
-                  </div>
-                  <button
-                    onClick={handleCloseDialog}
-                    className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition-all"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-                <p className="text-blue-100 mt-2 text-sm">
-                  Please read carefully before proceeding
-                </p>
-              </div>
-
-              {/* Dialog Content */}
-              <div className="p-6 space-y-5">
-                {/* Instruction Steps */}
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-                      1
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-gray-800 font-medium">
-                        You will be redirected to the payment portal
-                      </p>
-                      <p className="text-gray-600 text-sm mt-1">
-                        Complete your payment on the Razorpay payment gateway
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 p-4 bg-green-50 rounded-xl border border-green-100">
-                    <div className="flex-shrink-0 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
-                      2
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-gray-800 font-medium">
-                        Copy the Transaction ID after payment
-                      </p>
-                      <p className="text-gray-600 text-sm mt-1">
-                        Make sure to save or copy your transaction ID immediately
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 p-4 bg-purple-50 rounded-xl border border-purple-100">
-                    <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
-                      3
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-gray-800 font-medium">
-                        Paste the Transaction ID in the Payment Tab
-                      </p>
-                      <p className="text-gray-600 text-sm mt-1">
-                        Submit the transaction ID for verification on the current transaction page
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Important Notice */}
-                <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-lg">
-                  <div className="flex items-start">
-                    <AlertCircle className="w-5 h-5 text-orange-500 mr-3 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-semibold text-orange-800 mb-1">
-                        Important Notice
-                      </p>
-                      <p className="text-orange-700 text-sm">
-                        We will notify you about the status of your payment, but you{" "}
-                        <span className="font-bold">must follow these steps</span> on a mandatory basis for your payment to be counted.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Checkbox Confirmation */}
-                <div className="pt-4 border-t border-gray-200">
-                  <label className="flex items-start space-x-3 cursor-pointer group">
-                    <div className="relative  flex items-center justify-center">
-                      <input
-                        type="checkbox"
-                        checked={hasReadInstructions}
-                        onChange={(e) => setHasReadInstructions(e.target.checked)}
-                        className="w-5 h-5 border-gray-300 rounded focus:ring-2  cursor-pointer"
-                      />
-                      {hasReadInstructions && (
-                        <CheckCircle className="w-6 h-6 text-black bg-white absolute pointer-events-none" />
-                      )}
-                    </div>
-                    <span className="text-gray-700 font-medium text-sm group-hover:text-gray-900 transition-colors">
-                      I have read and understood the payment instructions properly
-                    </span>
-                  </label>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <button
-                    onClick={handleCloseDialog}
-                    className="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-all duration-300"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleConfirmPayment}
-                    disabled={!hasReadInstructions}
-                    className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center ${
-                      hasReadInstructions
-                        ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    }`}
-                  >
-                    <CreditCard className="w-5 h-5 mr-2" />
-                    Proceed to Payment
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Navbar from "@/app/components/Navbar";
 
 export default function ContactUs() {
   const coordinators = [
@@ -223,7 +224,9 @@ export default function ContactUs() {
 
       <div className="animated-bg grid-overlay fixed inset-0" />
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <Navbar />
+
+      <div className="relative z-10 max-w-7xl mx-auto pt-10">
         <h1
           className="text-6xl md:text-8xl font-bold text-white mb-2 tracking-tight"
           style={{

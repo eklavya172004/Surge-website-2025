@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -72,26 +73,35 @@ export default function RegisterPage() {
       <div className="relative z-10  min-h-screen flex items-center justify-center p-4">
         <div className="w-full md:max-w-7xl  flex items-center justify-center">
           {/* Register card container */}
-          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden md:max-w-6xl md:w-full h-[580px] relative group">
+          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden md:max-w-6xl md:w-full min-h-[580px] h-auto my-6 relative group">
             {/* Glass effect enhancement */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl pointer-events-none" />
 
             {/* Left side - Design image */}
-            <div className="md:w-1/2  md:flex items-center hidden  justify-center p-0 relative overflow-hidden rounded-l-3xl">
+            <div className="md:w-1/2 md:block hidden relative self-stretch overflow-hidden rounded-l-3xl">
               <Image
                 src="/login/design.png"
                 alt="Design"
-                width={500}
-                height={600}
-                className="md:w-full md:h-full object-cover"
+                fill
+                priority
+                className="object-cover"
               />
             </div>
 
             {/* Right side - Form section */}
-            <div className="md:w-1/2 w-full  bg-white/95 backdrop-blur-sm p-6 flex flex-col justify-center relative">
-              <div className="absolute w-full inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl" />
+            <div className="md:w-1/2 w-full bg-white/95 backdrop-blur-sm p-6 md:p-8 flex flex-col justify-center relative">
+              <div className="absolute w-full inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl pointer-events-none" />
 
               <div className="relative z-10">
+                {/* Back to Home Link */}
+                <Link
+                  href="/"
+                  className="inline-flex items-center text-xs font-semibold text-blue-700 hover:text-blue-900 mb-3 transition-colors group"
+                >
+                  <span className="mr-1.5 transform group-hover:-translate-x-1 transition-transform">←</span>
+                  Back to Home
+                </Link>
+
                 {/* Welcome title with gradient */}
                 <div className="mb-4">
                   <h1 className="text-3xl font-bold bg-gradient-to-r from-[#00308F] via-[#0643A5] to-[#2140A3] bg-clip-text text-transparent mb-2">

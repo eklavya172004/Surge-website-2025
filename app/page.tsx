@@ -21,8 +21,8 @@ export default function HomePage() {
       <HeroSection/>
       <BlueBall/>
       <LogoAnimation  logoSmallRef={logoSmallRef} logoLargeRef={logoLargeRef} />
+      <Timer />
       <SportsGrid/>
-      {/* <Timer /> */}
       <Map/>
       <Footer />
     </div>

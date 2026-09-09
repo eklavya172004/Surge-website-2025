@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function VerifyRequestPage() {
   const searchParams = useSearchParams();
@@ -64,11 +65,14 @@ export default function VerifyRequestPage() {
           {isResending ? "Resending..." : "Resend Verification Email"}
         </button>
         
-        <p className="mt-6 text-center text-sm text-gray-600">
-          <a href="/auth/login" className="text-blue-600 hover:underline">
-            Back to Login
-          </a>
-        </p>
+        <div className="mt-6 flex justify-between text-sm text-gray-600">
+          <Link href="/" className="text-gray-500 hover:text-black font-medium">
+            ← Home
+          </Link>
+          <Link href="/auth/login" className="text-blue-600 hover:underline font-medium">
+            Back to Login →
+          </Link>
+        </div>
       </div>
     </div>
   );

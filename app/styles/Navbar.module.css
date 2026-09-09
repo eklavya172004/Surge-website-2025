@@ -79,18 +79,6 @@
     display: none !important;
   }
 
-  /* Hide all right side items by default */
-  .nav ul:last-of-type li {
-    display: none;
-  }
-
-  /* Show only REGISTER, CONTACT, LOGIN */
-  .nav ul:last-of-type li:nth-child(1),  /* REGISTER */
-  .nav ul:last-of-type li:nth-child(2),  /* CONTACT */
-  .nav ul:last-of-type li:nth-child(3) { /* LOGIN */
-    display: block;
-  }
-
   /* 🔽 Reduce text size + spacing */
   .nav {
     font-size: 13px; /* smaller text */
@@ -103,11 +91,5 @@
 
   .nav ul li {
     padding: 3px 6px; /* smaller padding around text */
-  }
-
-  /* REGISTER button smaller */
-  .nav ul li:first-child {
-    font-size: 13px;
-    padding: 4px 10px;
   }
 }

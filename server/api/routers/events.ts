@@ -84,15 +84,18 @@ export const eventRouter = createTRPCRouter({
             isAlloted: true,
           },
         },
-        PaymentDetails: {   // 👈 added this
-        select: {
-          id: true,
-          amount: true,
-          paymentStatus: true,
-          paymentProofUrl: true,
-          createdAt: true,
+        PaymentDetails: {
+          select: {
+            id: true,
+            amount: true,
+            paymentStatus: true,
+            paymentProofUrl: true,
+            razorpayPaymentId: true,
+            razorpayOrderId: true,
+            paymentMethod: true,
+            createdAt: true,
+          },
         },
-      },
       },
     });
 

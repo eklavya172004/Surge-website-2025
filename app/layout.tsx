@@ -11,8 +11,8 @@ import LoaderWrapper from "./components/LoaderWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Surge - the home of champions",
-  description: "Sports",
+  title: "Surge 2026 - The Home of Champions | SNIoE Sports Fest",
+  description: "Surge 2026 is the premier annual 3-day sports fest of Shiv Nadar Institution of Eminence (SNIoE). Register college teams for athletics, basketball, football, cricket, and more.",
 };
 
 export default async function RootLayout({

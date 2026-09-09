@@ -35,8 +35,11 @@ export type AccommodationDetails = {
 export type PaymentDetails = {
   id: string;
   amount: number;
-  paymentStatus: string; // or restrict to your enum: "PENDING" | "SUCCESS" | "FAILED"
+  paymentStatus: string;
   paymentProofUrl: string | null;
+  razorpayPaymentId?: string | null;
+  razorpayOrderId?: string | null;
+  paymentMethod?: string | null;
   createdAt: Date;
 };
 export type Team = {

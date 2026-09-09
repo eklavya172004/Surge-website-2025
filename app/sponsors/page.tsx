@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Navbar from "@/app/components/Navbar";
 
 export default function Sponsors() {
   const sponsors =[
@@ -147,7 +148,9 @@ export default function Sponsors() {
 
       <div className="animated-bg grid-overlay fixed inset-0" />
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <Navbar />
+
+      <div className="relative z-10 max-w-7xl mx-auto pt-10">
         
         {/* Header */}
         <div className="text-center mb-16">

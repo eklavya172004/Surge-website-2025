@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env.development" });
+dotenv.config();
 import { PrismaClient, Categories, Locations } from "@prisma/client";
 
 const prisma = new PrismaClient();
