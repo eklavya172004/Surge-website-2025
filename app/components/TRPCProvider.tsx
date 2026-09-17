@@ -24,7 +24,8 @@ export default function TRPCProvider({ children }: { children: React.ReactNode }
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <trpc.Provider client={trpcClient} queryClient={queryClient as any}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </trpc.Provider>
   );
