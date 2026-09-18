@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgres"
-  url      = env("DATABASE_URL")
+  provider  = "postgres"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -19,6 +20,7 @@ model User {
   emailVerified      DateTime?
   image              String?
   accomActive        Boolean             @default(false)
+  createdAt          DateTime            @default(now())
   Team               Team[]
   verificationTokens VerificationToken[] @relation("UserVerificationTokens")
 }
@@ -76,6 +78,7 @@ model Team {
   paymentDetailsId       String?
   accommodationDetailsId String?
   accommodationPaymentId String?
+  createdAt              DateTime              @default(now())
   AccommodationDetails   AccommodationDetails? @relation(fields: [accommodationDetailsId], references: [id], onDelete: Cascade)
   AccommodationPayment   AccommodationPayment? @relation(fields: [accommodationPaymentId], references: [id], onDelete: Cascade)
   Event                  Event                 @relation(fields: [eventId], references: [id], onDelete: Cascade)
@@ -101,7 +104,12 @@ model AccommodationDetails {
 model AccommodationPayment {
   id                   String                 @id @default(cuid())
   amount               Int
-  paymentProofUrl      String?                @db.VarChar(100)
+  paymentProofUrl      String?                @db.VarChar(255)
+  razorpayOrderId      String?                @unique
+  razorpayPaymentId    String?                @unique
+  razorpaySignature    String?
+  paymentMethod        String?                @default("ONLINE")
+  adminRemarks         String?                @db.VarChar(255)
   changedStatus        DateTime               @default(now())
   createdAt            DateTime               @default(now())
   paymentStatus        PaymentStatus          @default(PENDING)
@@ -110,13 +118,18 @@ model AccommodationPayment {
 }
 
 model PaymentDetails {
-  id              String        @id @default(cuid())
-  paymentStatus   PaymentStatus @default(PENDING)
-  paymentProofUrl String?       @db.VarChar(100)
-  amount          Int
-  changedStatus   DateTime      @default(now())
-  createdAt       DateTime      @default(now())
-  Teams           Team[]
+  id                String        @id @default(cuid())
+  paymentStatus     PaymentStatus @default(PENDING)
+  paymentProofUrl   String?       @db.VarChar(255)
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  paymentMethod     String?       @default("ONLINE")
+  adminRemarks      String?       @db.VarChar(255)
+  amount            Int
+  changedStatus     DateTime      @default(now())
+  createdAt         DateTime      @default(now())
+  Teams             Team[]
 }
 
 model PlayerLog {

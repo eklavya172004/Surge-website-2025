@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env.development" });
+dotenv.config();
 import { PrismaClient, Categories, Locations } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -14,17 +15,18 @@ General Athletics Rules:
 - Athletes must compete in proper running attire and shoes
 `;
 
+const SURGE_START_DATE = new Date("2026-10-30T12:00:00.000Z").toISOString();
+const SURGE_END_DATE = new Date("2026-11-01T12:00:00.000Z").toISOString();
+
 // Function to convert MM/DD/YY to ISO date format
 function convertDate(dateStr: string): string {
-  const [month, day, year] = dateStr.split('/');
-  const fullYear = `20${year}`;
-  return new Date(`${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T00:00:00Z`).toISOString();
+  // Surge 2026: 30, 31 October, 1 November 2026
+  if (dateStr.startsWith("9/")) return SURGE_END_DATE;
+  return SURGE_START_DATE;
 }
 
 async function main() {
-  // Clear the event and related tables before seeding
-  await prisma.team.deleteMany();
-  await prisma.event.deleteMany();
+  // Safe seed: events are upserted below so existing team registrations are preserved.
 
   // Create the required documents
   // Data from events.csv
@@ -94,7 +96,7 @@ async function main() {
       eventImg: "/images/landing/sports/basketball.png",
     },
     {
-      title: "chess",
+      title: "Chess",
       slug: "chess",
       category: Categories.MIXED,
       location: Locations.INDOOR,
@@ -110,7 +112,7 @@ async function main() {
       eventImg: "/sports/chess.png",
     },
     {
-      title: "cricket men",
+      title: "Cricket Men",
       slug: "cricket-men",
       category: Categories.MALE,
       location: Locations.OUTDOOR,
@@ -126,7 +128,7 @@ async function main() {
       eventImg: "/sports/cricket.png",
     },
     {
-      title: "cricket women",
+      title: "Cricket Women",
       slug: "cricket-women",
       category: Categories.FEMALE,
       location: Locations.OUTDOOR,
@@ -142,7 +144,7 @@ async function main() {
       eventImg: "/images/landing/sports/cricket.png",
     },
     {
-      title: "football",
+      title: "Football",
       slug: "football",
       category: Categories.MIXED,
       location: Locations.OUTDOOR,
@@ -158,7 +160,7 @@ async function main() {
       eventImg: "/sports/football.png",
     },
     {
-      title: "futsal",
+      title: "Futsal",
       slug: "futsal",
       category: Categories.MIXED,
       location: Locations.OUTDOOR,
@@ -174,39 +176,87 @@ async function main() {
       eventImg: "/sports/futsal.png",
     },
     {
-      title: "powerlifting Men",
-      slug: "powerlifting-men",
+      title: "Powerlifting Men U66",
+      slug: "powerlifting-men-u66",
       category: Categories.MALE,
       location: Locations.INDOOR,
       dateFrom: convertDate("7/11/25"),
       dateTo: convertDate("9/11/25"),
-      rules: "",
-      winnerPrize: 1500,
-      runnerUpPrize: 1000,
+      rules: "Weight category: Under 66 kg (U66). Squat, Bench Press, and Deadlift.",
+      winnerPrize: 1250,
+      runnerUpPrize: 750,
       minPlayers: 1,
       maxPlayers: 1,
-      pricePerPlayer: 249,
+      pricePerPlayer: 499,
       venue: "Shiv Nadar University- Indoor Sports Complex",
       eventImg: "/images/landing/sports/powerlifting.png",
     },
     {
-      title: "powerlifting Women",
+      title: "Powerlifting Men U74",
+      slug: "powerlifting-men-u74",
+      category: Categories.MALE,
+      location: Locations.INDOOR,
+      dateFrom: convertDate("7/11/25"),
+      dateTo: convertDate("9/11/25"),
+      rules: "Weight category: Under 74 kg (U74). Squat, Bench Press, and Deadlift.",
+      winnerPrize: 1250,
+      runnerUpPrize: 750,
+      minPlayers: 1,
+      maxPlayers: 1,
+      pricePerPlayer: 499,
+      venue: "Shiv Nadar University- Indoor Sports Complex",
+      eventImg: "/images/landing/sports/powerlifting.png",
+    },
+    {
+      title: "Powerlifting Men U83",
+      slug: "powerlifting-men-u83",
+      category: Categories.MALE,
+      location: Locations.INDOOR,
+      dateFrom: convertDate("7/11/25"),
+      dateTo: convertDate("9/11/25"),
+      rules: "Weight category: Under 83 kg (U83). Squat, Bench Press, and Deadlift.",
+      winnerPrize: 1250,
+      runnerUpPrize: 750,
+      minPlayers: 1,
+      maxPlayers: 1,
+      pricePerPlayer: 499,
+      venue: "Shiv Nadar University- Indoor Sports Complex",
+      eventImg: "/images/landing/sports/powerlifting.png",
+    },
+    {
+      title: "Powerlifting Men 83+",
+      slug: "powerlifting-men-83-plus",
+      category: Categories.MALE,
+      location: Locations.INDOOR,
+      dateFrom: convertDate("7/11/25"),
+      dateTo: convertDate("9/11/25"),
+      rules: "Weight category: 83 kg and above (83+). Squat, Bench Press, and Deadlift.",
+      winnerPrize: 1250,
+      runnerUpPrize: 750,
+      minPlayers: 1,
+      maxPlayers: 1,
+      pricePerPlayer: 499,
+      venue: "Shiv Nadar University- Indoor Sports Complex",
+      eventImg: "/images/landing/sports/powerlifting.png",
+    },
+    {
+      title: "Powerlifting Women",
       slug: "powerlifting-women",
       category: Categories.FEMALE,
       location: Locations.INDOOR,
       dateFrom: convertDate("7/11/25"),
       dateTo: convertDate("9/11/25"),
-      rules: "",
-      winnerPrize: 1500,
-      runnerUpPrize: 1000,
+      rules: "Women open category. Squat, Bench Press, and Deadlift.",
+      winnerPrize: 1250,
+      runnerUpPrize: 750,
       minPlayers: 1,
       maxPlayers: 1,
-      pricePerPlayer: 249,
+      pricePerPlayer: 499,
       venue: "Shiv Nadar University- Indoor Sports Complex",
       eventImg: "/images/landing/sports/powerlifting.png",
     },
     {
-      title: "squash Men",
+      title: "Squash Men",
       slug: "squash-men",
       category: Categories.MALE,
       location: Locations.INDOOR,
@@ -302,7 +352,7 @@ async function main() {
       eventImg: "/images/landing/sports/lawn_tennis.png",
     },
     {
-      title: "vollyball Men",
+      title: "Volleyball Men",
       slug: "vollyball-men",
       category: Categories.MALE,
       location: Locations.OUTDOOR,
@@ -318,7 +368,7 @@ async function main() {
       eventImg: "/images/landing/sports/volleyball.png",
     },
     {
-      title: "Vollyball Women",
+      title: "Volleyball Women",
       slug: "vollyball-women",
       category: Categories.FEMALE,
       location: Locations.OUTDOOR,
@@ -334,7 +384,7 @@ async function main() {
       eventImg: "/images/landing/sports/volleyball.png",
     },
     {
-      title: "pool",
+      title: "Pool",
       slug: "pool",
       category: Categories.MIXED,
       location: Locations.INDOOR,
@@ -350,7 +400,7 @@ async function main() {
       eventImg: "/images/landing/sports/pool.png",
     },
     {
-      title: "valorant",
+      title: "Valorant",
       slug: "valorant",
       category: Categories.MIXED,
       location: Locations.INDOOR,
@@ -542,7 +592,7 @@ async function main() {
       eventImg: "/images/landing/sports/athletics.png",
     },
     {
-      title: "Shot put Men",
+      title: "Shot Put Men",
       slug: "shot-put-men",
       category: Categories.MALE,
       location: Locations.OUTDOOR,
@@ -718,7 +768,7 @@ async function main() {
       eventImg: "/images/landing/sports/athletics.png",
     },
     {
-      title: "Shot put Women",
+      title: "Shot Put Women",
       slug: "shot-put-women",
       category: Categories.FEMALE,
       location: Locations.OUTDOOR,
@@ -816,8 +866,24 @@ async function main() {
   ];
 
   for (const event of sportsEvents) {
-    await prisma.event.create({
-      data: {
+    await prisma.event.upsert({
+      where: { slug: event.slug },
+      update: {
+        name: event.title,
+        category: event.category,
+        location: event.location,
+        dateFrom: event.dateFrom,
+        dateTo: event.dateTo,
+        venue: event.venue,
+        rules: event.rules,
+        winnerPrize: event.winnerPrize,
+        runnerUpPrize: event.runnerUpPrize,
+        minPlayers: event.minPlayers,
+        maxPlayers: event.maxPlayers,
+        pricePerPlayer: event.pricePerPlayer,
+        eventImg: event.eventImg,
+      },
+      create: {
         name: event.title,
         slug: event.slug,
         category: event.category,
@@ -831,7 +897,7 @@ async function main() {
         minPlayers: event.minPlayers,
         maxPlayers: event.maxPlayers,
         pricePerPlayer: event.pricePerPlayer,
-        eventImg: event.eventImg, // Hardcoded image path
+        eventImg: event.eventImg,
       },
     });
   }

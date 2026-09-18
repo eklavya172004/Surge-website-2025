@@ -7,12 +7,12 @@ import styles from '../styles/Navbar.module.css';
 import Image from 'next/image'; 
  
 interface NavbarProps { 
-  logoSmallRef: RefObject<HTMLDivElement | null>; 
+  logoSmallRef?: RefObject<HTMLDivElement | null>; 
 } 
  
 export default function Navbar({ logoSmallRef }: NavbarProps) { 
   const rulebookUrl = "https://docs.google.com/document/d/1asukNIo8Kfx_qK9IzvarUcNpbX2Wn9TszDawgh17Jh4/preview"; 
-  const { data: session } = useSession(); 
+  const { data: session, status } = useSession(); 
   const router = useRouter(); 
    
   const handleRulebookClick = () => { 
@@ -33,22 +33,24 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
 
   const handleContactClick = () => {
     router.push('/contact');
-  }
-  
+  };
+
+  const handleHomeClick = () => {
+    router.push('/');
+  };
 
   const handleSponsors = () => {
     router.push('/sponsors');
-  }
+  };
 
   return ( 
 <nav className={styles.nav}> 
   {/* Left nav links */} 
   <ul style={{ position: 'relative', zIndex: 1300 }}> 
-    <li onClick={handleSponsors}>SPONSORS</li> 
-    <li><b>HOME</b></li> 
-    {/* <li><b><a href="https://surgescores.netlify.app/">SCORES</a></b></li>  */}
+    <li className="cursor-pointer" onClick={handleSponsors}>SPONSORS</li> 
+    <li className="cursor-pointer" onClick={handleHomeClick}><b>HOME</b></li> 
     <li  
-      className={styles.externalLink} 
+      className={`${styles.externalLink} cursor-pointer`} 
       onClick={handleRulebookClick} 
     > 
       RULE BOOK 
@@ -56,7 +58,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
   </ul> 
  
   {/* Logo section */} 
-  <div className={styles.logoPlaceholder} style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '10px' }}> 
+  <div className={styles.logoPlaceholder} style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={handleHomeClick}> 
     {/* Small overlay logo */} 
     <div 
       ref={logoSmallRef} 
@@ -79,8 +81,8 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
         }} 
       /> 
       <Image 
-        src="/Subtract.png" 
-        alt="Small logo outline" 
+        src="/Subtract.svg" 
+        alt="Surge 2026 Logo" 
         width={200}
         height={50}
         style={{ 
@@ -95,24 +97,30 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
         }} 
       /> 
     </div> 
- 
-    {/* College logo */} 
- 
   </div> 
  
   {/* Right nav links */} 
   <ul style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '1.5rem' }}> 
-    
-    <li 
-      onClick={handleRegisterClick}
-      className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors"
-    >
-      REGISTER
-    </li>
+    {status !== "loading" && !session && (
+      <li 
+        onClick={handleRegisterClick}
+        className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors"
+      >
+        REGISTER
+      </li>
+    )}
     <li className="hidden md:block cursor-pointer w-fit" onClick={handleContactClick}>CONTACT</li>
-    <li onClick={handleLoginClick} style={{ cursor: 'pointer',width:'fit-content' }}>LOGIN</li> 
+    <li 
+      onClick={handleLoginClick} 
+      className={`cursor-pointer w-fit ${
+        session 
+          ? "bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors" 
+          : "font-semibold"
+      }`}
+    >
+      {session ? "DASHBOARD" : "LOGIN"}
+    </li> 
   </ul> 
 </nav> 
- 
   ); 
 }

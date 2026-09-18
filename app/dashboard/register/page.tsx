@@ -332,7 +332,17 @@ export default function RegisterPage() {
                         <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />
                         <span className="font-semibold text-sm sm:text-base">Duration:</span>
                         <span className="text-sm sm:text-base break-words">
-                          {new Date(selectedEventData.dateFrom).toLocaleDateString()} – {new Date(selectedEventData.dateTo).toLocaleDateString()}
+                          {new Date(selectedEventData.dateFrom).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            timeZone: "Asia/Kolkata",
+                          })} – {new Date(selectedEventData.dateTo).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            timeZone: "Asia/Kolkata",
+                          })}
                         </span>
                       </div>
                     )}

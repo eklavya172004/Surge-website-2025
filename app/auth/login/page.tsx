@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,11 +14,38 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [resending, setResending] = useState(false);
 
   useEffect(() => {
     const msg = searchParams.get("message");
     if (msg) setMessage(msg);
   }, [searchParams]);
+
+  const handleResendVerification = async () => {
+    if (!email) {
+      setError("Please enter your email above first.");
+      return;
+    }
+    setResending(true);
+    try {
+      const res = await fetch("/api/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setMessage("Verification email has been sent! Please check your inbox.");
+        setError("");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.message || "Failed to resend verification email.");
+      }
+    } catch {
+      setError("Error sending verification email. Please try again.");
+    } finally {
+      setResending(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,44 +130,53 @@ export default function LoginPage() {
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-6xl flex items-center justify-center">
           {/* Login card container */}
-          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full h-[550px] relative group md:bg-white/10 md:backdrop-blur-xl md:border-white/20 bg-white border-gray-200">
+          <div className="flex bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden max-w-5xl w-full min-h-[550px] h-auto my-6 relative group md:bg-white/10 md:backdrop-blur-xl md:border-white/20 bg-white border-gray-200">
             {/* Glass effect enhancement - hidden on mobile */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl hidden md:block" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-3xl hidden md:block pointer-events-none" />
 
             {/* Left side - Design image */}
-            <div className="w-1/2 hidden md:flex items-center justify-center p-0 relative overflow-hidden rounded-l-3xl">
+            <div className="w-1/2 hidden md:block relative self-stretch overflow-hidden rounded-l-3xl">
               <Image
                 src="/login/design.png"
                 alt="Design"
-                width={500}
-                height={600}
-                className="w-full h-full object-cover"
+                fill
+                priority
+                className="object-cover"
               />
             </div>
 
             {/* Right side - Form section */}
-            <div className="w-full md:w-1/2 bg-white/95 backdrop-blur-sm md:p-12 p-5 flex flex-col justify-center relative md:bg-white/95 md:backdrop-blur-sm">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl hidden md:block" />
+            <div className="w-full md:w-1/2 bg-white/95 backdrop-blur-sm md:py-8 md:px-10 p-6 flex flex-col justify-center relative md:bg-white/95 md:backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/30 rounded-r-3xl hidden md:block pointer-events-none" />
 
               <div className="relative z-10">
+                {/* Back to Home Link */}
+                <Link
+                  href="/"
+                  className="inline-flex items-center text-xs font-semibold text-blue-700 hover:text-blue-900 mb-3 transition-colors group"
+                >
+                  <span className="mr-1.5 transform group-hover:-translate-x-1 transition-transform">←</span>
+                  Back to Home
+                </Link>
+
                 {/* Welcome title with gradient */}
-                <div className="mb-8">
-                  <h1 className="md:text-4xl text-3xl font-bold bg-gradient-to-r from-[#00308F] via-[#0643A5] to-[#2140A3] bg-clip-text text-transparent mb-2">
+                <div className="mb-4">
+                  <h1 className="md:text-4xl text-3xl font-bold bg-gradient-to-r from-[#00308F] via-[#0643A5] to-[#2140A3] bg-clip-text text-transparent mb-1.5">
                     Welcome
                   </h1>
-                  <div className="w-24 h-1 bg-gradient-to-r from-[#0C56BC] to-[#2140A3] rounded-full" />
+                  <div className="w-20 h-1 bg-gradient-to-r from-[#0C56BC] to-[#2140A3] rounded-full" />
                 </div>
 
                 {/* Message and Error display */}
                 {message && (
                   <div
-                    className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 text-blue-800 p-4 mb-6 rounded-lg shadow-sm animate-fade-in"
+                    className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 text-blue-800 p-3 mb-3.5 rounded-lg shadow-sm animate-fade-in"
                     role="status"
                     aria-live="polite"
                   >
                     <div className="flex items-center">
                       <svg
-                        className="w-5 h-5 mr-3 text-blue-500"
+                        className="w-4 h-4 mr-2.5 text-blue-500 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -151,20 +188,20 @@ export default function LoginPage() {
                           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      {message}
+                      <span className="text-xs">{message}</span>
                     </div>
                   </div>
                 )}
 
                 {error && (
                   <div
-                    className="bg-gradient-to-r from-red-50 to-pink-50 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-lg shadow-sm animate-fade-in"
+                    className="bg-gradient-to-r from-red-50 to-pink-50 border-l-4 border-red-500 text-red-800 p-3 mb-3.5 rounded-lg shadow-sm animate-fade-in"
                     role="alert"
                     aria-live="assertive"
                   >
-                    <div className="flex items-center">
+                    <div className="flex items-start">
                       <svg
-                        className="w-5 h-5 mr-3 text-red-500"
+                        className="w-4 h-4 mr-2.5 text-red-500 flex-shrink-0 mt-0.5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -176,21 +213,35 @@ export default function LoginPage() {
                           d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      {error}
+                      <div className="flex-1">
+                        <p className="text-xs">{error}</p>
+                        {error.toLowerCase().includes("verify") && (
+                          <div className="mt-2.5 pt-2 border-t border-red-200">
+                            <button
+                              type="button"
+                              onClick={handleResendVerification}
+                              disabled={resending}
+                              className="text-xs font-bold text-blue-700 hover:text-blue-900 bg-white hover:bg-blue-50 px-3 py-1 rounded-lg shadow-sm border border-blue-300 transition-colors"
+                            >
+                              {resending ? "Sending link..." : "Click here to resend verification email"}
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Email input with enhanced styling */}
                   <div className="relative group">
-                    <label className="block text-gray-700 text-sm font-semibold mb-2">
+                    <label className="block text-gray-700 text-xs font-semibold mb-1">
                       Email Address
                     </label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-[#0C56BC] transition-colors duration-200">
                         <svg
-                          className="w-5 h-5"
+                          className="w-4 h-4"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -207,7 +258,7 @@ export default function LoginPage() {
                         type="email"
                         name="email"
                         placeholder="Enter your email address"
-                        className="w-full pl-12 p-3 pr-4 py-4 bg-white/80 border-2 border-gray-200/50 rounded-xl text-base placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
+                        className="w-full pl-11 pr-4 py-3 bg-white/80 border-2 border-gray-200/50 rounded-xl text-sm placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -219,13 +270,13 @@ export default function LoginPage() {
 
                   {/* Password input with enhanced styling */}
                   <div className="relative group">
-                    <label className="block text-gray-700 text-sm font-semibold mb-2">
+                    <label className="block text-gray-700 text-xs font-semibold mb-1">
                       Password
                     </label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-[#0C56BC] transition-colors duration-200">
                         <svg
-                          className="w-5 h-5"
+                          className="w-4 h-4"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -242,7 +293,7 @@ export default function LoginPage() {
                         type={showPassword ? "text" : "password"}
                         name="password"
                         placeholder="Enter your password"
-                        className="w-full pl-12 pr-12 py-4 bg-white/80 border-2 border-gray-200/50 rounded-xl text-base placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
+                        className="w-full pl-11 pr-11 py-3 bg-white/80 border-2 border-gray-200/50 rounded-xl text-sm placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#0C56BC] focus:border-[#0C56BC] transition-all duration-300 hover:bg-white/90 hover:shadow-md caret-black"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -251,7 +302,7 @@ export default function LoginPage() {
                       />
                       <button
                         type="button"
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200 p-1"
+                        className="absolute right-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200 p-1"
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={
                           showPassword ? "Hide password" : "Show password"
@@ -259,7 +310,7 @@ export default function LoginPage() {
                       >
                         {showPassword ? (
                           <svg
-                            className="w-5 h-5"
+                            className="w-4 h-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -273,7 +324,7 @@ export default function LoginPage() {
                           </svg>
                         ) : (
                           <svg
-                            className="w-5 h-5"
+                            className="w-4 h-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -294,13 +345,22 @@ export default function LoginPage() {
                         )}
                       </button>
                     </div>
+                    {/* Forgot password link */}
+                    <div className="flex justify-end mt-1.5">
+                      <Link
+                        href="/auth/forgot-password"
+                        className="text-xs font-medium text-blue-700 hover:text-blue-900 hover:underline"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
                   </div>
 
                   {/* Login button with enhanced styling */}
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full py-4 px-6 bg-gradient-to-r from-[#0C56BC] via-[#2140A3] to-[#00308F] hover:from-[#0643A5] hover:via-[#00308F] hover:to-[#2140A3] text-white rounded-xl font-bold text-base uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 relative overflow-hidden group ${
+                    className={`w-full py-3.5 px-6 bg-gradient-to-r from-[#0C56BC] via-[#2140A3] to-[#00308F] hover:from-[#0643A5] hover:via-[#00308F] hover:to-[#2140A3] text-white rounded-xl font-bold text-sm uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 relative overflow-hidden group ${
                       loading
                         ? "opacity-70 cursor-not-allowed transform-none"
                         : ""
@@ -312,7 +372,7 @@ export default function LoginPage() {
                       {loading ? (
                         <>
                           <svg
-                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            className="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -341,8 +401,8 @@ export default function LoginPage() {
                 </form>
 
                 {/* Registration link with enhanced styling */}
-                <div className="text-center mt-8">
-                  <p className="text-gray-600 text-sm">
+                <div className="text-center mt-5">
+                  <p className="text-gray-600 text-xs">
                     Don&apos;t have an account yet?{" "}
                     <a
                       href="/auth/register"

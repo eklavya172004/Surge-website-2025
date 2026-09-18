@@ -199,6 +199,9 @@ export default function Footer() {
 
       {/* Footer Line */}
       <div className={styles.footerLine}></div>
+      <div className="text-center text-xs text-gray-500 py-4 font-medium tracking-wide">
+        © 2026 Surge. All rights reserved. Shiv Nadar Institution of Eminence (SNIoE).
+      </div>
     </footer>
   );
 }

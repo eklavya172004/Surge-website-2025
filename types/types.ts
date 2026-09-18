@@ -2382,7 +2382,28 @@ export const matchFixtures: MatchData = {
   ],
   Powerlifting: [
     {
-      name: "Powerlifting - Men",
+      name: "Powerlifting Men - U66",
+      gold: "-",
+      silver: "-",
+      bronze: "-",
+      time: "2024-11-16T09:00:00",
+    },
+    {
+      name: "Powerlifting Men - U74",
+      gold: "-",
+      silver: "-",
+      bronze: "-",
+      time: "2024-11-16T09:00:00",
+    },
+    {
+      name: "Powerlifting Men - U83",
+      gold: "-",
+      silver: "-",
+      bronze: "-",
+      time: "2024-11-16T09:00:00",
+    },
+    {
+      name: "Powerlifting Men - 83+",
       gold: "-",
       silver: "-",
       bronze: "-",
