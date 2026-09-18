@@ -423,7 +423,7 @@ export default function PaymentPage() {
                             placeholder="e.g. pay_Q8aBCdef123456 or 12-digit UPI Reference"
                             value={transactionId}
                             onChange={(e) => setTransactionId(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3.5 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-mono"
+                            className="w-full pl-11 pr-4 py-3.5 text-sm sm:text-base bg-white text-gray-900 placeholder:text-gray-400 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono font-medium shadow-sm"
                           />
                         </div>
                         <p className="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
