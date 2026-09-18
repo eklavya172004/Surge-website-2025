@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 
-const RAZORPAY_PAYMENT_LINK = process.env.NEXT_PUBLIC_RAZORPAY_PAYMENT_LINK || "https://rzp.io/rzp/NTy26qf";
+const RAZORPAY_PAYMENT_LINK = process.env.NEXT_PUBLIC_RAZORPAY_PAYMENT_LINK || "";
 
 export default function PaymentPage() {
   const [transactionId, setTransactionId] = useState("");
