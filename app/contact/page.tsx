@@ -6,46 +6,35 @@ import Navbar from "@/app/components/Navbar";
 export default function ContactUs() {
   const coordinators = [
     {
-      name: "Ananth",
-      image:
-        "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2M9JoisgAcX7ulQiYq1Rxdg32VGBJ8IsUKrea",
-      role: "Chairperson",
-      phone: "8870819312",
-    },
-    {
-      name: "Girish Rajendran",
-      image:
-        "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2hy47TfNyQsqOtjE5IKP2A0m17uke8lSLMvUG",
-      role: "Co-Chairperson",
-      phone: "7418444327",
-    },
-    {
       name: "Prithviraj Jhunjhunwala",
       image:
         "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX21d4qKHeDnkpuaw7tvyVr6PjTJYBgXxFdKc2W",
-      role: "Co - Chairperson",
+      role: "Chairperson",
       phone: "+91 6290 742 854",
     },
     {
-      name: "Snehil",
-      image:
-        "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX23YzzpEVFJ1wHRbDUz69TQqEoIdgvYsZrhkLO",
+      name: "TBA",
+      image: "/placeholder-avatar.svg",
+      role: "Co-Chairperson",
+      phone: "",
+    },
+    {
+      name: "TBA",
+      image: "/placeholder-avatar.svg",
       role: "Sports Secretary",
-      phone: "9502985728",
+      phone: "",
     },
     {
-      name: "Ashwin Srv",
-      image:
-        "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2F6hktPDBLI6qgx4MEpfAYCG92zhHQVPkBcDj",
+      name: "TBA",
+      image: "/placeholder-avatar.svg",
       role: "Administrator",
-      phone: "8885678388",
+      phone: "",
     },
     {
-      name: "Maahir",
-      image:
-        "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2nmkIEiFb1vBJtNG7hTcyIAwmde6ofP3aVRM2",
+      name: "TBA",
+      image: "/placeholder-avatar.svg",
       role: "Administrator",
-      phone: "7904732212",
+      phone: "",
     },
   ];
   
@@ -54,14 +43,12 @@ export default function ContactUs() {
       category: "PR",
       members: [
         {
-          name: "Diggaj Rupani",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX22XEeoSJJZfXuOWqyc1QotwR6EB3vkSCVpD0i",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Tanisha",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX205SpODGuNLmhHpTJSxBRwQ1K5dXPoeik3MOD",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -69,14 +56,12 @@ export default function ContactUs() {
       category: "Sponsorship",
       members: [
         {
-          name: "Neerav Nagori",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2Vp7v720EbRg1lCYvjia9pN4kfcLseD0B357Z",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Shanaya Khullar",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2gnZD3skFQqURHN35Ib2X8LOCpAntJehsrcBP",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -84,14 +69,12 @@ export default function ContactUs() {
       category: "Web Dev",
       members: [
         {
-          name: "Shree",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2PIvrmPCXavw4rJT2VcU90bhsYABdyHOFExmC",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Eklavya",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX23JmUKTVFJ1wHRbDUz69TQqEoIdgvYsZrhkLO",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -99,14 +82,12 @@ export default function ContactUs() {
       category: "Marketing",
       members: [
         {
-          name: "Jai Mishra",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2XWPlqXpybAnvL0VUOphdfsiwMqeEaKB81jtZ",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Sai Asmita",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2bkqsZt2ZmXIkTzESPNtQ9MGA1YFc0HUK6Jrp",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -114,30 +95,25 @@ export default function ContactUs() {
       category: "Esports",
       members: [
         {
-          name: "Adhityaa R",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2X9qXD4pybAnvL0VUOphdfsiwMqeEaKB81jtZ",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "DEV",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2tkppRRUHXjlPR8cG5zvYBUEswOT2fxn3eoqA",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
-
     {
       category: "Content",
       members: [
         {
-          name: "Antara",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2otlgjX1Ezw2HGg3BrdikMVjJAC4lKemND5YF",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Sanjith Arun",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2yWosb3fKqQ5dgiIfMuCLcbBztjDrwUZ8xmX0",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -145,14 +121,12 @@ export default function ContactUs() {
       category: "Videography",
       members: [
         {
-          name: "Konda Sreeniketh",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2XAIFZUFpybAnvL0VUOphdfsiwMqeEaKB81jt",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Nithin",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2fwg9f4YLEyaRjDgnxK1UiOqCSV6rTePuWwt0",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -160,14 +134,12 @@ export default function ContactUs() {
       category: "Design",
       members: [
         {
-          name: "Devanshi Mitruka",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2q7RrAz9BhfsM3dPgWFDOmXiAZpSLT8RJU2Cy",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
         {
-          name: "Siddh Jain",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX2NT4uYBx9ad3ohUZlbtsBAgHwVCD14q5Kc6Ok",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -175,9 +147,8 @@ export default function ContactUs() {
       category: "Creative Lead",
       members: [
         {
-          name: "Harshita",
-          image:
-            "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX27TYTFAHwsBUbZNLuP7EWqrYxn6CdoMXVvQte",
+          name: "TBA",
+          image: "/placeholder-avatar.svg",
         },
       ],
     },
@@ -257,9 +228,7 @@ export default function ContactUs() {
                   <img
                     src={coord.image}
                     alt={coord.name}
-                    className={`w-full h-full object-cover ${
-                      coord.name === "Ashwin Srv" ? "scale-125" : ""
-                    }`}
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <p className="text-sm text-blue-300 mb-1 font-medium">

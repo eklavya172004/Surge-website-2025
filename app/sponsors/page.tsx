@@ -184,16 +184,6 @@ export default function Sponsors() {
             </a>
           ))}
         </div>
-
-        <div className="section-line mt-16" />
-
-        {/* Footer Text */}
-        <div className="text-center mt-12">
-          <p className="text-blue-300 text-lg">
-            Thank you to our sponsors for their continued support
-          </p>
-        </div>
-
       </div>
     </div>
   );

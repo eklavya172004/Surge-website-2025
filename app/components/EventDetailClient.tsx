@@ -20,9 +20,14 @@ type PlayerDetails = {
 
 function formatDate(d?: string | Date | null) {
   if (!d) return "TBA";
-  if (typeof d === "string") return d;
   try {
-    return d.toLocaleDateString();
+    const dateObj = typeof d === "string" ? new Date(d) : d;
+    return dateObj.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      timeZone: "Asia/Kolkata",
+    });
   } catch {
     return String(d);
   }
