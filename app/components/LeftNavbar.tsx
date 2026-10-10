@@ -1,7 +1,7 @@
 'use client';
 
 export default function LeftNavbar() {
-  const rulebookUrl = "https://docs.google.com/document/d/1asukNIo8Kfx_qK9IzvarUcNpbX2Wn9TszDawgh17Jh4/preview";
+  const rulebookUrl = "https://docs.google.com/document/d/1JxvtOm-qu307XSrBc2CChQ40czm685RAAX4sHn98vuM/edit?usp=sharing";
   
   const handleRulebookClick = () => {
     window.open(rulebookUrl, '_blank', 'noopener,noreferrer');

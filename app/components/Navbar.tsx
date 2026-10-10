@@ -11,7 +11,7 @@ interface NavbarProps {
 } 
  
 export default function Navbar({ logoSmallRef }: NavbarProps) { 
-  const rulebookUrl = "https://docs.google.com/document/d/1asukNIo8Kfx_qK9IzvarUcNpbX2Wn9TszDawgh17Jh4/preview"; 
+  const rulebookUrl = "https://docs.google.com/document/d/1JxvtOm-qu307XSrBc2CChQ40czm685RAAX4sHn98vuM/edit?usp=sharing"; 
   const { data: session, status } = useSession(); 
   const router = useRouter(); 
    
