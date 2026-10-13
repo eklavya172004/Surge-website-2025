@@ -29,6 +29,7 @@ export async function POST(req: Request) {
         registeredById: session.user.id,
         OR: [
           { paymentDetailsId: null },
+          { PaymentDetails: { paymentStatus: "NOT_PAID" } },
           { PaymentDetails: { paymentStatus: "PENDING" } },
         ],
       },

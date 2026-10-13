@@ -112,9 +112,15 @@ export default function MyEventsClient() {
                               <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
                                 team.PaymentDetails?.paymentStatus === "PAID"
                                   ? "bg-green-100 text-green-800 border border-green-200" 
-                                  : "bg-yellow-100 text-yellow-800 border border-yellow-200"
+                                  : team.PaymentDetails?.paymentStatus === "PENDING"
+                                  ? "bg-yellow-100 text-yellow-800 border border-yellow-200"
+                                  : "bg-red-100 text-red-800 border border-red-200"
                               }`}>
-                                {team.PaymentDetails?.paymentStatus === "PAID" ? "PAID" : "PENDING"}
+                                {team.PaymentDetails?.paymentStatus === "PAID" 
+                                  ? "PAID" 
+                                  : team.PaymentDetails?.paymentStatus === "PENDING"
+                                  ? "PENDING VERIFICATION"
+                                  : "NOT PAID"}
                               </div>
                             </div>
                           </div>
