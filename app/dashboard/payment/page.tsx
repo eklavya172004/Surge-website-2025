@@ -44,6 +44,7 @@ export default function PaymentPage() {
   const payableTeams = useMemo(() => {
     return teams?.filter((t) => {
       if (!t.paymentDetailsId) return true;
+      if (t.PaymentDetails?.paymentStatus === "NOT_PAID") return true;
       if (t.PaymentDetails?.paymentStatus === "PENDING" && t.PaymentDetails?.paymentMethod === "RAZORPAY") return true;
       return false;
     }) ?? [];
@@ -97,6 +98,7 @@ export default function PaymentPage() {
     for (const team of teams) {
       const pid = team.paymentDetailsId;
       if (!pid) continue; // Only show submitted transactions in history
+      if (team.PaymentDetails?.paymentStatus === "NOT_PAID") continue; // Show unpaid registrations in the pending fee section above
 
       if (!map.has(pid)) {
         map.set(pid, {
@@ -171,6 +173,7 @@ export default function PaymentPage() {
           borderColor: "border-yellow-200",
           icon: <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />,
         };
+      case "NOT_PAID":
       case "REJECTED":
         return {
           color: "from-red-500 to-rose-600",

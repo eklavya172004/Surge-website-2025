@@ -59,8 +59,25 @@ export const regRouter = createTRPCRouter({
         throw new Error(`Maximum ${event.maxPlayers} players allowed for this event.`);
       }
       
+      // Calculate registration fee
+      const pricePerPlayer = event.pricePerPlayer || 0;
+      const totalAmount = pricePerPlayer * players.length;
+
+      // Create PaymentDetails in NOT_PAID state immediately
+      const payment = await ctx.db.paymentDetails.create({
+        data: {
+          amount: totalAmount,
+          paymentStatus: "NOT_PAID",
+          paymentMethod: "ONLINE",
+        },
+      });
+
       const team = await ctx.db.team.create({
-        data: { registeredById: userId, eventId: eventId },
+        data: {
+          registeredById: userId,
+          eventId: eventId,
+          paymentDetailsId: payment.id,
+        },
       });
       await ctx.db.teamMember.createMany({
         data: players.map((player) => ({
@@ -77,8 +94,14 @@ export const regRouter = createTRPCRouter({
   getCart: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
     return await ctx.db.team.findMany({
-      where: { registeredById: userId, paymentDetailsId: null },
-      include: { Event: true, TeamMembers: true },
+      where: {
+        registeredById: userId,
+        OR: [
+          { paymentDetailsId: null },
+          { PaymentDetails: { paymentStatus: "NOT_PAID" } },
+        ],
+      },
+      include: { Event: true, TeamMembers: true, PaymentDetails: true },
     });
   }),
   deleteTeamFromCart: protectedProcedure
@@ -87,13 +110,24 @@ export const regRouter = createTRPCRouter({
       const { teamId } = input;
       const userId = ctx.session.user.id;
       const team = await ctx.db.team.findFirst({
-        where: { id: teamId, registeredById: userId, paymentDetailsId: null },
+        where: {
+          id: teamId,
+          registeredById: userId,
+          OR: [
+            { paymentDetailsId: null },
+            { PaymentDetails: { paymentStatus: "NOT_PAID" } },
+          ],
+        },
       });
       if (!team) {
         throw new Error("Team not found or already paid for.");
       }
+      const paymentId = team.paymentDetailsId;
       await ctx.db.teamMember.deleteMany({ where: { teamId: team.id } });
       await ctx.db.team.delete({ where: { id: team.id } });
+      if (paymentId) {
+        await ctx.db.paymentDetails.delete({ where: { id: paymentId } }).catch(() => null);
+      }
       return { success: true };
     }),
   migrateLocalCartToDb: protectedProcedure
@@ -160,7 +194,10 @@ export const regRouter = createTRPCRouter({
           where: { 
             registeredById: userId, 
             eventId: eventId,
-            paymentDetailsId: null,
+            OR: [
+              { paymentDetailsId: null },
+              { PaymentDetails: { paymentStatus: "NOT_PAID" } },
+            ],
           },
         });
 
@@ -174,11 +211,23 @@ export const regRouter = createTRPCRouter({
           continue;
         }
 
+        const pricePerPlayer = event.pricePerPlayer || 0;
+        const totalAmount = pricePerPlayer * players.length;
+
+        const payment = await ctx.db.paymentDetails.create({
+          data: {
+            amount: totalAmount,
+            paymentStatus: "NOT_PAID",
+            paymentMethod: "ONLINE",
+          },
+        });
+
         // Create a new team in the database
         const team = await ctx.db.team.create({
           data: { 
             registeredById: userId, 
             eventId: eventId,
+            paymentDetailsId: payment.id,
           },
         });
 
