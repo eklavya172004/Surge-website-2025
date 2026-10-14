@@ -12,7 +12,7 @@ const SPORTS_LIST = [
   { name: "Chess", image: "/sports/chess.png", href: "/dashboard/register" },
   { name: "Cricket", image: "/sports/cricket.png", href: "/dashboard/register" },
   { name: "Football", image: "/sports/football.png", href: "/dashboard/register" },
-  { name: "Futsal", image: "/sports/futsal.png", href: "/dashboard/register" },
+  { name: "Futsal Women", image: "/sports/futsal.png", href: "/dashboard/register" },
   { name: "Powerlifting", image: "/sports/powerlift.png", href: "/dashboard/register" },
 ];
 

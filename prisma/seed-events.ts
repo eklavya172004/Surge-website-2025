@@ -160,9 +160,9 @@ async function main() {
       eventImg: "/sports/football.png",
     },
     {
-      title: "Futsal",
-      slug: "futsal",
-      category: Categories.MIXED,
+      title: "Futsal Women",
+      slug: "futsal-women",
+      category: Categories.FEMALE,
       location: Locations.OUTDOOR,
       dateFrom: convertDate("7/11/25"),
       dateTo: convertDate("9/11/25"),
