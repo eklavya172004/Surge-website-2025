@@ -18,7 +18,7 @@ const eventTitlesBySlug: Record<string, string> = {
   "cricket-men": "Cricket Men",
   "cricket-women": "Cricket Women",
   "football": "Football",
-  "futsal": "Futsal",
+  "futsal-women": "Futsal Women",
   "powerlifting-men-u66": "Powerlifting Men U66",
   "powerlifting-men-u74": "Powerlifting Men U74",
   "powerlifting-men-u83": "Powerlifting Men U83",

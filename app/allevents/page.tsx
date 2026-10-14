@@ -122,7 +122,7 @@ export default function AllEventsGrid() {
                   className={styles.gradient}
                   alt="Gradient"
                 />
-                <div className={styles.overlay_text_small}>Futsal</div>
+                <div className={styles.overlay_text_small}>Futsal Women</div>
               </div>
               <div className={styles.image_wrapper}>
                 <Image
