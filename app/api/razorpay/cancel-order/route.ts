@@ -10,22 +10,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { paymentDetailsId } = await req.json();
-    if (!paymentDetailsId) {
-      return NextResponse.json({ error: "Missing paymentDetailsId" }, { status: 400 });
+    const body = await req.json();
+    const idsToCancel: string[] = body.paymentDetailsIds || (body.paymentDetailsId ? [body.paymentDetailsId] : []);
+
+    if (idsToCancel.length === 0) {
+      return NextResponse.json({ error: "Missing paymentDetailsId or paymentDetailsIds" }, { status: 400 });
     }
 
-    const payment = await db.paymentDetails.findUnique({
-      where: { id: paymentDetailsId },
+    const payments = await db.paymentDetails.findMany({
+      where: { id: { in: idsToCancel } },
       include: { Teams: true },
     });
 
-    if (!payment) {
-      return NextResponse.json({ error: "Payment not found" }, { status: 404 });
+    if (payments.length === 0) {
+      return NextResponse.json({ error: "Payments not found" }, { status: 404 });
     }
 
     // Only allow cancelling if still PENDING
-    if (payment.paymentStatus !== "PENDING") {
+    const nonPending = payments.some((p) => p.paymentStatus !== "PENDING");
+    if (nonPending) {
       return NextResponse.json(
         { error: "Cannot cancel a payment that is already confirmed or rejected." },
         { status: 400 }
@@ -33,23 +36,27 @@ export async function POST(req: Request) {
     }
 
     // Check that the teams belong to this user
-    const unauthorized = payment.Teams.some((t) => t.registeredById !== session.user.id);
-    if (unauthorized) {
-      return NextResponse.json({ error: "Unauthorized access to this payment." }, { status: 403 });
+    for (const payment of payments) {
+      const unauthorized = payment.Teams.some((t) => t.registeredById !== session.user.id);
+      if (unauthorized) {
+        return NextResponse.json({ error: "Unauthorized access to this payment." }, { status: 403 });
+      }
     }
 
-    // Unlink teams from this payment
-    await db.team.updateMany({
-      where: { paymentDetailsId },
-      data: { paymentDetailsId: null },
+    // Safely reset payment status back to NOT_PAID without deleting any records
+    await db.paymentDetails.updateMany({
+      where: { id: { in: idsToCancel } },
+      data: {
+        paymentStatus: "NOT_PAID",
+        paymentProofUrl: null,
+        razorpayPaymentId: null,
+        razorpayOrderId: null,
+        razorpaySignature: null,
+        changedStatus: new Date(),
+      },
     });
 
-    // Delete the pending PaymentDetails record
-    await db.paymentDetails.delete({
-      where: { id: paymentDetailsId },
-    });
-
-    return NextResponse.json({ success: true, message: "Order cancelled successfully." });
+    return NextResponse.json({ success: true, message: "Submission cancelled and returned to unpaid status." });
   } catch (error) {
     console.error("Error cancelling order:", error);
     return NextResponse.json(

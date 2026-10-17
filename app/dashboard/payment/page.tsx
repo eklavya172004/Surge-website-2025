@@ -66,15 +66,15 @@ export default function PaymentPage() {
   // Track which order is currently being cancelled
   const [cancellingId, setCancellingId] = useState<string | null>(null);
 
-  const handleCancelOrder = async (paymentId: string) => {
-    if (!confirm("Are you sure you want to cancel this pending submission? Your team will return to unpaid status so you can resubmit.")) return;
+  const handleCancelOrder = async (paymentIds: string[]) => {
+    if (!confirm("Are you sure you want to cancel this pending submission? Your teams will return to unpaid status so you can resubmit.")) return;
 
-    setCancellingId(paymentId);
+    setCancellingId(paymentIds[0]);
     try {
       const res = await fetch("/api/razorpay/cancel-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentDetailsId: paymentId }),
+        body: JSON.stringify({ paymentDetailsIds: paymentIds }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -90,7 +90,7 @@ export default function PaymentPage() {
     }
   };
 
-  // Group teams by paymentDetailsId for Payment History
+  // Group teams by transaction proof/reference for Payment History
   const groupedPayments = useMemo(() => {
     if (!teams) return [];
 
@@ -100,11 +100,17 @@ export default function PaymentPage() {
       if (!pid) continue; // Only show submitted transactions in history
       if (team.PaymentDetails?.paymentStatus === "NOT_PAID") continue; // Show unpaid registrations in the pending fee section above
 
-      if (!map.has(pid)) {
-        map.set(pid, {
+      const groupKey =
+        team.PaymentDetails?.paymentProofUrl ||
+        team.PaymentDetails?.razorpayPaymentId ||
+        pid;
+
+      if (!map.has(groupKey)) {
+        map.set(groupKey, {
           id: pid,
+          paymentDetailsIds: [pid],
           paymentStatus: team.PaymentDetails?.paymentStatus ?? "PENDING",
-          amount: team.PaymentDetails?.amount ?? 0,
+          amount: 0,
           paymentMethod: team.PaymentDetails?.paymentMethod ?? "MANUAL",
           razorpayPaymentId: team.PaymentDetails?.razorpayPaymentId,
           razorpayOrderId: team.PaymentDetails?.razorpayOrderId,
@@ -112,8 +118,15 @@ export default function PaymentPage() {
           createdAt: team.PaymentDetails?.createdAt ?? null,
           teams: [],
         });
+      } else {
+        const item = map.get(groupKey);
+        if (!item.paymentDetailsIds.includes(pid)) {
+          item.paymentDetailsIds.push(pid);
+        }
       }
-      map.get(pid).teams.push(team);
+      const item = map.get(groupKey);
+      item.amount += team.PaymentDetails?.amount ?? 0;
+      item.teams.push(team);
     }
     return Array.from(map.values()).sort((a, b) => {
       const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
@@ -584,11 +597,11 @@ export default function PaymentPage() {
                           </p>
                           <div className="flex items-center gap-2">
                             <button
-                              onClick={() => handleCancelOrder(payment.id)}
-                              disabled={cancellingId === payment.id}
+                              onClick={() => handleCancelOrder(payment.paymentDetailsIds)}
+                              disabled={cancellingId !== null}
                               className="px-3.5 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-lg border border-red-200 transition-colors"
                             >
-                              {cancellingId === payment.id ? "Cancelling..." : "Cancel & Resubmit"}
+                              {cancellingId && payment.paymentDetailsIds.includes(cancellingId) ? "Cancelling..." : "Cancel & Resubmit"}
                             </button>
                           </div>
                         </div>

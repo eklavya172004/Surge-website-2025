@@ -47,61 +47,39 @@ export const paymentRouter = createTRPCRouter({
         return total + team.Event.pricePerPlayer * team.TeamMembers.length;
       }, 0);
 
-      const existingPaymentIds = Array.from(
-        new Set(
-          teams
-            .map((t) => t.paymentDetailsId)
-            .filter((id): id is string => Boolean(id))
-        )
-      );
+      // Keep each team on its own individual 1-to-1 PaymentDetails record with its exact sport fee
+      // This ensures Retool shows accurate per-sport amounts and allows verifying each sport individually
+      for (const team of teams) {
+        const teamFee = (team.Event.pricePerPlayer || 0) * team.TeamMembers.length;
 
-      let finalPaymentId: string;
-
-      if (existingPaymentIds.length === 1) {
-        // Update existing NOT_PAID PaymentDetails record to PENDING
-        finalPaymentId = existingPaymentIds[0];
-        await ctx.db.paymentDetails.update({
-          where: { id: finalPaymentId },
-          data: {
-            amount: totalAmount,
-            paymentProofUrl: transactionId,
-            paymentStatus: "PENDING",
-            changedStatus: new Date(),
-          },
-        });
-        await ctx.db.team.updateMany({
-          where: { id: { in: teamIds } },
-          data: { paymentDetailsId: finalPaymentId },
-        });
-      } else {
-        // If multiple different payment IDs or legacy null teams paying together, create or consolidate
-        const payment = await ctx.db.paymentDetails.create({
-          data: {
-            paymentProofUrl: transactionId,
-            amount: totalAmount,
-            paymentStatus: "PENDING",
-            paymentMethod: "ONLINE",
-            changedStatus: new Date(),
-          },
-        });
-        finalPaymentId = payment.id;
-
-        await ctx.db.team.updateMany({
-          where: { id: { in: teamIds } },
-          data: { paymentDetailsId: finalPaymentId },
-        });
-
-        // Clean up any old orphaned NOT_PAID records
-        if (existingPaymentIds.length > 0) {
-          for (const oldId of existingPaymentIds) {
-            const count = await ctx.db.team.count({ where: { paymentDetailsId: oldId } });
-            if (count === 0) {
-              await ctx.db.paymentDetails.delete({ where: { id: oldId } }).catch(() => null);
-            }
-          }
+        if (team.paymentDetailsId) {
+          await ctx.db.paymentDetails.update({
+            where: { id: team.paymentDetailsId },
+            data: {
+              amount: teamFee,
+              paymentProofUrl: transactionId,
+              paymentStatus: "PENDING",
+              paymentMethod: "ONLINE",
+              changedStatus: new Date(),
+            },
+          });
+        } else {
+          const newPayment = await ctx.db.paymentDetails.create({
+            data: {
+              amount: teamFee,
+              paymentProofUrl: transactionId,
+              paymentStatus: "PENDING",
+              paymentMethod: "ONLINE",
+              changedStatus: new Date(),
+            },
+          });
+          await ctx.db.team.update({
+            where: { id: team.id },
+            data: { paymentDetailsId: newPayment.id },
+          });
         }
       }
 
-      return { id: finalPaymentId, amount: totalAmount, paymentStatus: "PENDING" };
+      return { success: true, count: teams.length, amount: totalAmount, paymentStatus: "PENDING" };
     }),
 });
