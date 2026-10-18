@@ -37,10 +37,15 @@ export default function EventDetailClient({ slug }: Props) {
   const { data: events, isLoading, error } = trpc.event.getAllEvents.useQuery();
   const router = useRouter();
 
-  // compute event from query result to avoid needing a nullable state
   const event = useMemo(
     () => (events ? events.find((e) => e.slug === slug) ?? null : null),
     [events, slug]
+  );
+
+  const isCricketMen = Boolean(
+    event &&
+      (event.slug === "cricket-men" ||
+        event.name.toLowerCase() === "cricket men")
   );
 
   const [players, setPlayers] = useState<number>(1);
@@ -84,6 +89,11 @@ export default function EventDetailClient({ slug }: Props) {
       return;
     }
 
+    if (isCricketMen) {
+      setMessage("Registration is closed for Cricket Men (Closed due to excess participants, hope to see you in Surge’27!!)");
+      return;
+    }
+
     if (players < minPlayers || players > maxPlayers) {
       setMessage(`Players must be between ${minPlayers} and ${maxPlayers}.`);
       return;
@@ -108,6 +118,24 @@ export default function EventDetailClient({ slug }: Props) {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>{event.name}</h1>
+        {isCricketMen && (
+          <div
+            style={{
+              display: "inline-block",
+              backgroundColor: "#fee2e2",
+              color: "#b91c1c",
+              padding: "6px 14px",
+              borderRadius: "8px",
+              fontSize: "14px",
+              fontWeight: "700",
+              marginTop: "8px",
+              marginBottom: "8px",
+              border: "1px solid #fca5a5",
+            }}
+          >
+            Closed due to excess participants, hope to see you in Surge’27!!
+          </div>
+        )}
         <div className={styles.venue}>
           {event.venue} • {formatDate(event.dateFrom)} - {formatDate(event.dateTo)}
         </div>
@@ -145,46 +173,68 @@ export default function EventDetailClient({ slug }: Props) {
 
         <aside className={styles.right}>
           <div className={styles.card}>
-            <h3>Register Team</h3>
+            {isCricketMen ? (
+              <div style={{ textAlign: "center", padding: "16px 8px" }}>
+                <span style={{ fontSize: "36px" }}>🏏</span>
+                <h3 style={{ color: "#dc2626", marginTop: 8, marginBottom: 8, fontWeight: "800" }}>
+                  Registration Closed
+                </h3>
+                <p style={{ color: "#b91c1c", fontWeight: "700", fontSize: "15px", lineHeight: "1.4" }}>
+                  Closed due to excess participants, hope to see you in Surge’27!!
+                </p>
+                <p style={{ color: "#6b7280", fontSize: "13px", marginTop: 12 }}>
+                  We have reached full participant capacity for Cricket Men. Registration for Cricket Women and other sports events remain open.
+                </p>
+                <Link href="/dashboard/register" style={{ display: "inline-block", marginTop: 16 }}>
+                  <button className={styles.button}>
+                    Browse Other Sports
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <>
+                <h3>Register Team</h3>
 
-            <label className={styles.label}>Players</label>
-            <input
-              type="number"
-              min={minPlayers}
-              max={maxPlayers}
-              value={players}
-              onChange={(e) => setPlayers(Number(e.target.value))}
-              className={styles.input}
-            />
-            <div className={styles.help}>
-              Select number of players ({minPlayers} - {maxPlayers})
-            </div>
+                <label className={styles.label}>Players</label>
+                <input
+                  type="number"
+                  min={minPlayers}
+                  max={maxPlayers}
+                  value={players}
+                  onChange={(e) => setPlayers(Number(e.target.value))}
+                  className={styles.input}
+                />
+                <div className={styles.help}>
+                  Select number of players ({minPlayers} - {maxPlayers})
+                </div>
 
-            <label className={styles.label}>
-              <input
-                type="checkbox"
-                checked={accommodation}
-                onChange={(e) => setAccommodation(e.target.checked)}
-              />{" "}
-              Need accommodation
-            </label>
+                <label className={styles.label}>
+                  <input
+                    type="checkbox"
+                    checked={accommodation}
+                    onChange={(e) => setAccommodation(e.target.checked)}
+                  />{" "}
+                  Need accommodation
+                </label>
 
-            <div style={{ marginTop: 12 }}>
-              <button 
-                className={styles.button} 
-                onClick={registerTeam}
-                disabled={createTeamMutation.isPending}
-              >
-                {createTeamMutation.isPending ? "Registering..." : "Register Team"}
-              </button>
-              <Link href="/dashboard/cart">
-                <button className={styles.button_secondary} style={{ marginLeft: 8 }}>
-                  View Cart
-                </button>
-              </Link>
-            </div>
+                <div style={{ marginTop: 12 }}>
+                  <button 
+                    className={styles.button} 
+                    onClick={registerTeam}
+                    disabled={createTeamMutation.isPending}
+                  >
+                    {createTeamMutation.isPending ? "Registering..." : "Register Team"}
+                  </button>
+                  <Link href="/dashboard/cart">
+                    <button className={styles.button_secondary} style={{ marginLeft: 8 }}>
+                      View Cart
+                    </button>
+                  </Link>
+                </div>
 
-            {message && <div className={styles.message}>{message}</div>}
+                {message && <div className={styles.message}>{message}</div>}
+              </>
+            )}
           </div>
         </aside>
       </div>

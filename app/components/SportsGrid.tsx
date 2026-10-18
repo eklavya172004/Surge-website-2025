@@ -56,6 +56,46 @@ export default function SportsGrid() {
           EVENTS
         </motion.div>
 
+        {/* Cricket Men Closed Notice Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
+          style={{
+            margin: "0 20px 20px 20px",
+            padding: "14px 22px",
+            background: "linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%)",
+            border: "1.5px solid #fecaca",
+            borderRadius: "16px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            boxShadow: "0 4px 14px rgba(239, 68, 68, 0.08)",
+          }}
+        >
+          <span style={{ fontSize: "22px", flexShrink: 0 }}>🏏</span>
+          <div style={{ color: "#991b1b", fontSize: "14px", fontWeight: "600", lineHeight: "1.4" }}>
+            <span
+              style={{
+                display: "inline-block",
+                backgroundColor: "#dc2626",
+                color: "#ffffff",
+                fontSize: "11px",
+                fontWeight: "800",
+                padding: "2px 8px",
+                borderRadius: "6px",
+                marginRight: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              Update
+            </span>
+            Registration is closed for <strong>Cricket Men</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Cricket Women & other sports are still open.
+          </div>
+        </motion.div>
+
         <div className={styles.sports_grid}>
           {/* Main 8 sports cards */}
           <div className={styles.column1}>
@@ -92,6 +132,28 @@ export default function SportsGrid() {
                     />
                     <div className={styles.color_overlay} />
                     <div className={styles.overlay_text_small}>{sport.name}</div>
+                    {sport.name === "Cricket" && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "12px",
+                          right: "12px",
+                          backgroundColor: "#dc2626",
+                          color: "#ffffff",
+                          fontSize: "10px",
+                          fontWeight: "800",
+                          padding: "3px 8px",
+                          borderRadius: "9999px",
+                          boxShadow: "0 2px 8px rgba(220, 38, 38, 0.5)",
+                          zIndex: 10,
+                          letterSpacing: "0.5px",
+                          textTransform: "uppercase",
+                          border: "1px solid rgba(255, 255, 255, 0.4)",
+                        }}
+                      >
+                        Men Closed
+                      </div>
+                    )}
                   </Link>
                 </motion.div>
               ))}

@@ -2,20 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Plus, 
-  Trophy, 
-  Calendar, 
-  MapPin, 
-  Users, 
-  Phone, 
-  Mail, 
-  User, 
+import {
+  Plus,
+  Trophy,
+  Calendar,
+  MapPin,
+  Users,
+  Phone,
+  Mail,
+  User,
   Hash,
   X,
   CheckCircle,
   Loader2,
-  ShoppingCart
+  ShoppingCart,
+  AlertOctagon
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import Link from "next/link";
@@ -31,14 +32,14 @@ type PlayerDetails = {
 export default function RegisterPage() {
   const { data: events, isLoading, error } = trpc.reg.getAvailableSports.useQuery();
   const createTeamMutation = trpc.reg.createTeamWithMembers.useMutation();
-  
+
   const [selectedEvent, setSelectedEvent] = useState<string>("");
   const [players, setPlayers] = useState<number>(1);
-  const [playerDetails, setPlayerDetails] = useState<PlayerDetails[]>([{ 
-    name: "", 
-    email: "", 
-    rollNumber: "", 
-    phone: "" 
+  const [playerDetails, setPlayerDetails] = useState<PlayerDetails[]>([{
+    name: "",
+    email: "",
+    rollNumber: "",
+    phone: ""
   }]);
   const [message, setMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +55,7 @@ export default function RegisterPage() {
 
   // Update player details array when player count changes
   useEffect(() => {
-    setPlayerDetails(prevPlayerDetails => 
+    setPlayerDetails(prevPlayerDetails =>
       Array(players)
         .fill(null)
         .map((_, i) => prevPlayerDetails[i] || { name: "", email: "", rollNumber: "", phone: "" })
@@ -76,16 +77,21 @@ export default function RegisterPage() {
   }, [selectedEvent, eventDetails]);
 
   const selectedEventData = eventDetails;
+  const isCricketMen = Boolean(
+    selectedEventData &&
+    (selectedEventData.slug === "cricket-men" ||
+      selectedEventData.name.toLowerCase() === "cricket men")
+  );
 
   useEffect(() => {
-  if (!message) return;
+    if (!message) return;
 
-  const timer = setTimeout(() => {
-    setMessage(null);
-  }, 5000); // 5 seconds
+    const timer = setTimeout(() => {
+      setMessage(null);
+    }, 5000); // 5 seconds
 
-  return () => clearTimeout(timer); // cleanup if message changes before 5s
-}, [message]);
+    return () => clearTimeout(timer); // cleanup if message changes before 5s
+  }, [message]);
 
   const handlePlayerDetailChange = (index: number, field: keyof PlayerDetails, value: string) => {
     const updatedDetails = [...playerDetails];
@@ -117,11 +123,16 @@ export default function RegisterPage() {
       return;
     }
 
+    if (isCricketMen) {
+      setMessage("Registration is closed for Cricket Men due to excess participants, hope to see you in Surge’27!!");
+      return;
+    }
+
     if (selectedEventData.minPlayers && players < selectedEventData.minPlayers) {
       setMessage(`Minimum ${selectedEventData.minPlayers} players required for this event.`);
       return;
     }
-    
+
     if (selectedEventData.maxPlayers && players > selectedEventData.maxPlayers) {
       setMessage(`Maximum ${selectedEventData.maxPlayers} players allowed for this event.`);
       return;
@@ -143,7 +154,7 @@ export default function RegisterPage() {
         eventId: selectedEventData.id,
         players: playerDetails
       });
-      
+
       setShowSuccess(true);
       setTimeout(() => {
         setShowSuccess(false);
@@ -237,7 +248,7 @@ export default function RegisterPage() {
         )}
       </AnimatePresence>
 
-      <motion.div 
+      <motion.div
         className="relative z-10 container mx-auto px-3 sm:px-4 py-8 sm:py-12"
         variants={containerVariants}
         initial="hidden"
@@ -282,25 +293,49 @@ export default function RegisterPage() {
               <option value="" className="text-gray-500 font-semibold" disabled>
                 Choose an event...
               </option>
-              {events?.map((event) => (
-                <option key={event.id} className="text-gray-800" value={event.slug || event.id}>
-                  {event.name}
-                </option>
-              ))}
+              {events?.map((event) => {
+                const isClosed = event.slug === "cricket-men" || event.name.toLowerCase() === "cricket men";
+                return (
+                  <option
+                    key={event.id}
+                    className={isClosed ? "text-red-600 font-bold bg-red-50" : "text-gray-800"}
+                    value={event.slug || event.id}
+                  >
+                    {event.name} {isClosed ? "— [CLOSED: Excess Participants]" : ""}
+                  </option>
+                );
+              })}
             </motion.select>
           </motion.div>
 
           {/* Event Details Card */}
           <AnimatePresence>
             {selectedEventData && (
-              <motion.div 
+              <motion.div
                 className="bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100"
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                <motion.h2 
+                {/* Closed Alert inside Details Card */}
+                {isCricketMen && (
+                  <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg flex items-start sm:items-center gap-3 sm:gap-4 border border-red-400">
+                    <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                      <AlertOctagon className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-extrabold text-sm sm:text-base tracking-wide uppercase">
+                        Registration Closed
+                      </h4>
+                      <p className="text-xs sm:text-sm text-red-50 font-medium">
+                        Closed due to excess participants, hope to see you in Surge’27!!
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <motion.h2
                   className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4"
                   initial={{ x: -20 }}
                   animate={{ x: 0 }}
@@ -313,7 +348,7 @@ export default function RegisterPage() {
                 </motion.h2>
 
                 <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
-                  <motion.div 
+                  <motion.div
                     className="space-y-3 sm:space-y-4"
                     initial={{ x: -30, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
@@ -326,7 +361,7 @@ export default function RegisterPage() {
                         <span className="text-sm sm:text-base break-words">{selectedEventData.venue}</span>
                       </div>
                     )}
-                    
+
                     {(selectedEventData.dateFrom && selectedEventData.dateTo) && (
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 text-gray-700 p-3 sm:p-4 bg-green-50 rounded-lg sm:rounded-xl">
                         <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />
@@ -363,7 +398,7 @@ export default function RegisterPage() {
                 </div>
 
                 {selectedEventData.rules && (
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl lg:rounded-2xl p-4 sm:p-6 border-2 border-blue-200 mb-6 sm:mb-8"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -377,7 +412,7 @@ export default function RegisterPage() {
                 )}
 
                 {/* Player Count Selection */}
-                <motion.div 
+                <motion.div
                   className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg sm:rounded-xl lg:rounded-2xl p-4 sm:p-6 border-2 border-indigo-200 mb-6 sm:mb-8"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -432,14 +467,45 @@ export default function RegisterPage() {
           {/* Team Registration */}
           <AnimatePresence>
             {selectedEventData && (
-              <motion.div 
+              <motion.div
                 className="bg-white rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
+                {isCricketMen ? (
+                  <div className="text-center py-10 px-4 sm:px-8">
+                    <div className="w-20 h-20 rounded-3xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-5 border-2 border-red-200 shadow-sm">
+                      <span className="text-4xl">🏏</span>
+                    </div>
+                    <span className="inline-block bg-red-100 text-red-700 text-xs font-extrabold uppercase px-3 py-1 rounded-full mb-3 tracking-wider">
+                      Event Full
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                      Cricket Men Registration Closed
+                    </h3>
+                    <p className="text-red-600 font-bold text-base sm:text-xl max-w-lg mx-auto mb-3">
+                      Closed due to excess participants, hope to see you in Surge’27!!
+                    </p>
+                    <p className="text-gray-500 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
+                      We have reached full participant capacity for Cricket Men. Registration for Cricket Women and all other sports events remain open.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedEvent("");
+                        setPlayers(1);
+                        setPlayerDetails([{ name: "", email: "", rollNumber: "", phone: "" }]);
+                      }}
+                      className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all"
+                    >
+                      Browse Other Available Sports
+                    </button>
+                  </div>
+                ) : (
+                  <>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
-                  <motion.h3 
+                  <motion.h3
                     className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 flex items-center gap-2 sm:gap-3"
                     initial={{ x: -20 }}
                     animate={{ x: 0 }}
@@ -449,7 +515,7 @@ export default function RegisterPage() {
                     </div>
                     Player Details
                   </motion.h3>
-                  <motion.div 
+                  <motion.div
                     className="bg-gradient-to-r from-indigo-100 to-blue-100 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl lg:rounded-2xl border-2 border-indigo-200"
                     whileHover={{ scale: 1.05 }}
                   >
@@ -473,7 +539,7 @@ export default function RegisterPage() {
                         layout
                       >
                         <div className="flex items-center justify-between mb-4 sm:mb-6">
-                          <motion.h4 
+                          <motion.h4
                             className="text-base sm:text-lg font-bold text-gray-800"
                             whileHover={{ scale: 1.05 }}
                           >
@@ -598,9 +664,9 @@ export default function RegisterPage() {
                       </>
                     )}
                   </motion.button>
-                  
+
                   <Link href="/dashboard/cart">
-                    <motion.button 
+                    <motion.button
                       className="w-full sm:w-auto p-4 sm:p-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold text-sm sm:text-base lg:text-xl rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl flex items-center justify-center gap-2 sm:gap-3"
                       whileHover={{ scale: 1.02, y: -2 }}
                       whileTap={{ scale: 0.98 }}
@@ -613,7 +679,7 @@ export default function RegisterPage() {
 
                 {/* Validation Messages */}
                 {playerDetails.length > 0 && selectedEventData.minPlayers && playerDetails.length < selectedEventData.minPlayers && (
-                  <motion.p 
+                  <motion.p
                     className="text-amber-600 text-center mt-4 flex items-center justify-center gap-2 bg-amber-50 p-3 rounded-lg text-xs sm:text-sm lg:text-base"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -621,6 +687,8 @@ export default function RegisterPage() {
                     <span className="text-base sm:text-lg lg:text-xl">⚠️</span>
                     Minimum {selectedEventData.minPlayers} players required to register
                   </motion.p>
+                )}
+                  </>
                 )}
 
               </motion.div>
@@ -630,7 +698,7 @@ export default function RegisterPage() {
           {/* Message Display */}
           <AnimatePresence>
             {message && (
-              <motion.div 
+              <motion.div
                 className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-lg mx-2 sm:mx-0 ${message.includes("Error") || message.includes("Please") ? "bg-red-100 text-red-700 border-2 border-red-200" : "bg-green-100 text-green-700 border-2 border-green-200"}`}
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
