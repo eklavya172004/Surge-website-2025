@@ -2,8 +2,10 @@
 
 The original phone styles hid the large logo/video and the blue side decorations,
 and collapsed the hero spacer. Phones now get a naturally scrolling hero with the
-same logo cutout and footage. Desktop retains its shrinking logo animation. Scroll
-updates are limited to animation frames and stop writing styles after the logo is
+same logo cutout and footage. Desktop retains its shrinking logo animation.
+Phone hero height follows the logo aspect ratio instead of viewport height, and
+the introduction uses its content height to avoid empty space between sections.
+Scroll updates are limited to animation frames and stop writing styles after the logo is
 fully shrunk.
 
 The page loads behind the existing first-visit loader, allowing media and fonts to

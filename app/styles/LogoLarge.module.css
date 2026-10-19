@@ -66,10 +66,10 @@
   .logoLarge {
     position:absolute;
     top:75px;
-    height:calc(68vh - 75px);
-    height:clamp(285px,calc(68svh - 75px),565px);
+    height:calc(64px + 48vw);
     z-index:2;
     transition:none;
   }
   .logoMask { width:86%; height:auto; aspect-ratio:1440 / 698; }
+  .playButton { bottom:2px; padding:6px 12px; font-size:11px; }
 }
