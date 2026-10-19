@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; 
 import styles from '../styles/Navbar.module.css'; 
 import Image from 'next/image'; 
+import Link from 'next/link';
+import { MapPin } from 'lucide-react';
  
 interface NavbarProps { 
   logoSmallRef?: RefObject<HTMLDivElement | null>; 
@@ -63,12 +65,7 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
     <div 
       ref={logoSmallRef} 
       id="logo-small" 
-      style={{ 
-        position: 'relative', 
-        width: '200px', 
-        height: '50px',
-        marginLeft: '40px', 
-      }} 
+      className={styles.logoContainer}
     > 
       <div 
         style={{ 
@@ -100,7 +97,13 @@ export default function Navbar({ logoSmallRef }: NavbarProps) {
   </div> 
  
   {/* Right nav links */} 
-  <ul style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '1.5rem' }}> 
+  <ul className={styles.rightLinks}>
+    <li>
+      <Link href="/#event-map" className={styles.mapLink}>
+        <MapPin size={15} aria-hidden="true" />
+        MAP
+      </Link>
+    </li>
     {status !== "loading" && !session && (
       <li 
         onClick={handleRegisterClick}
