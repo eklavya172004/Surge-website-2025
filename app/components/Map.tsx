@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowUpRight, Check, ChevronRight, DoorOpen, MapPin, Search, X } from "lucide-react";
 import { CAMPUS_PLACES, CATEGORY_LABELS, type CampusPlace, type PlaceCategory } from "./campus-map/places";
 import { bounds, buildingLift, directionsUrl, project, searchPlaces, toWorld, type Point } from "./campus-map/geometry";
@@ -12,7 +12,7 @@ import styles from "../styles/Map.module.css";
 const FILTERS: { id: PlaceCategory | "all"; label: string }[] = [{ id: "all", label: "All places" }, { id: "sports", label: "Sports" }, { id: "food", label: "Food & dining" }, { id: "essentials", label: "Essentials" }];
 const GATE = CAMPUS_PLACES.find((place) => place.id === "gate1")!;
 
-function VenuePreview({ place }: { place: CampusPlace }) {
+const VenuePreview = memo(function VenuePreview({ place }: { place: CampusPlace }) {
   const world = useMemo(() => toWorld(place.longitude, place.latitude), [place]);
   const viewBox = useMemo(() => {
     const features = CAMPUS_FEATURES.filter((feature) => place.geometryIds.includes(feature.id));
@@ -31,7 +31,7 @@ function VenuePreview({ place }: { place: CampusPlace }) {
     <svg viewBox={viewBox} focusable="false"><CampusArtwork view="3d" selectedGeometry={place.geometryIds} prefix={`preview-${place.id}`} focus={world} /></svg>
     <span className={styles.previewCaption}>SNU CAMPUS</span>
   </div>;
-}
+});
 
 export default function Map() {
   const [query, setQuery] = useState("");
@@ -63,7 +63,7 @@ export default function Map() {
     return () => { document.body.style.overflow = previousOverflow; document.removeEventListener("keydown", escape); previousFocus?.focus(); };
   }, [expanded]);
 
-  const selectPlace = (place: CampusPlace) => { setSelectedId(place.id); setFocusToken((value) => value + 1); };
+  const selectPlace = useCallback((place: CampusPlace) => { setSelectedId(place.id); setFocusToken((value) => value + 1); }, []);
   const resetOverview = () => { setSelectedId(null); setResetToken((value) => value + 1); };
 
   return <section id="event-map" className={styles.section} aria-labelledby="event-map-heading">

@@ -1,69 +1,59 @@
 "use client";
 
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, RefObject } from "react";
 import LogoLarge from "./LogoLarge";
+import { createFrameScheduler } from "../lib/frameScheduler";
 
-interface LogoAnimationProps { 
+interface LogoAnimationProps {
   logoSmallRef: RefObject<HTMLDivElement | null>;
-  logoLargeRef: RefObject<HTMLDivElement | null>;  
+  logoLargeRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function LogoAnimation({ 
-  logoSmallRef,
-  logoLargeRef,
-}: LogoAnimationProps) {
-  const parallaxImageRef = useRef<HTMLDivElement>(null);
-
+export default function LogoAnimation({ logoSmallRef, logoLargeRef }: LogoAnimationProps) {
   useEffect(() => {
-    const updateAnimation = () => {
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const viewportWidth = window.innerWidth;
-      const navHeight = 80;
-      const targetWidth = 120;
-      const targetHeight = 50;
-      const targetTop = (navHeight - targetHeight) / 2;
-      const targetLeft = (viewportWidth - targetWidth) / 2;
-
-      // Start with full viewport dimensions
-      const initialWidth = viewportWidth;
-      const initialHeight = viewportHeight;
-      const initialLeft = 0;
-      const initialTop = targetTop + 20; // Shifted down by 10px from the target
-
-      const maxScroll = viewportHeight * 0.7;
-      const progress = Math.min(1, scrollY / maxScroll);
-
-      const currentWidth = initialWidth - (initialWidth - targetWidth) * progress;
-      const currentHeight = initialHeight - (initialHeight - targetHeight) * progress;
-      const currentLeft = initialLeft + (targetLeft - initialLeft) * progress;
-      const currentTop = initialTop - scrollY + (targetTop - initialTop) * progress;
-
-      if (logoLargeRef.current) {
-        logoLargeRef.current.style.width = `${currentWidth}px`;
-        logoLargeRef.current.style.height = `${currentHeight}px`;
-        logoLargeRef.current.style.left = `${currentLeft}px`;
-        logoLargeRef.current.style.top = `${Math.max(targetTop, currentTop)}px`;
+    let width = window.innerWidth, height = window.innerHeight;
+    let lastProgress = -1;
+    const frames = createFrameScheduler<number>((scrollY) => {
+      const logo = logoLargeRef.current;
+      if (!logo) return;
+      if (width <= 767) {
+        // The phone hero scrolls naturally; its navbar has no spare logo slot.
+        logo.style.width = "100%";
+        logo.style.height = "";
+        logo.style.left = "0";
+        logo.style.top = "75px";
+        logo.dataset.compact = "false";
+        if (logoSmallRef.current) logoSmallRef.current.style.opacity = "1";
+        return;
       }
-
-      if (logoSmallRef.current) {
-        logoSmallRef.current.style.opacity = progress >= 0.8 ? "0" : "1";
-      }
-
-      if (parallaxImageRef.current) {
-        const parallaxSpeed = 0.3;
-        const parallaxOffset = -scrollY * parallaxSpeed;
-        parallaxImageRef.current.style.transform = `translateY(${parallaxOffset}px)`;
-      }
+      const targetTop = 15, targetWidth = 120, targetHeight = 50;
+      const progress = Math.min(1, scrollY / (height * 0.7));
+      if (progress === lastProgress) return;
+      lastProgress = progress;
+      logo.style.width = `${width - (width - targetWidth) * progress}px`;
+      logo.style.height = `${height - (height - targetHeight) * progress}px`;
+      logo.style.left = `${(width - targetWidth) / 2 * progress}px`;
+      logo.style.top = `${Math.max(targetTop, targetTop + 20 - scrollY - 20 * progress)}px`;
+      logo.dataset.compact = String(progress >= 0.8);
+      if (logoSmallRef.current) logoSmallRef.current.style.opacity = progress >= 0.8 ? "0" : "1";
+    }, (callback) => requestAnimationFrame(callback), (id) => cancelAnimationFrame(id));
+    const onScroll = () => {
+      if (width <= 767 || (lastProgress === 1 && window.scrollY >= height * 0.7)) return;
+      frames.schedule(window.scrollY);
     };
-
-    window.addEventListener("scroll", updateAnimation);
-    window.addEventListener("resize", updateAnimation);
-    updateAnimation();
-
+    const onResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      lastProgress = -1;
+      frames.schedule(window.scrollY);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    onResize();
     return () => {
-      window.removeEventListener("scroll", updateAnimation);
-      window.removeEventListener("resize", updateAnimation);
+      frames.cancel();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
     };
   }, [logoSmallRef, logoLargeRef]);
 
