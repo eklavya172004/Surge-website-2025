@@ -16,7 +16,7 @@ export default function HomePage() {
   const logoLargeRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="bg-white">
+    <div className="relative bg-white">
       <Navbar logoSmallRef={logoSmallRef} />
       <HeroSection/>
       <BlueBall/>

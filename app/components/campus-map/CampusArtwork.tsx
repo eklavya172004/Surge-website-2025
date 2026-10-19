@@ -42,7 +42,7 @@ function landscapeTrees(): Point[] {
 }
 const TREES = landscapeTrees();
 
-function GroundMarkings({ feature, prefix }: { feature: CampusFeature; prefix: string }) {
+const GroundMarkings = memo(function GroundMarkings({ feature, prefix }: { feature: CampusFeature; prefix: string }) {
   const points = feature.points.slice(0, -1);
   const box = bounds(feature.points);
   const center = centroid(feature.points);
@@ -75,9 +75,9 @@ function GroundMarkings({ feature, prefix }: { feature: CampusFeature; prefix: s
       {Array.from({ length: 16 }, (_, i) => <rect key={i} x={14 + i % 4 * 18} y={10 + Math.floor(i / 4) * 10} width="18" height="10" fill={(i + Math.floor(i / 4)) % 2 ? "#a9bb91" : "#e0e4ca"} stroke="none" />)}
     </> : null}
   </g>;
-}
+});
 
-function Building({ feature, view, active, prefix }: { feature: CampusFeature; view: MapView; active: boolean; prefix: string }) {
+const Building = memo(function Building({ feature, view, active, prefix }: { feature: CampusFeature; view: MapView; active: boolean; prefix: string }) {
   const lift = buildingLift(feature, view);
   const arena = feature.id === "454615138";
   const blue = arena || active;
@@ -94,28 +94,29 @@ function Building({ feature, view, active, prefix }: { feature: CampusFeature; v
     {lift > 0 && ground.slice(0, -1).map((point, index) => {
       const next = ground[index + 1];
       const bays = Math.max(1, Math.min(18, Math.floor(Math.hypot(next[0] - point[0], next[1] - point[1]) / (arena ? 8 : 6))));
+      const windows: string[] = [], columns: string[] = [];
+      for (let bay = 0; bay < bays; bay++) {
+        const left = interpolate(point, next, (bay + 0.2) / bays), right = interpolate(point, next, (bay + 0.8) / bays);
+        windows.push(pathData([[left[0], left[1] - lift * 0.34], [right[0], right[1] - lift * 0.34], [right[0], right[1] - lift * 0.68], [left[0], left[1] - lift * 0.68]]));
+        if (arena) columns.push(pathData([[left[0], left[1]], [left[0], left[1] - lift]], false));
+      }
       return <g key={index}>
         <path d={pathData([point, next, roof[index + 1], roof[index]])} fill={blue ? (next[0] > point[0] ? "#367cae" : "#20577e") : next[0] > point[0] ? "#d6d5c1" : "#b3b8a0"} stroke={blue ? "#265b7c" : "#a6af95"} strokeWidth="0.6" />
-        {Array.from({ length: bays }, (_, bay) => {
-          const left = interpolate(point, next, (bay + 0.2) / bays), right = interpolate(point, next, (bay + 0.8) / bays);
-          return <g key={bay}>
-            <path d={pathData([[left[0], left[1] - lift * 0.34], [right[0], right[1] - lift * 0.34], [right[0], right[1] - lift * 0.68], [left[0], left[1] - lift * 0.68]])} fill={blue ? "#b6d8df" : "#718d88"} opacity={blue ? 0.9 : 0.65} />
-            {arena && <path d={pathData([[left[0], left[1]], [left[0], left[1] - lift]], false)} stroke="#edf1e9" strokeWidth="1.2" />}
-          </g>;
-        })}
+        <path d={windows.join(" ")} fill={blue ? "#b6d8df" : "#718d88"} opacity={blue ? 0.9 : 0.65} />
+        {arena && <path d={columns.join(" ")} stroke="#edf1e9" strokeWidth="1.2" />}
       </g>;
     })}
     <path d={pathData(roof)} fill={`url(#${prefix}-roof)`} stroke={active ? "#304ffe" : "#aeb8a0"} strokeWidth={active ? 2 : 1} />
     {rectangular && <>
-      {Array.from({ length: roofRibs - 1 }, (_, index) => {
+      <path d={Array.from({ length: roofRibs - 1 }, (_, index) => {
         const t = (index + 1) / roofRibs;
-        return <path key={index} d={pathData([interpolate(a, b, t), interpolate(d, c, t)], false)} fill="none" stroke={arena ? "#b6c2b8" : "#d2d9c7"} strokeWidth={arena ? 0.8 : 0.6} />;
-      })}
+        return pathData([interpolate(a, b, t), interpolate(d, c, t)], false);
+      }).join(" ")} fill="none" stroke={arena ? "#b6c2b8" : "#d2d9c7"} strokeWidth={arena ? 0.8 : 0.6} />
       <path d={pathData([interpolate(a, c, 0.04), interpolate(b, d, 0.04), interpolate(c, a, 0.04), interpolate(d, b, 0.04)])} fill="none" stroke="#fffef3" strokeWidth="1.4" />
       {!arena && <path d={pathData([interpolate(a, c, 0.3), interpolate(b, d, 0.3), interpolate(c, a, 0.3), interpolate(d, b, 0.3)])} fill="#dce1d2" stroke="#c0cab4" strokeWidth="0.6" />}
     </>}
   </g>;
-}
+});
 
 type Props = { view: MapView; selectedGeometry: string[]; prefix: string; focus?: Point };
 
@@ -124,10 +125,10 @@ export const CampusArtwork = memo(function CampusArtwork({ view, selectedGeometr
   const trees = useMemo(() => (focus ? TREES.filter((point) => Math.hypot(point[0] - focus[0], point[1] - focus[1]) < 210) : TREES).map((point) => ({ point, screen: project(point, view) })), [view, focus]);
   const planeX = project([1, 0], view), planeY = project([0, 1], view);
   const matrix = `matrix(${planeX[0]} ${planeX[1]} ${planeY[0]} ${planeY[1]} 0 0)`;
-  const objects = [
+  const objects = useMemo(() => [
     ...features.filter((feature) => feature.kind === "building").map((feature) => ({ type: "building" as const, y: Math.max(...feature.points.map((point) => project(point, view)[1])), feature })),
     ...trees.map((tree, i) => ({ type: "tree" as const, y: tree.screen[1], tree, id: i })),
-  ].sort((a, b) => a.y - b.y);
+  ].sort((a, b) => a.y - b.y), [features, trees, view]);
   return <g>
     <defs>
       <clipPath id={`${prefix}-campus`}><path d={pathData(CAMPUS_BOUNDARY)} /></clipPath>
@@ -161,7 +162,7 @@ export const CampusArtwork = memo(function CampusArtwork({ view, selectedGeometr
         </g>)}
       </g>
     </g>
-    {objects.map((object) => object.type === "building" ? <Building key={object.feature.id} feature={object.feature} view={view} active={selectedGeometry.includes(object.feature.id)} prefix={prefix} /> : <g key={`tree-${object.id}`} transform={`translate(${object.tree.screen[0]},${object.tree.screen[1]}) scale(${0.83 + (Math.sin(object.tree.point[0] + object.tree.point[1]) + 1) * 0.16})`}>
+    {objects.map((object) => object.type === "building" ? <Building key={object.feature.id} feature={object.feature} view={view} active={selectedGeometry.includes(object.feature.id)} prefix={prefix} /> : <g key={`tree-${object.id}`} transform={`translate(${object.tree.screen[0].toFixed(3)},${object.tree.screen[1].toFixed(3)}) scale(${(0.83 + (Math.sin(object.tree.point[0] + object.tree.point[1]) + 1) * 0.16).toFixed(3)})`}>
       {view === "3d" ? <use href={`#${prefix}-tree`} /> : <><ellipse cx="2" cy="2" rx="8" ry="7" fill="#557b3f" opacity="0.2" /><circle r="7" fill={`url(#${prefix}-leaves)`} /><circle cx="-2" cy="-2" r="4" fill="#b8ce83" opacity="0.6" /></>}
     </g>)}
   </g>;

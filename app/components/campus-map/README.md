@@ -47,6 +47,14 @@ Drag pans; pinch or Ctrl/Cmd+wheel zooms; ordinary scrolling continues the page.
 Keyboard users can select the map region and use arrows, +/− and Home, or use the
 venue list and labeled controls. An expanded view supports Escape to close.
 
+Camera input is coalesced with requestAnimationFrame. Wheel zoom reads the latest
+pending camera, and pointer release flushes the final position; selection/reset
+cancel pending input. The unchanged SVG scene moves as one CSS transform layer.
+Repeated facade windows and roof ribs are combined into compound paths, removing
+about 30% of the original SVG elements without removing drawing detail. Individual
+buildings and preview scenes are memoized. Tree transforms use fixed precision so
+server and browser math differences do not cause hydration warnings.
+
 Location is requested only after pressing Locate me and is kept in component
 memory, with no server submission or persistence. High accuracy is requested,
 cached fixes are disabled (`maximumAge: 0`), and each fix has a 15-second timeout.
@@ -57,6 +65,6 @@ positions keep the campus visible and offer Gate 1 directions. Browser/device
 location permissions and on-campus GPS accuracy still need real-device testing.
 
 ```sh
-node --test --test-isolation=none tests/campus-map.test.mjs
+node --test --test-isolation=none tests/campus-map.test.mjs tests/frame-scheduler.test.mjs
 npx tsc --noEmit --incremental false
 ```

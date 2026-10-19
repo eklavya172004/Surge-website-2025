@@ -7,6 +7,7 @@
 
 @media (max-width: 767px) {
   .heroContainer {
-    height: 0;
+    /* Navbar + logo aspect ratio + 32px breathing room above and below. */
+    height: calc(139px + 48vw);
   }
 }

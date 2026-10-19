@@ -6,6 +6,7 @@ import { CAMPUS_PLACES, type CampusPlace } from "./places";
 import { bounds, buildingLift, centroid, directionsUrl, distanceToPolygon, pointInPolygon, project, toWorld, unproject, type MapView, type Point } from "./geometry";
 import { CAMPUS_BOUNDARY, CAMPUS_FEATURES, CampusArtwork } from "./CampusArtwork";
 import styles from "../../styles/Map.module.css";
+import { createFrameScheduler } from "../../lib/frameScheduler";
 
 type Camera = { center: Point | null; zoom: number };
 type Gesture = { center: Point; zoom: number; point: Point; distance: number };
@@ -21,6 +22,14 @@ const VENUE_CENTER = unproject([(VENUE_BOUNDS.minX + VENUE_BOUNDS.maxX) / 2, (VE
 export default function CampusCanvas({ places, selected, selectPlace, expanded, toggleExpanded, resetToken, focusToken }: Props) {
   const [view, setView] = useState<MapView>("3d");
   const [camera, setCamera] = useState<Camera>({ center: VENUE_CENTER, zoom: 1.5 });
+  const cameraRef = useRef(camera);
+  const cameraFrames = useMemo(() => createFrameScheduler<Camera>(setCamera, (callback) => requestAnimationFrame(callback), (id) => cancelAnimationFrame(id)), []);
+  const replaceCamera = useCallback((next: Camera) => {
+    cameraFrames.cancel();
+    cameraRef.current = next;
+    setCamera(next);
+  }, [cameraFrames]);
+  useEffect(() => () => cameraFrames.cancel(), [cameraFrames]);
   const [size, setSize] = useState({ width: 800, height: 620 });
   const [dragging, setDragging] = useState(false);
   const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
@@ -30,11 +39,20 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
   const locatedRef = useRef(false);
   const pointersRef = useRef(new globalThis.Map<number, Point>());
   const gestureRef = useRef<Gesture | null>(null);
+  const gestureRectRef = useRef<DOMRect | null>(null);
   const lastReset = useRef(resetToken), lastFocus = useRef(focusToken);
   const projectedBounds = useMemo(() => bounds(CAMPUS_BOUNDARY.map((point) => project(point, view))), [view]);
   const fitScale = Math.max(0.01, Math.min((size.width - 64) / (projectedBounds.maxX - projectedBounds.minX), (size.height - 92) / (projectedBounds.maxY - projectedBounds.minY)));
   const center = useMemo<Point>(() => camera.center ? project(camera.center, view) : [(projectedBounds.minX + projectedBounds.maxX) / 2, (projectedBounds.minY + projectedBounds.maxY) / 2], [camera.center, projectedBounds, view]);
   const scale = fitScale * camera.zoom;
+  const scene = useMemo(() => {
+    const points = CAMPUS_FEATURES.filter((feature) => feature.kind === "building").flatMap((feature) => feature.points.flatMap((point) => {
+      const [x, y] = project(point, view);
+      return [[x, y], [x, y - buildingLift(feature, view)]] as Point[];
+    }));
+    const box = bounds([...points, ...CAMPUS_BOUNDARY.map((point) => project(point, view))]);
+    return { x: box.minX - 40, y: box.minY - 40, width: box.maxX - box.minX + 80, height: box.maxY - box.minY + 80 };
+  }, [view]);
 
   // Tokens distinguish an explicit selection/reset from an initial render.
   useEffect(() => {
@@ -43,19 +61,19 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
     if (places.length && places.length < CAMPUS_PLACES.length) {
       const box = bounds(places.map((place) => project(toWorld(place.longitude, place.latitude), view)));
       const zoom = Math.max(1, Math.min(3.2, Math.min((size.width - 110) / (box.maxX - box.minX + 150), (size.height - 150) / (box.maxY - box.minY + 150)) / fitScale));
-      setCamera({ center: unproject([(box.minX + box.maxX) / 2, (box.minY + box.maxY) / 2], view), zoom });
-    } else setCamera({ center: null, zoom: 1 });
-  }, [resetToken, places, view, size.width, size.height, fitScale]);
+      replaceCamera({ center: unproject([(box.minX + box.maxX) / 2, (box.minY + box.maxY) / 2], view), zoom });
+    } else replaceCamera({ center: null, zoom: 1 });
+  }, [resetToken, places, view, size.width, size.height, fitScale, replaceCamera]);
   useEffect(() => {
     if (lastFocus.current === focusToken) return;
     lastFocus.current = focusToken;
-    if (selected) setCamera((current) => ({ center: toWorld(selected.longitude, selected.latitude), zoom: Math.max(2.7, current.zoom) }));
-  }, [focusToken, selected]);
+    if (selected) replaceCamera({ center: toWorld(selected.longitude, selected.latitude), zoom: Math.max(2.7, cameraRef.current.zoom) });
+  }, [focusToken, selected, replaceCamera]);
 
   useEffect(() => {
     const element = viewportRef.current;
     if (!element) return;
-    const observer = new ResizeObserver(([entry]) => setSize({ width: entry.contentRect.width, height: entry.contentRect.height }));
+    const observer = new ResizeObserver(([entry]) => setSize((previous) => previous.width === entry.contentRect.width && previous.height === entry.contentRect.height ? previous : { width: entry.contentRect.width, height: entry.contentRect.height }));
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
@@ -63,8 +81,10 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
 
   const setProjectedCamera = useCallback((point: Point, zoom: number) => {
     const clamped: Point = [Math.max(projectedBounds.minX - 180, Math.min(projectedBounds.maxX + 180, point[0])), Math.max(projectedBounds.minY - 180, Math.min(projectedBounds.maxY + 180, point[1]))];
-    setCamera({ center: unproject(clamped, view), zoom: Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom)) });
-  }, [projectedBounds, view]);
+    const next = { center: unproject(clamped, view), zoom: Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom)) };
+    cameraRef.current = next;
+    cameraFrames.schedule(next);
+  }, [projectedBounds, view, cameraFrames]);
 
   useEffect(() => {
     const element = viewportRef.current;
@@ -74,27 +94,34 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
       event.preventDefault();
       const rect = element.getBoundingClientRect();
       const point: Point = [event.clientX - rect.left - size.width / 2, event.clientY - rect.top - size.height / 2 - 8];
-      const zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, camera.zoom * Math.exp(-event.deltaY * 0.008)));
-      setProjectedCamera([center[0] + point[0] / scale - point[0] / (fitScale * zoom), center[1] + point[1] / scale - point[1] / (fitScale * zoom)], zoom);
+      const current = cameraRef.current;
+      const currentCenter = current.center ? project(current.center, view) : [(projectedBounds.minX + projectedBounds.maxX) / 2, (projectedBounds.minY + projectedBounds.maxY) / 2];
+      const zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, current.zoom * Math.exp(-event.deltaY * 0.008)));
+      const currentScale = fitScale * current.zoom;
+      setProjectedCamera([currentCenter[0] + point[0] / currentScale - point[0] / (fitScale * zoom), currentCenter[1] + point[1] / currentScale - point[1] / (fitScale * zoom)], zoom);
     };
     element.addEventListener("wheel", onWheel, { passive: false });
     return () => element.removeEventListener("wheel", onWheel);
-  }, [camera.zoom, center, expanded, fitScale, scale, setProjectedCamera, size.width, size.height]);
+  }, [expanded, fitScale, projectedBounds, setProjectedCamera, size.width, size.height, view]);
 
   function seedGesture() {
     const points = [...pointersRef.current.values()];
-    if (!points.length) { gestureRef.current = null; setDragging(false); return; }
-    gestureRef.current = { center, zoom: camera.zoom, point: points.length > 1 ? [(points[0][0] + points[1][0]) / 2, (points[0][1] + points[1][1]) / 2] : points[0], distance: points.length > 1 ? Math.hypot(points[0][0] - points[1][0], points[0][1] - points[1][1]) : 0 };
+    if (!points.length) { gestureRef.current = null; gestureRectRef.current = null; setDragging(false); return; }
+    const current = cameraRef.current;
+    const currentCenter = current.center ? project(current.center, view) : [(projectedBounds.minX + projectedBounds.maxX) / 2, (projectedBounds.minY + projectedBounds.maxY) / 2] as Point;
+    gestureRef.current = { center: currentCenter, zoom: current.zoom, point: points.length > 1 ? [(points[0][0] + points[1][0]) / 2, (points[0][1] + points[1][1]) / 2] : points[0], distance: points.length > 1 ? Math.hypot(points[0][0] - points[1][0], points[0][1] - points[1][1]) : 0 };
   }
   function pointerDown(event: ReactPointerEvent<HTMLDivElement>) {
     if ((event.target as Element).closest("button, a") || (event.pointerType === "mouse" && event.button !== 0)) return;
     const rect = event.currentTarget.getBoundingClientRect();
+    gestureRectRef.current = rect;
     pointersRef.current.set(event.pointerId, [event.clientX - rect.left, event.clientY - rect.top]);
     event.currentTarget.setPointerCapture(event.pointerId); seedGesture(); setDragging(true);
   }
   function pointerMove(event: ReactPointerEvent<HTMLDivElement>) {
     if (!pointersRef.current.has(event.pointerId) || !gestureRef.current) return;
-    const rect = event.currentTarget.getBoundingClientRect();
+    const rect = gestureRectRef.current;
+    if (!rect) return;
     pointersRef.current.set(event.pointerId, [event.clientX - rect.left, event.clientY - rect.top]);
     const points = [...pointersRef.current.values()], initial = gestureRef.current;
     if (points.length > 1 && initial.distance > 0) {
@@ -103,7 +130,7 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
       setProjectedCamera([initial.center[0] + (initial.point[0] - size.width / 2) / (fitScale * initial.zoom) - (midpoint[0] - size.width / 2) / (fitScale * zoom), initial.center[1] + (initial.point[1] - size.height / 2 - 8) / (fitScale * initial.zoom) - (midpoint[1] - size.height / 2 - 8) / (fitScale * zoom)], zoom);
     } else setProjectedCamera([initial.center[0] - (points[0][0] - initial.point[0]) / (fitScale * initial.zoom), initial.center[1] - (points[0][1] - initial.point[1]) / (fitScale * initial.zoom)], initial.zoom);
   }
-  function endPointer(event: ReactPointerEvent<HTMLDivElement>) { pointersRef.current.delete(event.pointerId); seedGesture(); }
+  function endPointer(event: ReactPointerEvent<HTMLDivElement>) { cameraFrames.flush(); pointersRef.current.delete(event.pointerId); seedGesture(); }
 
   function locateUser() {
     if (watchRef.current !== null) { navigator.geolocation.clearWatch(watchRef.current); watchRef.current = null; setUserLocation(null); setLocationStatus("idle"); return; }
@@ -118,7 +145,7 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
         watchRef.current = null; return;
       }
       setUserLocation({ point, accuracy: position.coords.accuracy }); setLocationStatus("active");
-      if (!locatedRef.current) { setCamera({ center: point, zoom: 3 }); locatedRef.current = true; }
+      if (!locatedRef.current) { replaceCamera({ center: point, zoom: 3 }); locatedRef.current = true; }
     }, (error) => {
       setLocationStatus(error.code === error.PERMISSION_DENIED ? "denied" : "error"); setUserLocation(null);
       if (watchRef.current !== null) navigator.geolocation.clearWatch(watchRef.current);
@@ -155,15 +182,15 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
     if (event.key === "ArrowDown") setProjectedCamera([center[0], center[1] + move], camera.zoom);
     if (event.key === "+" || event.key === "=") setProjectedCamera(center, camera.zoom * 1.4);
     if (event.key === "-") setProjectedCamera(center, camera.zoom / 1.4);
-    if (event.key === "Home") setCamera({ center: null, zoom: 1 });
+    if (event.key === "Home") replaceCamera({ center: null, zoom: 1 });
   }}>
-    <svg className={styles.artwork} viewBox={`0 0 ${size.width} ${size.height}`} aria-hidden="true" focusable="false">
-      <g transform={`translate(${size.width / 2},${size.height / 2 + 8}) scale(${scale}) translate(${-center[0]},${-center[1]})`}>
-        <CampusArtwork view={view} selectedGeometry={selected?.geometryIds ?? EMPTY_GEOMETRY} prefix="main" />
-        {userLocation && <g transform={`matrix(${planeX[0]} ${planeX[1]} ${planeY[0]} ${planeY[1]} 0 0)`}><circle cx={userLocation.point[0]} cy={userLocation.point[1]} r={userLocation.accuracy} fill="#304ffe" fillOpacity="0.12" stroke="#304ffe" strokeOpacity="0.35" strokeWidth={1 / scale} /></g>}
-      </g>
-      {userProjected && <g transform={`translate(${size.width / 2 + (userProjected[0] - center[0]) * scale},${size.height / 2 + 8 + (userProjected[1] - center[1]) * scale})`}><circle r="10" fill="white" /><circle r="6.5" fill="#304ffe" /><circle r="10" fill="none" stroke="#304ffe" strokeWidth="1" opacity="0.3" /></g>}
+    <svg className={styles.artwork} style={{ width: scene.width, height: scene.height, transform: `translate3d(${size.width / 2 + (scene.x - center[0]) * scale}px,${size.height / 2 + 8 + (scene.y - center[1]) * scale}px,0) scale(${scale})` }} viewBox={`${scene.x} ${scene.y} ${scene.width} ${scene.height}`} aria-hidden="true" focusable="false">
+      <CampusArtwork view={view} selectedGeometry={selected?.geometryIds ?? EMPTY_GEOMETRY} prefix="main" />
     </svg>
+    {userLocation && userProjected && <svg className={styles.locationOverlay} viewBox={`0 0 ${size.width} ${size.height}`} aria-hidden="true" focusable="false">
+      <g transform={`translate(${size.width / 2},${size.height / 2 + 8}) scale(${scale}) translate(${-center[0]},${-center[1]})`}><g transform={`matrix(${planeX[0]} ${planeX[1]} ${planeY[0]} ${planeY[1]} 0 0)`}><circle cx={userLocation.point[0]} cy={userLocation.point[1]} r={userLocation.accuracy} fill="#304ffe" fillOpacity="0.12" stroke="#304ffe" strokeOpacity="0.35" strokeWidth={1 / scale} /></g></g>
+      <g transform={`translate(${size.width / 2 + (userProjected[0] - center[0]) * scale},${size.height / 2 + 8 + (userProjected[1] - center[1]) * scale})`}><circle r="10" fill="white" /><circle r="6.5" fill="#304ffe" /><circle r="10" fill="none" stroke="#304ffe" strokeWidth="1" opacity="0.3" /></g>
+    </svg>}
     <div className={styles.mapWordmark} aria-hidden="true">SNU<span>CAMPUS</span></div>
     <div className={styles.compass} aria-label="North"><Navigation2 size={24} strokeWidth={1.4} style={{ transform: view === "3d" ? "rotate(-54deg)" : "none" }} /><span>N</span></div>
     {clusters.map((cluster) => {
@@ -175,7 +202,7 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
     <div className={styles.mapControls}>
       <button type="button" aria-label={locationStatus === "active" ? "Turn off current location" : "Show my current location"} aria-pressed={locationStatus === "active"} className={locationStatus === "active" || locationStatus === "locating" ? styles.controlActive : ""} onClick={locateUser}>{locationStatus === "active" ? <LocateFixed size={19} /> : <Crosshair size={19} />}</button>
       <div className={styles.zoomControls}><button type="button" aria-label="Zoom in" disabled={camera.zoom >= MAX_ZOOM} onClick={() => setProjectedCamera(center, camera.zoom * 1.4)}><Plus size={19} /></button><button type="button" aria-label="Zoom out" disabled={camera.zoom <= MIN_ZOOM} onClick={() => setProjectedCamera(center, camera.zoom / 1.4)}><Minus size={19} /></button></div>
-      <button type="button" aria-label="Reset campus overview" onClick={() => setCamera({ center: null, zoom: 1 })}><RotateCcw size={17} /></button>
+      <button type="button" aria-label="Reset campus overview" onClick={() => replaceCamera({ center: null, zoom: 1 })}><RotateCcw size={17} /></button>
       <button type="button" aria-label={expanded ? "Close expanded map" : "Expand map"} aria-expanded={expanded} onClick={toggleExpanded}>{expanded ? <Shrink size={18} /> : <Expand size={18} />}</button>
     </div>
     {locationMessage && <div className={styles.locationMessage} role="status"><span>{locationMessage}</span>{locationStatus === "outside" && <a href={directionsUrl(CAMPUS_PLACES.find((place) => place.id === "gate1")!)} target="_blank" rel="noopener noreferrer">Directions <ArrowUpRight size={13} /></a>}{!["active", "locating"].includes(locationStatus) && <button type="button" aria-label="Dismiss location message" onClick={() => setLocationStatus("idle")}><X size={14} /></button>}</div>}

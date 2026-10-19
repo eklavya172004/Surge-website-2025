@@ -9,15 +9,7 @@ export default function BlueBall() {
   const textRef = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
-    const elements = [
-      leftBallRef.current,
-      rightBallRef.current,
-      titleRef.current,
-      textRef.current
-    ];
-
-    const observer = new IntersectionObserver(
-      (entries) => {
+    const reveal = (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add(styles.show);
@@ -27,21 +19,17 @@ export default function BlueBall() {
             entry.target.classList.remove(styles.show);
           }
         });
-      },
-      {
-        threshold: 0.2,
-      },
-    );
-
-    elements.forEach((el) => {
-      if (el) {
-        observer.observe(el);
-      }
-    });
+      };
+    const observer = new IntersectionObserver(reveal, { threshold: 0.2 });
+    // Only a narrow part of each decoration is visible on a phone.
+    const ballsObserver = new IntersectionObserver(reveal, { threshold: 0.01 });
+    [titleRef.current, textRef.current].forEach((element) => { if (element) observer.observe(element); });
+    [leftBallRef.current, rightBallRef.current].forEach((element) => { if (element) ballsObserver.observe(element); });
 
     // Cleanup function: disconnect the observer when the component unmounts
     return () => {
       observer.disconnect();
+      ballsObserver.disconnect();
     };
   }, []);
 

@@ -1,14 +1,3 @@
-/* Import Fonts */
-@font-face {
-  font-family: "Anton";
-  src: url("/fonts/Anton-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
-}
-
 .blueBallContainer {
   position: relative;
   min-height: 100vh;
@@ -98,14 +87,23 @@
 }
 
 @media (max-width: 767px) {
-  .leftBall,
+  .ball {
+    width: 240px;
+    height: 240px;
+  }
+
+  .leftBall {
+    left: -208px;
+  }
+
   .rightBall {
-    display: none;
+    right: -208px;
   }
 
   .blueBallContainer{
+    min-height: 0;
     margin-bottom: 0;
-      padding: 0.5rem;
+    padding: 8px 8px 36px;
   }
 
   .title {

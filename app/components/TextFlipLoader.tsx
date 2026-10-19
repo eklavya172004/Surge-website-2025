@@ -75,7 +75,7 @@ export default function TextFlipLoader() {
         alignItems: "center",
         backgroundColor: "white",
         overflow: "hidden",
-        zIndex: 50,
+        zIndex: 3000,
       }}
     >
       <div
