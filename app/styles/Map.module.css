@@ -4,6 +4,7 @@
   --map-food:#af642b;
   --map-entry:#2f6c51;
   padding:100px 4.5% 36px;
+  scroll-margin-top:20px;
   color:var(--map-ink);
   background:#fff;
 }
