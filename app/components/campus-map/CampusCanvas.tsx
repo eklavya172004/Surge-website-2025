@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { ArrowUpRight, Crosshair, Expand, Layers3, LocateFixed, Minus, Navigation2, Plus, RotateCcw, Shrink, X } from "lucide-react";
-import PlaceIcon from "./PlaceIcon";
 import { CAMPUS_PLACES, type CampusPlace } from "./places";
-import { bounds, centroid, directionsUrl, distanceToPolygon, pointInPolygon, project, toWorld, unproject, type MapView, type Point } from "./geometry";
+import { bounds, buildingLift, centroid, directionsUrl, distanceToPolygon, pointInPolygon, project, toWorld, unproject, type MapView, type Point } from "./geometry";
 import { CAMPUS_BOUNDARY, CAMPUS_FEATURES, CampusArtwork } from "./CampusArtwork";
 import styles from "../../styles/Map.module.css";
 
@@ -16,10 +15,12 @@ type Cluster = { items: Marker[]; point: Point };
 type Props = { places: CampusPlace[]; selected: CampusPlace | null; selectPlace: (place: CampusPlace) => void; expanded: boolean; toggleExpanded: () => void; resetToken: number; focusToken: number };
 const EMPTY_GEOMETRY: string[] = [];
 const MIN_ZOOM = 1, MAX_ZOOM = 8;
+const VENUE_BOUNDS = bounds(CAMPUS_PLACES.filter((place) => place.category !== "essentials").map((place) => project(toWorld(place.longitude, place.latitude), "3d")));
+const VENUE_CENTER = unproject([(VENUE_BOUNDS.minX + VENUE_BOUNDS.maxX) / 2, (VENUE_BOUNDS.minY + VENUE_BOUNDS.maxY) / 2], "3d");
 
 export default function CampusCanvas({ places, selected, selectPlace, expanded, toggleExpanded, resetToken, focusToken }: Props) {
   const [view, setView] = useState<MapView>("3d");
-  const [camera, setCamera] = useState<Camera>({ center: null, zoom: 1 });
+  const [camera, setCamera] = useState<Camera>({ center: VENUE_CENTER, zoom: 1.5 });
   const [size, setSize] = useState({ width: 800, height: 620 });
   const [dragging, setDragging] = useState(false);
   const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
@@ -129,7 +130,7 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
     const markers: Marker[] = places.map((place) => {
       const point = project(toWorld(place.longitude, place.latitude), view);
       const building = CAMPUS_FEATURES.find((feature) => feature.kind === "building" && place.geometryIds.includes(feature.id));
-      const lift = view === "3d" ? (building?.height ?? 0) * 1.35 : 0;
+      const lift = building ? buildingLift(building, view) : 0;
       return { place, point: [size.width / 2 + (point[0] - center[0]) * scale, size.height / 2 + 8 + (point[1] - center[1] - lift) * scale] as Point };
     });
     const groups: Cluster[] = [];
@@ -168,7 +169,7 @@ export default function CampusCanvas({ places, selected, selectPlace, expanded, 
     {clusters.map((cluster) => {
       if (cluster.items.length > 1) return <button type="button" key={cluster.items.map((item) => item.place.id).join("-")} className={styles.cluster} style={{ left: cluster.point[0], top: cluster.point[1] }} aria-label={`Zoom in to ${cluster.items.length} places: ${cluster.items.map((item) => item.place.shortName).join(", ")}`} onClick={() => setProjectedCamera([center[0] + (cluster.point[0] - size.width / 2) / scale, center[1] + (cluster.point[1] - size.height / 2 - 8) / scale], Math.min(MAX_ZOOM, camera.zoom * 2))}><span>{cluster.items.length}</span><Plus size={10} aria-hidden="true" /></button>;
       const place = cluster.items[0].place;
-      return <button type="button" key={place.id} className={`${styles.pin} ${styles[place.category]} ${selected?.id === place.id ? styles.pinSelected : ""}`} style={{ left: cluster.point[0], top: cluster.point[1] }} aria-label={`Show ${place.name}`} aria-pressed={selected?.id === place.id} onClick={() => selectPlace(place)}><span className={styles.pinHead}><PlaceIcon place={place} size={16} /></span><span className={styles.pinStem} /><span className={styles.pinLabel}>{place.shortName}</span></button>;
+      return <button type="button" key={place.id} className={`${styles.pin} ${styles[place.category]} ${selected?.id === place.id ? styles.pinSelected : ""}`} style={{ left: cluster.point[0], top: cluster.point[1] }} aria-label={`Show ${place.name}`} aria-pressed={selected?.id === place.id} onClick={() => selectPlace(place)}><span className={styles.pinHead}>{place.mapNumber}</span><span className={styles.pinStem} /><span className={styles.pinLabel}>{place.shortName}</span></button>;
     })}
     <div className={styles.viewControl} role="group" aria-label="Map perspective"><Layers3 size={15} aria-hidden="true" /><button type="button" aria-pressed={view === "3d"} onClick={() => setView("3d")}>3D</button><button type="button" aria-pressed={view === "2d"} onClick={() => setView("2d")}>2D</button></div>
     <div className={styles.mapControls}>

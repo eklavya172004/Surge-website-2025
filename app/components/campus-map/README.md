@@ -34,10 +34,15 @@ Projection uses a local metric plane around 77.5745° E, 28.526° N. The decorat
 trees and unspecified building heights are illustrative; building footprints,
 paths and grounds come from the source. Construction-tagged buildings are
 excluded. This is a campus illustration, not a surveyed architectural model.
+The ISC has a distinctive blue facade and ribbed light roof; wall windows, tree
+canopies, water and ground shading are illustrative details. Numbered venue pins
+match the directory and selected venue card, independently of zoom or filtering.
 
 ## Interactions and verification
 
 Search and filters run locally. Marker clusters separate as the view zooms in.
+The opening view frames the main venues; Reset campus overview includes the full
+campus and Gate 1 approach.
 Drag pans; pinch or Ctrl/Cmd+wheel zooms; ordinary scrolling continues the page.
 Keyboard users can select the map region and use arrows, +/− and Home, or use the
 venue list and labeled controls. An expanded view supports Escape to close.

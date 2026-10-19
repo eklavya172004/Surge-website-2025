@@ -3,7 +3,7 @@
 import { memo, useMemo } from "react";
 import rawGeometry from "./campus-geometry.json";
 import { CAMPUS_PLACES } from "./places";
-import { bounds, centroid, pathData, pointInPolygon, project, type CampusFeature, type MapView, type Point } from "./geometry";
+import { bounds, buildingLift, centroid, pathData, pointInPolygon, project, type CampusFeature, type MapView, type Point } from "./geometry";
 
 export const CAMPUS_BOUNDARY = rawGeometry.boundary as Point[];
 export const CAMPUS_FEATURES = rawGeometry.features as CampusFeature[];
@@ -50,7 +50,7 @@ function GroundMarkings({ feature, prefix }: { feature: CampusFeature; prefix: s
   if (feature.sport === "cricket") {
     return <g clipPath={`url(#${clipId})`}>
       <defs><clipPath id={clipId}><path d={pathData(feature.points)} /></clipPath></defs>
-      {Array.from({ length: 9 }, (_, i) => <rect key={i} x={box.minX + (box.maxX - box.minX) / 9 * i} y={box.minY} width={(box.maxX - box.minX) / 9} height={box.maxY - box.minY} fill={i % 2 ? "#91ad70" : "#85a465"} />)}
+      {Array.from({ length: 9 }, (_, i) => <rect key={i} x={box.minX + (box.maxX - box.minX) / 9 * i} y={box.minY} width={(box.maxX - box.minX) / 9} height={box.maxY - box.minY} fill={i % 2 ? "#93b956" : "#7fa449"} />)}
       <path d={pathData(feature.points)} fill="none" stroke="#eef1d5" strokeWidth="5" />
       <rect x={center[0] - 5} y={center[1] - 12} width="10" height="24" rx="1" fill="#dec89e" />
       <path d={`M${center[0] - 7},${center[1] - 9}h14 M${center[0] - 7},${center[1] + 9}h14`} stroke="#fff9eb" strokeWidth="1" />
@@ -60,7 +60,8 @@ function GroundMarkings({ feature, prefix }: { feature: CampusFeature; prefix: s
   if (points.length !== 4) return null;
   const [a, b, , d] = points;
   const matrix = `matrix(${(b[0] - a[0]) / 100} ${(b[1] - a[1]) / 100} ${(d[0] - a[0]) / 60} ${(d[1] - a[1]) / 60} ${a[0]} ${a[1]})`;
-  return <g transform={matrix} fill="none" stroke="#f7f8e9" strokeWidth="0.8" opacity="0.9">
+  return <g transform={matrix} fill="none" stroke="#fffde8" strokeWidth="0.8">
+    {feature.sport === "soccer" && Array.from({ length: 10 }, (_, i) => <rect key={i} x={i * 10} y="0" width="10" height="60" fill={i % 2 ? "#8cb15e" : "#7da34e"} stroke="none" />)}
     <rect x="4" y="4" width="92" height="52" />
     {feature.sport === "soccer" ? <>
       <path d="M50,4v52 M4,14h14v32H4 M96,14H82v32h14 M4,22h6v16H4 M96,22h-6v16h6" />
@@ -76,25 +77,42 @@ function GroundMarkings({ feature, prefix }: { feature: CampusFeature; prefix: s
   </g>;
 }
 
-function Building({ feature, view, active }: { feature: CampusFeature; view: MapView; active: boolean }) {
-  const lift = view === "3d" ? (feature.height ?? 10) * 1.35 : 0;
+function Building({ feature, view, active, prefix }: { feature: CampusFeature; view: MapView; active: boolean; prefix: string }) {
+  const lift = buildingLift(feature, view);
+  const arena = feature.id === "454615138";
+  const blue = arena || active;
   const ground = feature.points.map((point) => project(point, view));
   const roof = ground.map(([x, y]): Point => [x, y - lift]);
   const rectangular = roof.length === 5;
   const [a, b, c, d] = roof;
+  const roofRibs = arena ? 18 : 8;
   return <g>
-    {lift > 0 && <path d={pathData(ground.map(([x, y]) => [x + 5, y + 5]))} fill="#657668" opacity="0.14" />}
+    {lift > 0 && <>
+      <path d={pathData(ground.map(([x, y]) => [x + lift * 0.65, y + lift * 0.6]))} fill="#526047" opacity="0.19" />
+      <path d={pathData(ground)} fill="#4e5c43" opacity="0.13" stroke="#536449" strokeWidth="3" />
+    </>}
     {lift > 0 && ground.slice(0, -1).map((point, index) => {
       const next = ground[index + 1];
-      return <path key={index} d={pathData([point, next, roof[index + 1], roof[index]])} fill={active ? (next[0] > point[0] ? "#405ac9" : "#243d9b") : next[0] > point[0] ? "#d9d8ca" : "#c3c7b9"} stroke={active ? "#304ac0" : "#bfc6b7"} strokeWidth="0.6" />;
+      const bays = Math.max(1, Math.min(18, Math.floor(Math.hypot(next[0] - point[0], next[1] - point[1]) / (arena ? 8 : 6))));
+      return <g key={index}>
+        <path d={pathData([point, next, roof[index + 1], roof[index]])} fill={blue ? (next[0] > point[0] ? "#367cae" : "#20577e") : next[0] > point[0] ? "#d6d5c1" : "#b3b8a0"} stroke={blue ? "#265b7c" : "#a6af95"} strokeWidth="0.6" />
+        {Array.from({ length: bays }, (_, bay) => {
+          const left = interpolate(point, next, (bay + 0.2) / bays), right = interpolate(point, next, (bay + 0.8) / bays);
+          return <g key={bay}>
+            <path d={pathData([[left[0], left[1] - lift * 0.34], [right[0], right[1] - lift * 0.34], [right[0], right[1] - lift * 0.68], [left[0], left[1] - lift * 0.68]])} fill={blue ? "#b6d8df" : "#718d88"} opacity={blue ? 0.9 : 0.65} />
+            {arena && <path d={pathData([[left[0], left[1]], [left[0], left[1] - lift]], false)} stroke="#edf1e9" strokeWidth="1.2" />}
+          </g>;
+        })}
+      </g>;
     })}
-    <path d={pathData(roof)} fill={active ? "#4967ed" : "#f7f6ec"} stroke={active ? "#233fb8" : "#bec6b7"} strokeWidth={active ? 2 : 1} />
+    <path d={pathData(roof)} fill={`url(#${prefix}-roof)`} stroke={active ? "#304ffe" : "#aeb8a0"} strokeWidth={active ? 2 : 1} />
     {rectangular && <>
-      {Array.from({ length: Math.max(2, Math.min(10, Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]) / 11))) }, (_, index) => {
-        const t = (index + 1) / 11;
-        return <path key={index} d={pathData([interpolate(a, b, t), interpolate(d, c, t)], false)} fill="none" stroke={active ? "#b4c4ff" : "#e1e4d7"} strokeWidth="1.2" />;
+      {Array.from({ length: roofRibs - 1 }, (_, index) => {
+        const t = (index + 1) / roofRibs;
+        return <path key={index} d={pathData([interpolate(a, b, t), interpolate(d, c, t)], false)} fill="none" stroke={arena ? "#b6c2b8" : "#d2d9c7"} strokeWidth={arena ? 0.8 : 0.6} />;
       })}
-      <path d={pathData([interpolate(a, c, 0.16), interpolate(b, d, 0.16), interpolate(c, a, 0.16), interpolate(d, b, 0.16)])} fill="none" stroke={active ? "#c5d0ff" : "#e2e6da"} strokeWidth="1" />
+      <path d={pathData([interpolate(a, c, 0.04), interpolate(b, d, 0.04), interpolate(c, a, 0.04), interpolate(d, b, 0.04)])} fill="none" stroke="#fffef3" strokeWidth="1.4" />
+      {!arena && <path d={pathData([interpolate(a, c, 0.3), interpolate(b, d, 0.3), interpolate(c, a, 0.3), interpolate(d, b, 0.3)])} fill="#dce1d2" stroke="#c0cab4" strokeWidth="0.6" />}
     </>}
   </g>;
 }
@@ -111,31 +129,40 @@ export const CampusArtwork = memo(function CampusArtwork({ view, selectedGeometr
     ...trees.map((tree, i) => ({ type: "tree" as const, y: tree.screen[1], tree, id: i })),
   ].sort((a, b) => a.y - b.y);
   return <g>
-    <defs><clipPath id={`${prefix}-campus`}><path d={pathData(CAMPUS_BOUNDARY)} /></clipPath></defs>
-    {view === "3d" && <path d={pathData(CAMPUS_BOUNDARY.map((point) => { const p = project(point, view); return [p[0], p[1] + 9]; }))} fill="#ced9c5" stroke="#bdcbb3" strokeWidth="1" />}
+    <defs>
+      <clipPath id={`${prefix}-campus`}><path d={pathData(CAMPUS_BOUNDARY)} /></clipPath>
+      <linearGradient id={`${prefix}-roof`} x1="0" y1="0" x2="0.7" y2="1"><stop stopColor="#fffef6" /><stop offset="0.55" stopColor="#f3f2e5" /><stop offset="1" stopColor="#dde3d5" /></linearGradient>
+      <linearGradient id={`${prefix}-water`} x1="0" y1="0" x2="0.7" y2="1"><stop stopColor="#a6d5cf" /><stop offset="1" stopColor="#5398a4" /></linearGradient>
+      <radialGradient id={`${prefix}-grass`} cx="35%" cy="35%" r="80%"><stop stopColor="#edf1d3" /><stop offset="1" stopColor="#d3dfb4" /></radialGradient>
+      <radialGradient id={`${prefix}-leaves`} cx="28%" cy="22%" r="75%"><stop stopColor="#c0d58b" /><stop offset="0.5" stopColor="#8cab58" /><stop offset="1" stopColor="#557b3f" /></radialGradient>
+      <g id={`${prefix}-tree`}>
+        <ellipse cx="5" cy="3" rx="10" ry="4.5" fill="#475d32" opacity="0.22" />
+        <path d="M0,1v-13" stroke="#8a7652" strokeWidth="2.3" />
+        <path d="M0,-6l-4,-4 M0,-5l4,-5" fill="none" stroke="#8a7652" strokeWidth="1" />
+        <path d="M-6,-7C-12,-9 -10,-17 -6,-19C-7,-26 2,-27 5,-22C12,-23 14,-14 9,-11C10,-5 2,-3 -1,-6C-3,-4 -6,-5 -6,-7Z" fill={`url(#${prefix}-leaves)`} />
+        <ellipse cx="-3" cy="-18" rx="4" ry="5" fill="#d1dfa1" opacity="0.35" />
+        <ellipse cx="5" cy="-10" rx="4.5" ry="3.5" fill="#426e39" opacity="0.25" />
+      </g>
+    </defs>
+    {view === "3d" && <path d={pathData(CAMPUS_BOUNDARY.map((point) => { const p = project(point, view); return [p[0] + 3, p[1] + 12]; }))} fill="#b8c79c" stroke="#a7b88c" strokeWidth="1" />}
     <g transform={matrix}>
-      <path d={pathData(CAMPUS_BOUNDARY)} fill="#e9efdd" stroke="#c7d4bd" strokeWidth="2" />
+      <path d={pathData(CAMPUS_BOUNDARY)} fill={`url(#${prefix}-grass)`} stroke="#becda3" strokeWidth="2" />
       <g clipPath={`url(#${prefix}-campus)`}>
-        {features.filter((feature) => feature.kind === "green" || feature.kind === "parking").map((feature) => <path key={feature.id} d={pathData(feature.points)} fill={feature.kind === "parking" ? "#dde0d4" : SPORT_GROUND_IDS.has(feature.id) ? "#b7cb9e" : "#d9e5c8"} stroke={selectedGeometry.includes(feature.id) ? "#304ffe" : "#d1ddc2"} strokeWidth={selectedGeometry.includes(feature.id) ? 5 : 1} />)}
-        {features.filter((feature) => feature.kind === "water").map((feature) => <g key={feature.id}><path d={pathData(feature.points)} fill="#9eced1" stroke="#cedfd0" strokeWidth="10" /><path d={pathData(feature.points)} fill="none" stroke="#c5e4dd" strokeWidth="2" /></g>)}
+        {features.filter((feature) => feature.kind === "green" || feature.kind === "parking").map((feature) => <path key={feature.id} d={pathData(feature.points)} fill={feature.kind === "parking" ? "#c7cebb" : SPORT_GROUND_IDS.has(feature.id) ? "#91b35e" : "#c4d6a3"} stroke={selectedGeometry.includes(feature.id) ? "#304ffe" : "#bccd9a"} strokeWidth={selectedGeometry.includes(feature.id) ? 5 : 1} />)}
+        {features.filter((feature) => feature.kind === "water").map((feature) => <g key={feature.id}><path d={pathData(feature.points)} fill={`url(#${prefix}-water)`} stroke="#e0d8b8" strokeWidth="10" /><path d={pathData(feature.points)} fill="none" stroke="#d2e6cf" strokeWidth="2" /></g>)}
         {features.filter((feature) => feature.kind === "road" || feature.kind === "path").map((feature) => <g key={feature.id} fill="none" strokeLinejoin="round" strokeLinecap="round">
-          <path d={pathData(feature.points, false)} stroke={feature.kind === "road" ? "#c6cec0" : "#d3dcc9"} strokeWidth={feature.kind === "road" ? 10 : 4} />
-          <path d={pathData(feature.points, false)} stroke={feature.kind === "road" ? "#fbfcf5" : "#f4f4e7"} strokeWidth={feature.kind === "road" ? 7 : 2.5} />
+          <path d={pathData(feature.points, false)} stroke={feature.kind === "road" ? "#eeeedd" : "#bfcbab"} strokeWidth={feature.kind === "road" ? 12 : 4} />
+          <path d={pathData(feature.points, false)} stroke={feature.kind === "road" ? "#a3ab9f" : "#f9f6e6"} strokeWidth={feature.kind === "road" ? 8 : 2.5} />
+          {feature.kind === "road" && <path d={pathData(feature.points, false)} stroke="#f4f1dd" strokeWidth="0.65" strokeDasharray="4 5" />}
         </g>)}
         {features.filter((feature) => feature.kind === "sport").map((feature) => <g key={feature.id}>
-          <path d={pathData(feature.points)} fill={feature.sport === "soccer" || feature.sport === "cricket" ? "#8eaa70" : feature.sport === "running" ? "#bc9981" : feature.sport === "tennis" ? "#8ca7a0" : feature.sport === "chess" ? "#ced8b9" : "#91a8b0"} stroke={selectedGeometry.includes(feature.id) ? "#304ffe" : "#e4ead9"} strokeWidth={selectedGeometry.includes(feature.id) ? 5 : 3} />
+          <path d={pathData(feature.points)} fill={feature.sport === "soccer" || feature.sport === "cricket" ? "#87aa52" : feature.sport === "running" ? "#b77e63" : feature.sport === "tennis" ? "#508a80" : feature.sport === "chess" ? "#c1ce9f" : feature.sport === "basketball" ? "#c18a63" : "#5b9197"} stroke={selectedGeometry.includes(feature.id) ? "#304ffe" : "#f6f3df"} strokeWidth={selectedGeometry.includes(feature.id) ? 5 : 3} />
           <GroundMarkings feature={feature} prefix={prefix} />
         </g>)}
       </g>
     </g>
-    {objects.map((object) => object.type === "building" ? <Building key={object.feature.id} feature={object.feature} view={view} active={selectedGeometry.includes(object.feature.id)} /> : <g key={`tree-${object.id}`} transform={`translate(${object.tree.screen[0]},${object.tree.screen[1]})`}>
-      <ellipse cx="3" cy="2" rx="8" ry="3.5" fill="#718665" opacity="0.13" />
-      {view === "3d" ? <>
-        <path d="M0,0v-10" stroke="#9e9f7c" strokeWidth="2" />
-        <ellipse cy="-12" rx="6.5" ry="8" fill="#93ac7c" />
-        <ellipse cx="-2" cy="-14" rx="4.5" ry="6" fill="#b0c392" />
-        <ellipse cx="2" cy="-10" rx="3.5" ry="5" fill="#819e70" opacity="0.7" />
-      </> : <><circle r="6.5" fill="#a5bc8c" /><circle cx="-2" cy="-2" r="4" fill="#b6caa0" /></>}
+    {objects.map((object) => object.type === "building" ? <Building key={object.feature.id} feature={object.feature} view={view} active={selectedGeometry.includes(object.feature.id)} prefix={prefix} /> : <g key={`tree-${object.id}`} transform={`translate(${object.tree.screen[0]},${object.tree.screen[1]}) scale(${0.83 + (Math.sin(object.tree.point[0] + object.tree.point[1]) + 1) * 0.16})`}>
+      {view === "3d" ? <use href={`#${prefix}-tree`} /> : <><ellipse cx="2" cy="2" rx="8" ry="7" fill="#557b3f" opacity="0.2" /><circle r="7" fill={`url(#${prefix}-leaves)`} /><circle cx="-2" cy="-2" r="4" fill="#b8ce83" opacity="0.6" /></>}
     </g>)}
   </g>;
 });

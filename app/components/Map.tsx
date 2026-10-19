@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowUpRight, Check, ChevronRight, DoorOpen, MapPin, Search, X } from "lucide-react";
 import { CAMPUS_PLACES, CATEGORY_LABELS, type CampusPlace, type PlaceCategory } from "./campus-map/places";
-import { directionsUrl, project, searchPlaces, toWorld } from "./campus-map/geometry";
-import { CampusArtwork } from "./campus-map/CampusArtwork";
+import { bounds, buildingLift, directionsUrl, project, searchPlaces, toWorld, type Point } from "./campus-map/geometry";
+import { CAMPUS_FEATURES, CampusArtwork } from "./campus-map/CampusArtwork";
 import CampusCanvas from "./campus-map/CampusCanvas";
 import PlaceIcon from "./campus-map/PlaceIcon";
 import styles from "../styles/Map.module.css";
@@ -14,9 +14,21 @@ const GATE = CAMPUS_PLACES.find((place) => place.id === "gate1")!;
 
 function VenuePreview({ place }: { place: CampusPlace }) {
   const world = useMemo(() => toWorld(place.longitude, place.latitude), [place]);
-  const center = project(world, "3d");
+  const viewBox = useMemo(() => {
+    const features = CAMPUS_FEATURES.filter((feature) => place.geometryIds.includes(feature.id));
+    if (!features.length) {
+      const center = project(world, "3d");
+      return `${center[0] - 110} ${center[1] - 80} 220 146`;
+    }
+    const box = bounds(features.flatMap((feature) => feature.points.flatMap((point) => {
+      const [x, y] = project(point, "3d");
+      return [[x, y], [x, y - buildingLift(feature, "3d")]] as Point[];
+    })));
+    const width = Math.max(box.maxX - box.minX + 58, (box.maxY - box.minY + 44) * 1.5);
+    return `${(box.minX + box.maxX - width) / 2} ${(box.minY + box.maxY - width / 1.5) / 2} ${width} ${width / 1.5}`;
+  }, [place, world]);
   return <div className={styles.venuePreview} aria-hidden="true">
-    <svg viewBox={`${center[0] - 130} ${center[1] - 100} 260 165`} focusable="false"><CampusArtwork view="3d" selectedGeometry={place.geometryIds} prefix={`preview-${place.id}`} focus={world} /></svg>
+    <svg viewBox={viewBox} focusable="false"><CampusArtwork view="3d" selectedGeometry={place.geometryIds} prefix={`preview-${place.id}`} focus={world} /></svg>
     <span className={styles.previewCaption}>SNU CAMPUS</span>
   </div>;
 }
@@ -75,9 +87,10 @@ export default function Map() {
         <aside className={styles.sidebar} aria-label="Campus places">
           {selected ? <div className={styles.detail}>
             <div className={styles.detailTop}><button type="button" className={styles.backButton} onClick={() => setSelectedId(null)}><ArrowLeft size={15} /> All places</button><span className={`${styles.categoryLabel} ${styles[selected.category]}`}><PlaceIcon place={selected} size={12} />{CATEGORY_LABELS[selected.category]}</span></div>
+            <div className={styles.venueHeading} aria-live="polite" aria-atomic="true"><span className={styles.venueNumber} aria-hidden="true">{selected.mapNumber}</span><h3>{selected.name}</h3></div>
             <VenuePreview place={selected} />
             <div className={styles.detailBody} aria-live="polite" aria-atomic="true">
-              <p className={styles.detailEyebrow}>YOUR NEXT STOP</p><h3>{selected.name}</h3><p className={styles.description}>{selected.description}</p>
+              <p className={styles.description}>{selected.description}</p>
               <div className={styles.tags}>{selected.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
               <a className={styles.directionsButton} href={directionsUrl(selected)} target="_blank" rel="noopener noreferrer"><span>Get directions</span><ArrowUpRight size={19} /></a>
               <a className={styles.mapsLink} href={selected.mapsUrl} target="_blank" rel="noopener noreferrer">View on Google Maps <ArrowUpRight size={13} /></a>
@@ -86,7 +99,7 @@ export default function Map() {
           </div> : <div className={styles.results}>
             <div className={styles.resultsHeading}><div><p className={styles.detailEyebrow}>{query ? "SEARCH RESULTS" : "EXPLORE CAMPUS"}</p><h3>{query ? "Find your place" : category === "all" ? "Pick your next stop" : category === "food" ? "Refuel here" : category === "sports" ? "Find your arena" : "Start here"}</h3></div><span aria-live="polite">{places.length}</span></div>
             <div className={styles.placeList}>
-              {places.map((place) => <button type="button" key={place.id} className={styles.placeRow} onClick={() => selectPlace(place)}><span className={`${styles.placeRowIcon} ${styles[place.category]}`}><PlaceIcon place={place} /></span><span><strong>{category === "food" && place.id === "football-futsal" ? "Futsal Field Food Stalls" : place.name}</strong><small>{category === "food" && place.id === "football-futsal" ? "Food stalls · Shared football / futsal ground" : place.tags.slice(0, 2).join(" · ")}</small></span><ChevronRight size={16} aria-hidden="true" /></button>)}
+              {places.map((place) => <button type="button" key={place.id} className={styles.placeRow} onClick={() => selectPlace(place)}><span className={`${styles.placeRowIcon} ${styles[place.category]}`}>{place.mapNumber}</span><span><strong>{category === "food" && place.id === "football-futsal" ? "Futsal Field Food Stalls" : place.name}</strong><small>{category === "food" && place.id === "football-futsal" ? "Food stalls · Shared football / futsal ground" : place.tags.slice(0, 2).join(" · ")}</small></span><ChevronRight size={16} aria-hidden="true" /></button>)}
               {!places.length && <div className={styles.emptyState}><Search size={28} /><h4>No places found</h4><p>Try “DH2”, “volleyball” or “coffee”.</p><button type="button" onClick={() => { setQuery(""); setCategory("all"); searchRef.current?.focus(); }}>Clear search & filters</button></div>}
             </div>
           </div>}

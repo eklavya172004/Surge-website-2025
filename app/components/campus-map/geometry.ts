@@ -28,6 +28,11 @@ export function unproject([x, y]: Point, view: MapView): Point {
   return [x * Math.cos(ANGLE) + y / 0.66 * Math.sin(ANGLE), -x * Math.sin(ANGLE) + y / 0.66 * Math.cos(ANGLE)];
 }
 
+// Heights are illustrative. Give the arena enough relief to read as a landmark.
+export function buildingLift(feature: CampusFeature, view: MapView) {
+  return view === "3d" && feature.kind === "building" ? (feature.id === "454615138" ? 12 : feature.height ?? 10) * 1.35 : 0;
+}
+
 export function bounds(points: Point[]) {
   return { minX: Math.min(...points.map((p) => p[0])), maxX: Math.max(...points.map((p) => p[0])), minY: Math.min(...points.map((p) => p[1])), maxY: Math.max(...points.map((p) => p[1])) };
 }

@@ -1,8 +1,8 @@
 .section {
   --map-ink:#141a34;
   --map-blue:#304ffe;
-  --map-food:#ad6834;
-  --map-entry:#426c5d;
+  --map-food:#af642b;
+  --map-entry:#2f6c51;
   padding:100px 4.5% 36px;
   color:var(--map-ink);
   background:#fff;
@@ -94,10 +94,10 @@
 
 .explorer {
   overflow:hidden;
-  border:1px solid #e1e6e0;
-  border-radius:20px;
+  border:1px solid #cfd7e4;
+  border-radius:14px;
   background:#fff;
-  box-shadow:0 18px 60px -40px #33403955;
+  box-shadow:0 20px 65px -35px #1b2c4c45;
 }
 
 .toolbar {
@@ -105,7 +105,7 @@
   align-items:center;
   gap:22px;
   padding:17px 20px;
-  border-bottom:1px solid #e6e9e2;
+  border-bottom:1px solid #dce2ed;
 }
 
 .searchBox {
@@ -165,10 +165,10 @@
 }
 
 .filters button {
-  border:1px solid transparent;
+  border:1px solid #d2dcf1;
   border-radius:7px;
   background:transparent;
-  color:#6f756f;
+  color:#35466c;
   padding:10px 13px;
   white-space:nowrap;
   font-size:11px;
@@ -176,28 +176,28 @@
 }
 
 .filters button:hover {
-  background:#f3f5ef;
+  background:#f0f3ff;
   color:var(--map-ink);
 }
 
 .filters .filterActive {
-  color:var(--map-blue);
-  background:#eef0ff;
-  border-color:#dce1ff;
+  color:#fff;
+  background:var(--map-blue);
+  border-color:var(--map-blue);
 }
 
 .workspace {
   display:grid;
   grid-template-columns:minmax(0,1fr) 294px;
-  min-height:620px;
+  min-height:660px;
 }
 
 .viewport {
   position:relative;
-  height:620px;
+  height:660px;
   min-width:0;
   overflow:hidden;
-  background:radial-gradient(ellipse at 45% 45%,#f2f5ed 15%,#e9eee5 100%);
+  background:radial-gradient(ellipse at 45% 42%,#fafbf4 12%,#e7eddf 100%);
   cursor:grab;
   touch-action:none;
   user-select:none;
@@ -224,7 +224,7 @@
   flex-direction:column;
   gap:2px;
   font-family:Anton,Impact,sans-serif;
-  color:#9ba896;
+  color:#71816b;
   font-size:25px;
   line-height:1;
   pointer-events:none;
@@ -271,44 +271,51 @@
 }
 
 .pin, .sports {
-  --pin-color:#304ffe;
+  --pin-color:#1e2d60;
 }
 
 .food {
-  --pin-color:#ad6834;
+  --pin-color:var(--map-food);
 }
 
 .essentials {
-  --pin-color:#426c5d;
+  --pin-color:var(--map-entry);
 }
 
 .pinHead {
   display:grid;
   place-items:center;
-  width:30px;
-  height:30px;
+  width:32px;
+  height:32px;
   border:2px solid #fff;
   border-radius:50%;
   background:var(--pin-color);
-  box-shadow:0 3px 8px #27312b28;
+  box-shadow:0 3px 8px #1e2b4f40;
+  font-family:Anton,Impact,sans-serif;
+  font-size:15px;
+  line-height:1;
+  letter-spacing:.4px;
   transition:transform .18s;
 }
 
 .pinStem {
-  width:2px;
-  height:9px;
-  background:var(--pin-color);
-  box-shadow:0 1px 2px #27312b26;
+  width:0;
+  height:0;
+  margin-top:-2px;
+  border-left:6px solid transparent;
+  border-right:6px solid transparent;
+  border-top:9px solid var(--pin-color);
 }
 
 .pinStem::after {
   content:"";
   position:absolute;
-  width:5px;
-  height:3px;
-  bottom:-1px;
-  left:calc(50% - 2.5px);
-  background:var(--pin-color);
+  width:10px;
+  height:4px;
+  bottom:-3px;
+  left:calc(50% - 5px);
+  background:#304327;
+  opacity:.2;
   border-radius:50%;
 }
 
@@ -342,15 +349,15 @@
 }
 
 .pinSelected .pinHead {
-  width:38px;
-  height:38px;
+  width:40px;
+  height:40px;
   border:3px solid white;
   box-shadow:0 0 0 5px #304ffe19,0 4px 10px #27312b20;
+  font-size:20px;
 }
 
-.pinSelected .pinHead svg {
-  width:18px;
-  height:18px;
+.pinSelected {
+  --pin-color:var(--map-blue);
 }
 
 .cluster {
@@ -358,9 +365,9 @@
   gap:1px;
   width:33px;
   height:33px;
-  color:#243142;
+  color:#23356a;
   background:#fff;
-  border:2px solid #8196c7;
+  border:2px solid #647aac;
   border-radius:50%;
   box-shadow:0 2px 7px #27312b22;
   font-size:12px;
@@ -524,15 +531,15 @@
 }
 
 .sidebar {
-  border-left:1px solid #e3e8df;
+  border-left:1px solid #d4ddee;
   min-width:0;
-  background:#fff;
+  background:linear-gradient(180deg,#fff 70%,#f8faff);
 }
 
 .detail {
   display:flex;
   flex-direction:column;
-  min-height:620px;
+  min-height:660px;
 }
 
 .detailTop {
@@ -570,10 +577,38 @@
 .venuePreview {
   position:relative;
   margin:0 17px;
-  height:159px;
+  height:175px;
   overflow:hidden;
-  background:#f0f4e8;
-  border-radius:10px;
+  background:radial-gradient(ellipse at center,#fafbf3,#e8eedb);
+  border:1px solid #dbe3cd;
+  border-radius:7px;
+  flex-shrink:0;
+}
+
+.venueHeading {
+  padding:0 22px 14px;
+}
+
+.venueNumber {
+  display:block;
+  color:var(--map-blue);
+  font-family:Anton,Impact,sans-serif;
+  font-size:55px;
+  font-weight:400;
+  line-height:1.05;
+  letter-spacing:-1px;
+  margin-bottom:6px;
+}
+
+.venueHeading h3 {
+  margin:0;
+  font-family:Anton,Impact,sans-serif;
+  font-size:25px;
+  font-weight:400;
+  line-height:1.1;
+  text-transform:uppercase;
+  text-shadow:none;
+  color:#182758;
 }
 
 .venuePreview svg {
@@ -592,7 +627,7 @@
 }
 
 .detailBody {
-  padding:22px 23px 18px;
+  padding:17px 22px 18px;
 }
 
 .detailEyebrow {
@@ -625,16 +660,16 @@
   display:flex;
   gap:5px;
   flex-wrap:wrap;
-  margin:15px 0 23px;
+  margin:13px 0 18px;
 }
 
 .tags span {
   padding:5px 7px;
   border-radius:4px;
   font-size:8px;
-  color:#65755e;
-  border:1px solid #e5eade;
-  background:#f8faf4;
+  color:#526342;
+  border:1px solid #d9e3cb;
+  background:#f5f8ee;
 }
 
 .directionsButton {
@@ -696,7 +731,7 @@
 .results {
   display:flex;
   flex-direction:column;
-  height:620px;
+  height:660px;
 }
 
 .resultsHeading {
@@ -770,6 +805,9 @@
   color:var(--pin-color);
   border-radius:9px;
   flex-shrink:0;
+  font-family:Anton,Impact,sans-serif;
+  font-size:17px;
+  font-weight:400;
 }
 
 .placeRowIcon.food {
@@ -787,7 +825,7 @@
 
 .placeRow strong {
   display:block;
-  color:#34412e;
+  color:#243552;
   font-size:10px;
   font-weight:650;
   line-height:1.5;
@@ -795,7 +833,7 @@
 
 .placeRow small {
   display:block;
-  color:#98a18e;
+  color:#78836d;
   font-size:8px;
   line-height:1.7;
   margin-top:2px;
@@ -921,8 +959,8 @@
 }
 
 .expanded .detail {
-  height:100%;
-  min-height:540px;
+  height:auto;
+  min-height:100%;
 }
 
 .expanded .results {
@@ -1170,9 +1208,9 @@
   }
   .venuePreview {
     position:absolute;
-    width:100px;
-    height:85px;
-    top:58px;
+    width:108px;
+    height:104px;
+    top:66px;
     right:0;
     margin-right:18px;
     border-radius:8px;
@@ -1183,14 +1221,19 @@
   .detailBody {
     padding:12px 18px 17px;
   }
+  .venueHeading {
+    min-height:128px;
+    padding:8px 138px 8px 18px;
+  }
+  .venueNumber {
+    font-size:43px;
+    margin-bottom:5px;
+  }
+  .venueHeading h3 {
+    font-size:24px;
+  }
   .detailEyebrow {
     font-size:8px;
-  }
-  .detailBody h3 {
-    min-height:54px;
-    font-size:27px;
-    padding-right:112px;
-    margin-bottom:9px;
   }
   .description {
     font-size:11px;
@@ -1305,8 +1348,8 @@
   .viewport {
     height:410px;
   }
-  .detailBody h3 {
-    font-size:25px;
+  .venueHeading h3 {
+    font-size:22px;
   }
 }
 
