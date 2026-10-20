@@ -4,123 +4,39 @@ import React from "react";
 import Navbar from "@/app/components/Navbar";
 
 export default function Sponsors() {
-  const sponsors =[
-  {
-    name: "LIMR recycling",
-    url: "https://limrrecycling.com/",
-    logo: "/sponsors/limr.png"
-  },
-  {
-    name: "Morde",
-    url: "https://www.morde.com/",
-    logo: "/sponsors/morde2.png"
-  },
+  const titleSponsor = {
+    tier: "Title Sponsor",
+    name: "HCL Sports",
+    url: "https://www.hclsports.com",
+    logo: "/sponsors/hcl-sports-transparent-4k.png",
+  };
+
+  // Add singular sponsors here with { name, url, logo, tier? }
+  const sponsors: { name: string; url: string; logo: string; tier?: string }[] = [
     {
-    name: "Pladis",
-    url: "",
-    logo: "/sponsors/pladis.jpg"
-  },
-  {
-    name: "Netweb",
-    url: "https://www.netwebindia.com/",
-    logo: "/sponsors/newtab.png"
-  },
-  {
-    name: "Policy Bazaar",
-    url: "https://www.pbpartners.com/",
-    logo: "/sponsors/pb.png"
-  },
+      name: "Mico",
+      url: "",
+      logo: "/sponsors/mico.png",
+    },
     {
-    name: "leap scholar",
-    url: "https://leapscholar.com/",
-    logo: "sponsors/ls.png"
-  },
-  {
-    name: "VEDWELL",
-    url: "https://www.vedwell.com/",
-    logo: "/sponsors/vedwell.png"
-  },
+      name: "Nutrica",
+      tier: "Nutrition Sponsor",
+      url: "",
+      logo: "/sponsors/nutrica.png",
+    },
     {
-    name: "micolube",
-    url: "https://micolube.com/",
-    logo: "/sponsors/mico.png"
-  },
+      name: "Fateh",
+      tier: "Study Abroad Partner",
+      url: "",
+      logo: "/sponsors/fateh.png",
+    },
     {
-    name: "Zest",
-    url: "",
-    logo: "/sponsors/zest.jpg"
-  },
-  {
-    name: "Babolat",
-    url: "https://www.babolattennis.in/",
-    logo: "/sponsors/bb copy.jpg"
-  },
-  {
-    name: "Yonex",
-    url: "",
-    logo: "/sponsors/yonex.jpg"
-  },
-  {
-    name: "EXTRATIMESTORE",
-    url: "",                        // (URL not found/ad ambiguous)
-    logo: "/sponsors/ets.png"
-  },
-    {
-    name: "COCA-COLA",
-    url: "https://www.coca-cola.com/in/en",
-    logo: "/sponsors/coco.png"
-  },
-  {
-    name: "Sodexo",
-    url: "",
-    logo: "/sponsors/sodexo.jpg"
-  },
-  {
-    name: "Nestle",
-    url: "",
-    logo: "/sponsors/maggie.jpg"
-  },
-  {
-    name: "Starbucks",
-    url: "",
-    logo: "/sponsors/starbucks.jpg"
-  },
-  {
-    name: "SMAAASH",
-    url: "",                        // (URL not found)
-    logo: "/sponsors/smaaash.png"
-  },
-  {
-    name: "Ceres foods",
-    url: "",                        // (URL not found)
-    logo: "/sponsors/ceres.png"
-  },
-  {
-    name: "FUJIFLM",
-    url: "https://global.fujifilm.com/en/",                        
-    logo: "/sponsors/fujifilm.png"
-  },
-  {
-    name: "MYOP",
-    url: "https://myop.in/",
-    logo: "/sponsors/myop.png"
-  },
-  {
-    name: "EASEMYTRIP",
-    url: "",                        // (URL not found)
-    logo: "/sponsors/emp.png"
-  },
-  {
-    name: "Doyene Sports Club",
-    url: "",
-    logo: "/sponsors/doyene.jpg"
-  },
-  {
-    name: "Jewels Of Ada",
-    url: "https://www.jewelsofada.com/",
-    logo: "/sponsors/joa.png"
-  }
-];
+      name: "Powerade",
+      tier: "Hydration Partner",
+      url: "",
+      logo: "/sponsors/powerade.png",
+    },
+  ];
 
   return (
     <div className="min-h-screen relative overflow-hidden py-12 px-4 md:px-8">
@@ -129,12 +45,18 @@ export default function Sponsors() {
         
         .sponsor-card {
           transition: all 0.3s ease;
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
         }
         
         .sponsor-card:hover {
           transform: translateY(-4px);
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.35);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
-        
+
         .sponsor-logo-wrapper {
           background: rgba(255, 255, 255, 0.95);
           transition: all 0.3s ease;
@@ -162,25 +84,56 @@ export default function Sponsors() {
         <div className="section-line mb-16" />
 
         {/* Sponsors Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-8 md:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16">
+          
+          {/* Title Sponsor - occupying 4 tiles */}
+          {titleSponsor && (
+            <a
+              href={titleSponsor.url || undefined}
+              target={titleSponsor.url ? "_blank" : undefined}
+              rel={titleSponsor.url ? "noopener noreferrer" : undefined}
+              className="sponsor-card col-span-1 md:col-span-2 lg:col-span-4 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center cursor-pointer"
+            >
+              <span className="text-xs uppercase tracking-widest text-gray-400 font-medium mb-4">
+                {titleSponsor.tier}
+              </span>
+              <div className="w-full max-w-md h-28 sm:h-32 flex items-center justify-center p-2">
+                <img
+                  src={titleSponsor.logo}
+                  alt={titleSponsor.name}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+              <h3 className="text-white text-xl font-semibold mt-4 text-center">
+                {titleSponsor.name}
+              </h3>
+            </a>
+          )}
+
+          {/* Singular Sponsor Tiles (1 tile each) */}
           {sponsors.map((sponsor, index) => (
             <a
               key={index}
-              href={sponsor.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer"
+              href={sponsor.url || undefined}
+              target={sponsor.url ? "_blank" : undefined}
+              rel={sponsor.url ? "noopener noreferrer" : undefined}
+              className="sponsor-card col-span-1 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer"
             >
               <div className="sponsor-logo-wrapper w-full h-48 rounded-lg flex items-center justify-center p-6">
                 <img
                   src={sponsor.logo}
                   alt={sponsor.name}
-                  className="max-w-full max-h-full object-cover"
+                  className="max-w-full max-h-full object-contain"
                 />
               </div>
               <h3 className="text-white text-xl font-semibold mt-6 text-center">
                 {sponsor.name}
               </h3>
+              {sponsor.tier && (
+                <span className="text-xs uppercase tracking-widest text-gray-400 font-medium mt-1 text-center">
+                  {sponsor.tier}
+                </span>
+              )}
             </a>
           ))}
         </div>
