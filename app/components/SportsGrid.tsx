@@ -74,7 +74,7 @@ export default function SportsGrid() {
             boxShadow: "0 4px 14px rgba(239, 68, 68, 0.08)",
           }}
         >
-          <span style={{ fontSize: "22px", flexShrink: 0 }}>🏏</span>
+          <span style={{ fontSize: "22px", flexShrink: 0 }}>📢</span>
           <div style={{ color: "#991b1b", fontSize: "14px", fontWeight: "600", lineHeight: "1.4" }}>
             <span
               style={{
@@ -92,7 +92,7 @@ export default function SportsGrid() {
             >
               Update
             </span>
-            Registration is closed for <strong>Cricket Men</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Cricket Women & other sports are still open.
+            Registration is closed for <strong>Cricket Men</strong> & <strong>Football Men</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Other sports are still open.
           </div>
         </motion.div>
 
@@ -132,7 +132,7 @@ export default function SportsGrid() {
                     />
                     <div className={styles.color_overlay} />
                     <div className={styles.overlay_text_small}>{sport.name}</div>
-                    {sport.name === "Cricket" && (
+                    {(sport.name === "Cricket" || sport.name === "Football") && (
                       <div
                         style={{
                           position: "absolute",

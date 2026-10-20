@@ -48,6 +48,17 @@ export default function EventDetailClient({ slug }: Props) {
         event.name.toLowerCase() === "cricket men")
   );
 
+  const isFootballMen = Boolean(
+    event &&
+      (event.slug === "football" ||
+        event.name.toLowerCase() === "football" ||
+        event.name.toLowerCase() === "football men")
+  );
+
+  const isClosed = isCricketMen || isFootballMen;
+  const closedName = isCricketMen ? "Cricket Men" : isFootballMen ? "Football Men" : "";
+  const closedEmoji = isCricketMen ? "🏏" : "⚽";
+
   const [players, setPlayers] = useState<number>(1);
   const [accommodation, setAccommodation] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -89,8 +100,8 @@ export default function EventDetailClient({ slug }: Props) {
       return;
     }
 
-    if (isCricketMen) {
-      setMessage("Registration is closed for Cricket Men (Closed due to excess participants, hope to see you in Surge’27!!)");
+    if (isClosed) {
+      setMessage(`Registration is closed for ${closedName} (Closed due to excess participants, hope to see you in Surge’27!!)`);
       return;
     }
 
@@ -118,7 +129,7 @@ export default function EventDetailClient({ slug }: Props) {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>{event.name}</h1>
-        {isCricketMen && (
+        {isClosed && (
           <div
             style={{
               display: "inline-block",
@@ -173,17 +184,17 @@ export default function EventDetailClient({ slug }: Props) {
 
         <aside className={styles.right}>
           <div className={styles.card}>
-            {isCricketMen ? (
+            {isClosed ? (
               <div style={{ textAlign: "center", padding: "16px 8px" }}>
-                <span style={{ fontSize: "36px" }}>🏏</span>
+                <span style={{ fontSize: "36px" }}>{closedEmoji}</span>
                 <h3 style={{ color: "#dc2626", marginTop: 8, marginBottom: 8, fontWeight: "800" }}>
-                  Registration Closed
+                  {closedName} Registration Closed
                 </h3>
                 <p style={{ color: "#b91c1c", fontWeight: "700", fontSize: "15px", lineHeight: "1.4" }}>
                   Closed due to excess participants, hope to see you in Surge’27!!
                 </p>
                 <p style={{ color: "#6b7280", fontSize: "13px", marginTop: 12 }}>
-                  We have reached full participant capacity for Cricket Men. Registration for Cricket Women and other sports events remain open.
+                  We have reached full participant capacity for {closedName}. Registration for other sports events remain open.
                 </p>
                 <Link href="/dashboard/register" style={{ display: "inline-block", marginTop: 16 }}>
                   <button className={styles.button}>

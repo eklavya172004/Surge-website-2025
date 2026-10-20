@@ -83,6 +83,17 @@ export default function RegisterPage() {
       selectedEventData.name.toLowerCase() === "cricket men")
   );
 
+  const isFootballMen = Boolean(
+    selectedEventData &&
+    (selectedEventData.slug === "football" ||
+      selectedEventData.name.toLowerCase() === "football" ||
+      selectedEventData.name.toLowerCase() === "football men")
+  );
+
+  const isClosedEvent = isCricketMen || isFootballMen;
+  const closedEventName = isCricketMen ? "Cricket Men" : isFootballMen ? "Football Men" : "";
+  const closedEventEmoji = isCricketMen ? "🏏" : "⚽";
+
   useEffect(() => {
     if (!message) return;
 
@@ -123,8 +134,8 @@ export default function RegisterPage() {
       return;
     }
 
-    if (isCricketMen) {
-      setMessage("Registration is closed for Cricket Men due to excess participants, hope to see you in Surge’27!!");
+    if (isClosedEvent) {
+      setMessage(`Registration is closed for ${closedEventName} due to excess participants, hope to see you in Surge’27!!`);
       return;
     }
 
@@ -294,7 +305,12 @@ export default function RegisterPage() {
                 Choose an event...
               </option>
               {events?.map((event) => {
-                const isClosed = event.slug === "cricket-men" || event.name.toLowerCase() === "cricket men";
+                const isClosed =
+                  event.slug === "cricket-men" ||
+                  event.name.toLowerCase() === "cricket men" ||
+                  event.slug === "football" ||
+                  event.name.toLowerCase() === "football" ||
+                  event.name.toLowerCase() === "football men";
                 return (
                   <option
                     key={event.id}
@@ -319,7 +335,7 @@ export default function RegisterPage() {
                 transition={{ duration: 0.5 }}
               >
                 {/* Closed Alert inside Details Card */}
-                {isCricketMen && (
+                {isClosedEvent && (
                   <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg flex items-start sm:items-center gap-3 sm:gap-4 border border-red-400">
                     <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
                       <AlertOctagon className="w-6 h-6 text-white" />
@@ -473,22 +489,22 @@ export default function RegisterPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                {isCricketMen ? (
+                {isClosedEvent ? (
                   <div className="text-center py-10 px-4 sm:px-8">
                     <div className="w-20 h-20 rounded-3xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-5 border-2 border-red-200 shadow-sm">
-                      <span className="text-4xl">🏏</span>
+                      <span className="text-4xl">{closedEventEmoji}</span>
                     </div>
                     <span className="inline-block bg-red-100 text-red-700 text-xs font-extrabold uppercase px-3 py-1 rounded-full mb-3 tracking-wider">
                       Event Full
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
-                      Cricket Men Registration Closed
+                      {closedEventName} Registration Closed
                     </h3>
                     <p className="text-red-600 font-bold text-base sm:text-xl max-w-lg mx-auto mb-3">
                       Closed due to excess participants, hope to see you in Surge’27!!
                     </p>
                     <p className="text-gray-500 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
-                      We have reached full participant capacity for Cricket Men. Registration for Cricket Women and all other sports events remain open.
+                      We have reached full participant capacity for {closedEventName}. Registration for all other sports events remain open.
                     </p>
                     <button
                       type="button"
