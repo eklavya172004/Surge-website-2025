@@ -20,7 +20,7 @@ export default function Sponsors() {
     },
     {
       name: "Nutrica",
-      tier: "Nutrition Sponsor",
+      tier: "Nutrition Partner",
       url: "",
       logo: "/sponsors/nutrica.png",
     },
@@ -35,6 +35,11 @@ export default function Sponsors() {
       tier: "Hydration Partner",
       url: "",
       logo: "/sponsors/powerade.png",
+    },
+    {
+      name: "Brwd Beverages",
+      url: "",
+      logo: "/sponsors/brwd-clean.png",
     },
   ];
 
