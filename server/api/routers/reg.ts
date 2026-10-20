@@ -50,9 +50,16 @@ export const regRouter = createTRPCRouter({
         throw new Error("Event not found.");
       }
       
-      // Block registration if event is Cricket Men
+      // Block registration if event is Cricket Men or Football Men
       if (event.slug === "cricket-men" || event.name.toLowerCase() === "cricket men") {
         throw new Error("Registration is closed for Cricket Men (Closed due to excess participants, hope to see you in Surge’27!!)");
+      }
+      if (
+        event.slug === "football" ||
+        event.name.toLowerCase() === "football" ||
+        event.name.toLowerCase() === "football men"
+      ) {
+        throw new Error("Registration is closed for Football Men (Closed due to excess participants, hope to see you in Surge’27!!)");
       }
       
       // Validate player count
