@@ -7,14 +7,13 @@ export default function ContactUs() {
   const coordinators = [
     {
       name: "Prithviraj Jhunjhunwala",
-      image:
-        "https://b092vtsc3q.ufs.sh/f/Uil1Z3Z4arX21d4qKHeDnkpuaw7tvyVr6PjTJYBgXxFdKc2W",
+      image: "/team/chairperson.jpg",
       role: "Chairperson",
       phone: "+91 6290 742 854",
     },
     {
-      name: "TBA",
-      image: "/placeholder-avatar.svg",
+      name: "Saksham Dhawan",
+      image: "/team/co-chairperson.jpg",
       role: "Co-Chairperson",
       phone: "",
     },
@@ -25,15 +24,27 @@ export default function ContactUs() {
       phone: "",
     },
     {
-      name: "TBA",
-      image: "/placeholder-avatar.svg",
+      name: "Shanaya Khullar",
+      image: "/team/administrator-shanaya.jpg",
       role: "Administrator",
       phone: "",
     },
     {
-      name: "TBA",
-      image: "/placeholder-avatar.svg",
+      name: "Appy",
+      image: "/team/administrator-appy.jpg",
       role: "Administrator",
+      phone: "",
+    },
+    {
+      name: "Diggaj Rupani",
+      image: "/team/director-outreach.jpg",
+      role: "Director Of Outreach",
+      phone: "",
+    },
+    {
+      name: "Girish Rajendran",
+      image: "/team/advisor.jpg",
+      role: "Advisor",
       phone: "",
     },
   ];
@@ -43,12 +54,16 @@ export default function ContactUs() {
       category: "PR",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Veda",
+          image: "/team/pr-veda.jpg",
         },
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Riddhi",
+          image: "/team/pr-riddhi.jpg",
+        },
+        {
+          name: "Lakshya",
+          image: "/team/pr-lakshya.jpg",
         },
       ],
     },
@@ -56,25 +71,21 @@ export default function ContactUs() {
       category: "Sponsorship",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
-        },
-        {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Thanikachalam",
+          image: "/team/sponsorship-thanikachalam.jpg",
         },
       ],
     },
     {
-      category: "Web Dev",
+      category: "Dev",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Om Tiwari",
+          image: "/team/dev-om.jpg",
         },
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Kolla Aniketh",
+          image: "/team/dev-aniketh.jpg",
         },
       ],
     },
@@ -82,12 +93,12 @@ export default function ContactUs() {
       category: "Marketing",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Shreyansh",
+          image: "/team/marketing-shreyansh.jpg",
         },
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Anshikha",
+          image: "/team/marketing-anshikha.jpg",
         },
       ],
     },
@@ -95,12 +106,12 @@ export default function ContactUs() {
       category: "Esports",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Rohit",
+          image: "/team/esports-rohit.jpg",
         },
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Sanjith",
+          image: "/team/esports-sanjith.jpg",
         },
       ],
     },
@@ -108,25 +119,12 @@ export default function ContactUs() {
       category: "Content",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Samyukta Menon",
+          image: "/team/content-samyukta.jpg",
         },
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
-        },
-      ],
-    },
-    {
-      category: "Videography",
-      members: [
-        {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
-        },
-        {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Abhinav Anoop",
+          image: "/team/content-abhinav.jpg",
         },
       ],
     },
@@ -137,15 +135,6 @@ export default function ContactUs() {
           name: "TBA",
           image: "/placeholder-avatar.svg",
         },
-        {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
-        },
-      ],
-    },
-    {
-      category: "Creative Lead",
-      members: [
         {
           name: "TBA",
           image: "/placeholder-avatar.svg",
@@ -221,7 +210,7 @@ export default function ContactUs() {
           >
             OVERALL COORDINATORS
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-7 gap-4">
             {coordinators.map((coord, idx) => (
               <div key={idx} className="card rounded-2xl p-5">
                 <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-blue-950/30">
@@ -239,10 +228,10 @@ export default function ContactUs() {
                 </h3>
                 {coord.phone && (
                   <a
-                    href={`tel:+91${coord.phone}`}
+                    href={`tel:${coord.phone.startsWith("+") ? coord.phone.replace(/\s+/g, "") : `+91${coord.phone.replace(/\s+/g, "")}`}`}
                     className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    +91 {coord.phone}
+                    {coord.phone.startsWith("+91") ? coord.phone : `+91 ${coord.phone}`}
                   </a>
                 )}
               </div>
@@ -262,35 +251,53 @@ export default function ContactUs() {
             THE LEADS
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {leads.map((group, idx) => (
-              <div key={idx} className="card rounded-2xl p-6">
-                <h3 className="text-2xl font-bold text-white mb-6 text-center">
-                  {group.category}
-                </h3>
+            {leads.map((group, idx) => {
+              const isLastSingle = idx === leads.length - 1 && leads.length % 3 === 1;
+              return (
                 <div
-                  className={`grid ${
-                    group.members.length === 1
-                      ? "grid-cols-1 max-w-[200px] mx-auto"
-                      : "grid-cols-2"
-                  } gap-4`}
+                  key={idx}
+                  className={`card rounded-2xl p-6 flex flex-col ${
+                    isLastSingle
+                      ? "md:col-span-2 md:max-w-md md:mx-auto md:w-full lg:col-span-1 lg:col-start-2 lg:max-w-none"
+                      : ""
+                  }`}
                 >
-                  {group.members.map((member, mIdx) => (
-                    <div key={mIdx} className="group cursor-pointer">
-                      <div className="aspect-square rounded-xl overflow-hidden mb-3 bg-blue-950/30 transition-transform duration-300 group-hover:scale-105">
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <h4 className="text-base font-semibold text-white text-center">
-                        {member.name}
-                      </h4>
+                  <h3 className="text-2xl font-bold text-white mb-4 text-center">
+                    {group.category}
+                  </h3>
+                  <div className="flex-1 flex flex-col justify-center">
+                    <div
+                      className={`grid ${
+                        group.members.length === 1
+                          ? "grid-cols-1 max-w-[200px] mx-auto gap-4"
+                          : group.members.length === 3
+                          ? "grid-cols-3 gap-2.5 sm:gap-3"
+                          : "grid-cols-2 gap-4"
+                      }`}
+                    >
+                      {group.members.map((member, mIdx) => (
+                        <div key={mIdx} className="group cursor-pointer">
+                          <div className="aspect-square rounded-xl overflow-hidden mb-3 bg-blue-950/30 transition-transform duration-300 group-hover:scale-105">
+                            <img
+                              src={member.image}
+                              alt={member.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <h4
+                            className={`${
+                              group.members.length === 3 ? "text-sm" : "text-base"
+                            } font-semibold text-white text-center`}
+                          >
+                            {member.name}
+                          </h4>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </div>
