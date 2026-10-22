@@ -32,6 +32,12 @@ export default function Sponsors() {
       logo: "/sponsors/powerade.png",
     },
     {
+      name: "McVitie's",
+      tier: "Snacking Partner",
+      url: "",
+      logo: "/sponsors/mcvities.png",
+    },
+    {
       name: "Brwd Beverages",
       url: "",
       logo: "/sponsors/brwd-clean.png",
