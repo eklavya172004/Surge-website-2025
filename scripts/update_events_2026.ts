@@ -51,6 +51,7 @@ const eventTitlesBySlug: Record<string, string> = {
   "400m-women": "400m Women",
   "800m-women": "800m Women",
   "1500m-women": "1500m Women",
+  "5000m-women": "5000m Women",
   "4x100m-women": "4x100m Women",
   "4x400m-women": "4x400m Women",
   "shot-put-women": "Shot Put Women",
