@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
@@ -22,6 +22,45 @@ import { trpc } from "@/utils/trpc";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const ATHLETICS_ORDER: Record<string, number> = {
+  "100m-men": 1,
+  "100m-women": 2,
+  "200m-men": 3,
+  "200m-women": 4,
+  "400m-men": 5,
+  "400m-women": 6,
+  "800m-men": 7,
+  "800m-women": 8,
+  "1500m-men": 9,
+  "1500m-women": 10,
+  "5000m-men": 11,
+  "5000m-women": 12,
+  "4x100m-men": 13,
+  "4x100m-women": 14,
+  "4x100m-mixed": 15,
+  "4x400m-men": 16,
+  "4x400m-women": 17,
+  "4x400m-mixed": 18,
+  "long-jump-men": 19,
+  "long-jump-women": 20,
+  "shot-put-men": 21,
+  "shot-put-women": 22,
+  "discus-throw-men": 23,
+  "discus-throw-women": 24,
+};
+
+function isAthleticsEvent(event: { slug?: string | null; name: string }) {
+  if (event.slug && event.slug in ATHLETICS_ORDER) return true;
+  const name = event.name.toLowerCase();
+  return (
+    /^\d+m\b/.test(name) ||
+    /4\s*[x×]\s*\d00m/.test(name) ||
+    name.includes("shot put") ||
+    name.includes("discus throw") ||
+    name.includes("long jump")
+  );
+}
+
 type PlayerDetails = {
   name: string;
   email: string;
@@ -32,6 +71,32 @@ type PlayerDetails = {
 export default function RegisterPage() {
   const { data: events, isLoading, error } = trpc.reg.getAvailableSports.useQuery();
   const createTeamMutation = trpc.reg.createTeamWithMembers.useMutation();
+
+  const { mainSports, athleticsEvents } = useMemo(() => {
+    if (!events) return { mainSports: [], athleticsEvents: [] };
+
+    const main: typeof events = [];
+    const athletics: typeof events = [];
+
+    for (const ev of events) {
+      if (isAthleticsEvent(ev)) {
+        athletics.push(ev);
+      } else {
+        main.push(ev);
+      }
+    }
+
+    main.sort((a, b) => a.name.localeCompare(b.name));
+
+    athletics.sort((a, b) => {
+      const orderA = a.slug ? ATHLETICS_ORDER[a.slug] ?? 999 : 999;
+      const orderB = b.slug ? ATHLETICS_ORDER[b.slug] ?? 999 : 999;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.name.localeCompare(b.name);
+    });
+
+    return { mainSports: main, athleticsEvents: athletics };
+  }, [events]);
 
   const [selectedEvent, setSelectedEvent] = useState<string>("");
   const [players, setPlayers] = useState<number>(1);
@@ -304,23 +369,49 @@ export default function RegisterPage() {
               <option value="" className="text-gray-500 font-semibold" disabled>
                 Choose an event...
               </option>
-              {events?.map((event) => {
-                const isClosed =
-                  event.slug === "cricket-men" ||
-                  event.name.toLowerCase() === "cricket men" ||
-                  event.slug === "football" ||
-                  event.name.toLowerCase() === "football" ||
-                  event.name.toLowerCase() === "football men";
-                return (
-                  <option
-                    key={event.id}
-                    className={isClosed ? "text-red-600 font-bold bg-red-50" : "text-gray-800"}
-                    value={event.slug || event.id}
-                  >
-                    {event.name} {isClosed ? "— [CLOSED: Excess Participants]" : ""}
-                  </option>
-                );
-              })}
+              {mainSports.length > 0 && (
+                <optgroup label="Main Sports" className="font-bold text-gray-900 bg-gray-50">
+                  {mainSports.map((event) => {
+                    const isClosed =
+                      event.slug === "cricket-men" ||
+                      event.name.toLowerCase() === "cricket men" ||
+                      event.slug === "football" ||
+                      event.name.toLowerCase() === "football" ||
+                      event.name.toLowerCase() === "football men";
+                    return (
+                      <option
+                        key={event.id}
+                        className={isClosed ? "text-red-600 font-bold bg-red-50" : "text-gray-800 font-normal bg-white"}
+                        value={event.slug || event.id}
+                      >
+                        {event.name} {isClosed ? "— [CLOSED: Excess Participants]" : ""}
+                      </option>
+                    );
+                  })}
+                </optgroup>
+              )}
+
+              {athleticsEvents.length > 0 && (
+                <optgroup label="Athletics" className="font-bold text-gray-900 bg-gray-50">
+                  {athleticsEvents.map((event) => {
+                    const isClosed =
+                      event.slug === "cricket-men" ||
+                      event.name.toLowerCase() === "cricket men" ||
+                      event.slug === "football" ||
+                      event.name.toLowerCase() === "football" ||
+                      event.name.toLowerCase() === "football men";
+                    return (
+                      <option
+                        key={event.id}
+                        className={isClosed ? "text-red-600 font-bold bg-red-50" : "text-gray-800 font-normal bg-white"}
+                        value={event.slug || event.id}
+                      >
+                        {event.name} {isClosed ? "— [CLOSED: Excess Participants]" : ""}
+                      </option>
+                    );
+                  })}
+                </optgroup>
+              )}
             </motion.select>
           </motion.div>
 

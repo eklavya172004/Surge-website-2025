@@ -7,7 +7,9 @@ import {
 
 export const regRouter = createTRPCRouter({
   getAvailableSports: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.event.findMany();
+    return await ctx.db.event.findMany({
+      orderBy: { name: "asc" },
+    });
   }),
   getEventDetails: publicProcedure
     .input(z.object({ sportSlug: z.string() }))
