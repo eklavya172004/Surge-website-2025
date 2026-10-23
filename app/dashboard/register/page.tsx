@@ -155,9 +155,21 @@ export default function RegisterPage() {
       selectedEventData.name.toLowerCase() === "football men")
   );
 
-  const isClosedEvent = isCricketMen || isFootballMen;
-  const closedEventName = isCricketMen ? "Cricket Men" : isFootballMen ? "Football Men" : "";
-  const closedEventEmoji = isCricketMen ? "🏏" : "⚽";
+  const isPowerlifting = Boolean(
+    selectedEventData &&
+    (selectedEventData.slug?.startsWith("powerlifting-") ||
+      selectedEventData.name.toLowerCase().includes("powerlifting"))
+  );
+
+  const isClosedEvent = isCricketMen || isFootballMen || isPowerlifting;
+  const closedEventName = isCricketMen
+    ? "Cricket Men"
+    : isFootballMen
+    ? "Football Men"
+    : isPowerlifting
+    ? selectedEventData?.name || "Powerlifting"
+    : "";
+  const closedEventEmoji = isCricketMen ? "🏏" : isFootballMen ? "⚽" : isPowerlifting ? "🏋️" : "";
 
   useEffect(() => {
     if (!message) return;
@@ -377,7 +389,9 @@ export default function RegisterPage() {
                       event.name.toLowerCase() === "cricket men" ||
                       event.slug === "football" ||
                       event.name.toLowerCase() === "football" ||
-                      event.name.toLowerCase() === "football men";
+                      event.name.toLowerCase() === "football men" ||
+                      (event.slug?.startsWith("powerlifting-") ?? false) ||
+                      event.name.toLowerCase().includes("powerlifting");
                     return (
                       <option
                         key={event.id}
@@ -399,7 +413,9 @@ export default function RegisterPage() {
                       event.name.toLowerCase() === "cricket men" ||
                       event.slug === "football" ||
                       event.name.toLowerCase() === "football" ||
-                      event.name.toLowerCase() === "football men";
+                      event.name.toLowerCase() === "football men" ||
+                      (event.slug?.startsWith("powerlifting-") ?? false) ||
+                      event.name.toLowerCase().includes("powerlifting");
                     return (
                       <option
                         key={event.id}

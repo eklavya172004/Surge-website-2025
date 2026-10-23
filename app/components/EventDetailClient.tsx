@@ -55,9 +55,21 @@ export default function EventDetailClient({ slug }: Props) {
         event.name.toLowerCase() === "football men")
   );
 
-  const isClosed = isCricketMen || isFootballMen;
-  const closedName = isCricketMen ? "Cricket Men" : isFootballMen ? "Football Men" : "";
-  const closedEmoji = isCricketMen ? "🏏" : "⚽";
+  const isPowerlifting = Boolean(
+    event &&
+      (event.slug?.startsWith("powerlifting-") ||
+        event.name.toLowerCase().includes("powerlifting"))
+  );
+
+  const isClosed = isCricketMen || isFootballMen || isPowerlifting;
+  const closedName = isCricketMen
+    ? "Cricket Men"
+    : isFootballMen
+    ? "Football Men"
+    : isPowerlifting
+    ? event?.name || "Powerlifting"
+    : "";
+  const closedEmoji = isCricketMen ? "🏏" : isFootballMen ? "⚽" : isPowerlifting ? "🏋️" : "";
 
   const [players, setPlayers] = useState<number>(1);
   const [accommodation, setAccommodation] = useState<boolean>(false);
