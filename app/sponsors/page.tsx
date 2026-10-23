@@ -39,7 +39,7 @@ export default function Sponsors() {
     },
     {
       name: "Sodexo",
-      tier: "Snacking Partner",
+      tier: "Food Partner",
       url: "https://www.sodexo.in/",
       logo: "/sponsors/sodexo.jpg",
     },
