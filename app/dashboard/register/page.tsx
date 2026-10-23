@@ -161,15 +161,31 @@ export default function RegisterPage() {
       selectedEventData.name.toLowerCase().includes("powerlifting"))
   );
 
-  const isClosedEvent = isCricketMen || isFootballMen || isPowerlifting;
+  const isBasketballWomen = Boolean(
+    selectedEventData &&
+    (selectedEventData.slug === "basketball-women" ||
+      selectedEventData.name.toLowerCase() === "basketball women")
+  );
+
+  const isClosedEvent = isCricketMen || isFootballMen || isPowerlifting || isBasketballWomen;
   const closedEventName = isCricketMen
     ? "Cricket Men"
     : isFootballMen
     ? "Football Men"
+    : isBasketballWomen
+    ? "Basketball Women"
     : isPowerlifting
     ? selectedEventData?.name || "Powerlifting"
     : "";
-  const closedEventEmoji = isCricketMen ? "🏏" : isFootballMen ? "⚽" : isPowerlifting ? "🏋️" : "";
+  const closedEventEmoji = isCricketMen
+    ? "🏏"
+    : isFootballMen
+    ? "⚽"
+    : isBasketballWomen
+    ? "🏀"
+    : isPowerlifting
+    ? "🏋️"
+    : "";
 
   useEffect(() => {
     if (!message) return;
@@ -390,6 +406,8 @@ export default function RegisterPage() {
                       event.slug === "football" ||
                       event.name.toLowerCase() === "football" ||
                       event.name.toLowerCase() === "football men" ||
+                      event.slug === "basketball-women" ||
+                      event.name.toLowerCase() === "basketball women" ||
                       (event.slug?.startsWith("powerlifting-") ?? false) ||
                       event.name.toLowerCase().includes("powerlifting");
                     return (
@@ -414,6 +432,8 @@ export default function RegisterPage() {
                       event.slug === "football" ||
                       event.name.toLowerCase() === "football" ||
                       event.name.toLowerCase() === "football men" ||
+                      event.slug === "basketball-women" ||
+                      event.name.toLowerCase() === "basketball women" ||
                       (event.slug?.startsWith("powerlifting-") ?? false) ||
                       event.name.toLowerCase().includes("powerlifting");
                     return (

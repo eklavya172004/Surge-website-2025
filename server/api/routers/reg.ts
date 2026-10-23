@@ -52,7 +52,7 @@ export const regRouter = createTRPCRouter({
         throw new Error("Event not found.");
       }
       
-      // Block registration if event is Cricket Men, Football Men, or Powerlifting
+      // Block registration if event is Cricket Men, Football Men, Powerlifting, or Basketball Women
       if (event.slug === "cricket-men" || event.name.toLowerCase() === "cricket men") {
         throw new Error("Registration is closed for Cricket Men (Closed due to excess participants, hope to see you in Surge’27!!)");
       }
@@ -68,6 +68,12 @@ export const regRouter = createTRPCRouter({
         event.name.toLowerCase().includes("powerlifting")
       ) {
         throw new Error(`Registration is closed for ${event.name} (Closed due to excess participants, hope to see you in Surge’27!!)`);
+      }
+      if (
+        event.slug === "basketball-women" ||
+        event.name.toLowerCase() === "basketball women"
+      ) {
+        throw new Error("Registration is closed for Basketball Women (Closed due to excess participants, hope to see you in Surge’27!!)");
       }
       
       // Validate player count
