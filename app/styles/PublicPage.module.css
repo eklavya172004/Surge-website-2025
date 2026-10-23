@@ -1,0 +1,75 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  padding: 107px 16px 48px;
+  color: #fff;
+  /* Paint the page itself: don't rely on body background propagation or a
+     composited fixed overlay in WebKit. Keep a solid fallback under the image. */
+  background-color: #0d2250;
+  background-image: radial-gradient(ellipse at center, #2c5282 0%, #0d2250 70%, #081432 100%);
+}
+
+.page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(2px 2px at 280px 20px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 320px 120px, rgba(255, 255, 255, 0.5), transparent);
+  background-size: 400px 200px;
+}
+
+.content { position: relative; max-width: 1280px; margin: 0 auto; }
+
+.sectionLine {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+.sponsorCard {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.sponsorCard:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.sponsorLogo { background: #f4f5f8; }
+.sponsorCard:hover .sponsorLogo { background: #fff; }
+
+.teamCard {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  background-color: rgba(255, 255, 255, 0.05);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(147, 197, 253, 0.2);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.teamCard:hover {
+  transform: translateY(-8px);
+  border-color: rgba(147, 197, 253, 0.5);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+}
+
+@media (min-width: 768px) {
+  .page { padding: 107px 32px 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsorCard, .teamCard { transition: none; }
+  .sponsorCard:hover, .teamCard:hover { transform: none; }
+}

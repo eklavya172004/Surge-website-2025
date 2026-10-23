@@ -1,129 +1,137 @@
-'use client'; 
- 
-import { RefObject } from 'react'; 
-import { useSession } from "next-auth/react"; 
-import { useRouter } from "next/navigation"; 
-import styles from '../styles/Navbar.module.css'; 
-import Image from 'next/image'; 
+'use client';
+
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin } from 'lucide-react';
- 
-interface NavbarProps { 
-  logoSmallRef?: RefObject<HTMLDivElement | null>; 
-} 
- 
-export default function Navbar({ logoSmallRef }: NavbarProps) { 
-  const rulebookUrl = "https://docs.google.com/document/d/1JxvtOm-qu307XSrBc2CChQ40czm685RAAX4sHn98vuM/edit?usp=sharing"; 
-  const { data: session, status } = useSession(); 
-  const router = useRouter(); 
-   
-  const handleRulebookClick = () => { 
-    window.open(rulebookUrl, '_blank', 'noopener,noreferrer'); 
-  }; 
- 
-  const handleLoginClick = () => { 
-    if (session) { 
-      router.push('/dashboard'); 
-    } else { 
-      router.push('/auth/login'); 
-    } 
-  }; 
+import { ArrowUpRight, BookOpen, Handshake, House, LogIn, Mail, MapPin, Menu, X } from 'lucide-react';
+import styles from '../styles/Navbar.module.css';
 
-  const handleRegisterClick = () => { 
-    router.push('/auth/register'); 
-  }; 
+interface NavbarProps {
+  logoSmallRef?: RefObject<HTMLDivElement | null>;
+}
 
-  const handleContactClick = () => {
-    router.push('/contact');
-  };
+const rulebookUrl = 'https://docs.google.com/document/d/1JxvtOm-qu307XSrBc2CChQ40czm685RAAX4sHn98vuM/edit?usp=sharing';
+const mobileLinks = [
+  { href: '/', label: 'Home', icon: House },
+  { href: '/sponsors', label: 'Sponsors', icon: Handshake },
+  { href: '/contact', label: 'Contact us', icon: Mail },
+  { href: '/#event-map', label: 'Event map', icon: MapPin },
+  { href: rulebookUrl, label: 'Rule book', icon: BookOpen, external: true },
+];
 
-  const handleHomeClick = () => {
-    router.push('/');
-  };
+export default function Navbar({ logoSmallRef }: NavbarProps) {
+  const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeMenu = () => setMenuOpen(false);
 
-  const handleSponsors = () => {
-    router.push('/sponsors');
-  };
+  useEffect(() => {
+    if (!menuOpen) return;
 
-  return ( 
-<nav className={styles.nav}> 
-  {/* Left nav links */} 
-  <ul style={{ position: 'relative', zIndex: 1300 }}> 
-    <li className="cursor-pointer" onClick={handleSponsors}>SPONSORS</li> 
-    <li className="cursor-pointer" onClick={handleHomeClick}><b>HOME</b></li> 
-    <li  
-      className={`${styles.externalLink} cursor-pointer`} 
-      onClick={handleRulebookClick} 
-    > 
-      RULE BOOK 
-    </li> 
-  </ul> 
- 
-  {/* Logo section */} 
-  <div className={styles.logoPlaceholder} style={{ position: 'relative', zIndex: 1100, display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={handleHomeClick}> 
-    {/* Small overlay logo */} 
-    <div 
-      ref={logoSmallRef} 
-      id="logo-small" 
-      className={styles.logoContainer}
-    > 
-      <div 
-        style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 50, 
-          width: '50%', 
-          height: '100%', 
-          backgroundColor: '#1B263B',  
-        }} 
-      /> 
-      <Image 
-        src="/Subtract.svg" 
-        alt="Surge 2026 Logo" 
-        width={200}
-        height={50}
-        style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left:0, 
-          width: '100%', 
-          height: '100%', 
-          objectFit: 'contain', 
-          zIndex: 2, 
-          pointerEvents: 'none',
-        }} 
-      /> 
-    </div> 
-  </div> 
- 
-  {/* Right nav links */} 
-  <ul className={styles.rightLinks}>
-    <li>
-      <Link href="/#event-map" className={styles.mapLink}>
-        <MapPin size={15} aria-hidden="true" />
-        MAP
-      </Link>
-    </li>
-    {status !== "loading" && !session && (
-      <li 
-        onClick={handleRegisterClick}
-        className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors"
-      >
-        REGISTER
-      </li>
-    )}
-    <li className="hidden md:block cursor-pointer w-fit" onClick={handleContactClick}>CONTACT</li>
-    <li 
-      onClick={handleLoginClick} 
-      className={`cursor-pointer w-fit ${
-        session 
-          ? "bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors" 
-          : "font-semibold"
-      }`}
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !navRef.current?.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const onResize = () => { if (desktop.matches) setMenuOpen(false); };
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    desktop.addEventListener('change', onResize);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+      desktop.removeEventListener('change', onResize);
+    };
+  }, [menuOpen]);
+
+  return (
+    <nav
+      ref={navRef}
+      aria-label="Main navigation"
+      className={`${styles.nav} ${menuOpen ? styles.menuOpen : ''}`}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) closeMenu();
+      }}
     >
-      {session ? "DASHBOARD" : "LOGIN"}
-    </li> 
-  </ul> 
-</nav> 
-  ); 
+      <ul className={styles.desktopLinks}>
+        <li><Link href="/sponsors" aria-current={pathname === '/sponsors' ? 'page' : undefined}>SPONSORS</Link></li>
+        <li><Link href="/" aria-current={pathname === '/' ? 'page' : undefined}>HOME</Link></li>
+        <li><a href={rulebookUrl} target="_blank" rel="noopener noreferrer">RULE BOOK</a></li>
+      </ul>
+
+      <Link href="/" className={styles.logoPlaceholder} aria-label="Surge 2026 home" onClick={closeMenu}>
+        <div ref={logoSmallRef} id="logo-small" className={styles.logoContainer}>
+          <Image src="/Subtract.svg" alt="" width={104} height={50} className={styles.logoImage} />
+        </div>
+      </Link>
+
+      <ul className={`${styles.desktopLinks} ${styles.rightLinks}`}>
+        <li><Link href="/#event-map" className={styles.mapLink}><MapPin size={15} aria-hidden="true" />MAP</Link></li>
+        <li><Link href="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>CONTACT</Link></li>
+        {status !== 'loading' && !session && (
+          <li><Link href="/auth/register" className={styles.primaryLink}>REGISTER</Link></li>
+        )}
+        <li>
+          <Link href={session ? '/dashboard' : '/auth/login'} className={session ? styles.primaryLink : undefined}>
+            {session ? 'DASHBOARD' : 'LOGIN'}
+          </Link>
+        </li>
+      </ul>
+
+      <div className={styles.mobileActions}>
+        <Link href={session ? '/dashboard' : '/auth/register'} className={styles.primaryLink} onClick={closeMenu}>
+          {session ? 'DASHBOARD' : 'REGISTER'}
+        </Link>
+        <button
+          ref={menuButtonRef}
+          type="button"
+          className={styles.menuButton}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
+          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+          <span>Menu</span>
+        </button>
+      </div>
+
+      <div id="mobile-navigation" className={styles.mobilePanel} hidden={!menuOpen}>
+        <ul>
+          {mobileLinks.map(({ href, label, icon: Icon, external }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                aria-current={pathname === href ? 'page' : undefined}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer' : undefined}
+                onClick={closeMenu}
+              >
+                <Icon size={20} aria-hidden="true" />
+                <span>{label}</span>
+                {external && <ArrowUpRight size={16} aria-hidden="true" />}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {!session && (
+          <Link href="/auth/login" className={styles.mobileLogin} onClick={closeMenu}>
+            <LogIn size={20} aria-hidden="true" />Log in
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
 }

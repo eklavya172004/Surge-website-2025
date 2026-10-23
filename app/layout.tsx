@@ -24,7 +24,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white`}>
+      <body className={inter.className}>
         <NextAuthSessionProvider session={session}>
           <TRPCProvider>
             <LoaderWrapper>{children}</LoaderWrapper>

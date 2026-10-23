@@ -2,6 +2,7 @@
 
 import React from "react";
 import Navbar from "@/app/components/Navbar";
+import styles from "@/app/styles/PublicPage.module.css";
 
 export default function ContactUs() {
   const coordinators = [
@@ -144,49 +145,10 @@ export default function ContactUs() {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden py-12 px-4 md:px-8">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-        
-        .animated-bg {
-          background: 
-            linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%),
-            radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 40% 20%, rgba(96, 165, 250, 0.06) 0%, transparent 50%);
-        }
-        
-        .grid-overlay {
-          background-image: 
-            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-        
-        .card {
-          backdrop-filter: blur(12px);
-          background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-          border: 1px solid rgba(147, 197, 253, 0.2);
-          transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-          transform: translateY(-8px);
-          border-color: rgba(147, 197, 253, 0.5);
-          box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
-        }
-        
-        .section-line {
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #3b82f6, transparent);
-        }
-      `}</style>
-
-      <div className="animated-bg grid-overlay fixed inset-0" />
-
+    <div className={styles.page}>
       <Navbar />
 
-      <div className="relative z-10 max-w-7xl mx-auto pt-10">
+      <div className={styles.content}>
         <h1
           className="text-6xl md:text-8xl font-bold text-white mb-2 tracking-tight"
           style={{
@@ -197,7 +159,7 @@ export default function ContactUs() {
         >
           Meet the Team
         </h1>
-        <div className="section-line mb-16" />
+        <div className={`${styles.sectionLine} mb-16`} />
 
         <section className="mb-20">
           <h2
@@ -212,7 +174,7 @@ export default function ContactUs() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-7 gap-4">
             {coordinators.map((coord, idx) => (
-              <div key={idx} className="card rounded-2xl p-5">
+              <div key={idx} className={`${styles.teamCard} rounded-2xl p-5`}>
                 <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-blue-950/30">
                   <img
                     src={coord.image}
@@ -256,7 +218,7 @@ export default function ContactUs() {
               return (
                 <div
                   key={idx}
-                  className={`card rounded-2xl p-6 flex flex-col ${
+                  className={`${styles.teamCard} rounded-2xl p-6 flex flex-col ${
                     isLastSingle
                       ? "md:col-span-2 md:max-w-md md:mx-auto md:w-full lg:col-span-1 lg:col-start-2 lg:max-w-none"
                       : ""
