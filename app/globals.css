@@ -41,11 +41,17 @@
   font-display: swap;
 }
 
+html {
+  background-color: #0d2250;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: radial-gradient(ellipse at center, rgb(var(--background-end-rgb)) 0%, rgb(var(--background-start-rgb)) 70%, rgb(var(--deep-space)) 100%);
+  background-color: #0d2250;
+  background-image: radial-gradient(ellipse at center, #2c5282 0%, #0d2250 70%, #081432 100%);
   min-height: 100vh;
   position: relative;
+  isolation: isolate;
   overflow-x: hidden;
 }
 
@@ -145,7 +151,7 @@ body {
 }
 
 body {
-  width: 100vw;
+  width: 100%;
 }
 
 /* Enhanced text styling for cosmic theme */

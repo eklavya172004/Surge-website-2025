@@ -2,6 +2,7 @@
 
 import React from "react";
 import Navbar from "@/app/components/Navbar";
+import styles from "@/app/styles/PublicPage.module.css";
 
 export default function Sponsors() {
   const titleSponsor = {
@@ -174,40 +175,10 @@ export default function Sponsors() {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden py-12 px-4 md:px-8">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-        
-        .sponsor-card {
-          transition: all 0.3s ease;
-          background: rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        
-        .sponsor-card:hover {
-          transform: translateY(-4px);
-          background: rgba(255, 255, 255, 0.15);
-          border-color: rgba(255, 255, 255, 0.35);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .sponsor-logo-wrapper {
-          background: rgba(255, 255, 255, 0.95);
-          transition: all 0.3s ease;
-        }
-
-        .sponsor-card:hover .sponsor-logo-wrapper {
-          background: rgba(255, 255, 255, 1);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-      `}</style>
-
-      <div className="animated-bg grid-overlay fixed inset-0" />
-
+    <div className={styles.page}>
       <Navbar />
 
-      <div className="relative z-10 max-w-7xl mx-auto pt-10">
+      <div className={styles.content}>
         
         {/* Header */}
         <div className="text-center mb-16">
@@ -216,7 +187,7 @@ export default function Sponsors() {
           </h1>
         </div>
         
-        <div className="section-line mb-16" />
+        <div className={`${styles.sectionLine} mb-16`} />
 
         {/* Sponsors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16">
@@ -227,7 +198,7 @@ export default function Sponsors() {
               href={titleSponsor.url || undefined}
               target={titleSponsor.url ? "_blank" : undefined}
               rel={titleSponsor.url ? "noopener noreferrer" : undefined}
-              className="sponsor-card col-span-1 md:col-span-2 lg:col-span-4 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center cursor-pointer"
+              className={`${styles.sponsorCard} col-span-1 md:col-span-2 lg:col-span-4 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center cursor-pointer`}
             >
               <span className="text-xl md:text-2xl font-bold uppercase tracking-widest text-white mb-4">
                 {titleSponsor.tier}
@@ -252,9 +223,9 @@ export default function Sponsors() {
               href={sponsor.url || undefined}
               target={sponsor.url ? "_blank" : undefined}
               rel={sponsor.url ? "noopener noreferrer" : undefined}
-              className="sponsor-card col-span-1 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer"
+              className={`${styles.sponsorCard} col-span-1 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer`}
             >
-              <div className="sponsor-logo-wrapper w-full h-48 rounded-lg flex items-center justify-center p-6">
+              <div className={`${styles.sponsorLogo} w-full h-48 rounded-lg flex items-center justify-center p-6`}>
                 <img
                   src={sponsor.logo}
                   alt={sponsor.name}
@@ -276,7 +247,7 @@ export default function Sponsors() {
         {/* Past Sponsors Section */}
         {pastSponsors.length > 0 && (
           <>
-            <div className="section-line my-16" />
+            <div className={`${styles.sectionLine} my-16`} />
 
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: 'Anton, sans-serif' }}>
@@ -284,7 +255,7 @@ export default function Sponsors() {
               </h2>
             </div>
 
-            <div className="section-line mb-16" />
+            <div className={`${styles.sectionLine} mb-16`} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16">
               {pastSponsors.map((sponsor, index) => (
@@ -293,9 +264,9 @@ export default function Sponsors() {
                   href={sponsor.url || undefined}
                   target={sponsor.url ? "_blank" : undefined}
                   rel={sponsor.url ? "noopener noreferrer" : undefined}
-                  className="sponsor-card col-span-1 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer"
+                  className={`${styles.sponsorCard} col-span-1 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer`}
                 >
-                  <div className="sponsor-logo-wrapper w-full h-48 rounded-lg flex items-center justify-center p-6">
+                  <div className={`${styles.sponsorLogo} w-full h-48 rounded-lg flex items-center justify-center p-6`}>
                     <img
                       src={sponsor.logo}
                       alt={sponsor.name}
