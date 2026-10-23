@@ -38,6 +38,12 @@ export default function Sponsors() {
       logo: "/sponsors/mcvities.png",
     },
     {
+      name: "Sodexo",
+      tier: "Snacking Partner",
+      url: "https://www.sodexo.in/",
+      logo: "/sponsors/sodexo.jpg",
+    },
+    {
       name: "Brwd Beverages",
       url: "",
       logo: "/sponsors/brwd-clean.png",
