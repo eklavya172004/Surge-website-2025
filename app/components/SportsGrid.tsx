@@ -92,7 +92,7 @@ export default function SportsGrid() {
             >
               Update
             </span>
-            Registration is closed for <strong>Cricket Men</strong>, <strong>Football Men</strong> & <strong>Powerlifting</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Other sports are still open.
+            Registration is closed for <strong>Cricket Men</strong>, <strong>Football Men</strong>, <strong>Powerlifting</strong> & <strong>Basketball Women</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Other sports are still open.
           </div>
         </motion.div>
 
@@ -132,7 +132,7 @@ export default function SportsGrid() {
                     />
                     <div className={styles.color_overlay} />
                     <div className={styles.overlay_text_small}>{sport.name}</div>
-                    {(sport.name === "Cricket" || sport.name === "Football" || sport.name === "Powerlifting") && (
+                    {(sport.name === "Cricket" || sport.name === "Football" || sport.name === "Powerlifting" || sport.name === "Basketball") && (
                       <div
                         style={{
                           position: "absolute",
@@ -151,7 +151,7 @@ export default function SportsGrid() {
                           border: "1px solid rgba(255, 255, 255, 0.4)",
                         }}
                       >
-                        {sport.name === "Powerlifting" ? "Closed" : "Men Closed"}
+                        {sport.name === "Powerlifting" ? "Closed" : sport.name === "Basketball" ? "Women Closed" : "Men Closed"}
                       </div>
                     )}
                   </Link>

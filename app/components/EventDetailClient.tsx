@@ -61,15 +61,31 @@ export default function EventDetailClient({ slug }: Props) {
         event.name.toLowerCase().includes("powerlifting"))
   );
 
-  const isClosed = isCricketMen || isFootballMen || isPowerlifting;
+  const isBasketballWomen = Boolean(
+    event &&
+      (event.slug === "basketball-women" ||
+        event.name.toLowerCase() === "basketball women")
+  );
+
+  const isClosed = isCricketMen || isFootballMen || isPowerlifting || isBasketballWomen;
   const closedName = isCricketMen
     ? "Cricket Men"
     : isFootballMen
     ? "Football Men"
+    : isBasketballWomen
+    ? "Basketball Women"
     : isPowerlifting
     ? event?.name || "Powerlifting"
     : "";
-  const closedEmoji = isCricketMen ? "🏏" : isFootballMen ? "⚽" : isPowerlifting ? "🏋️" : "";
+  const closedEmoji = isCricketMen
+    ? "🏏"
+    : isFootballMen
+    ? "⚽"
+    : isBasketballWomen
+    ? "🏀"
+    : isPowerlifting
+    ? "🏋️"
+    : "";
 
   const [players, setPlayers] = useState<number>(1);
   const [accommodation, setAccommodation] = useState<boolean>(false);
