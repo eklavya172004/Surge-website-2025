@@ -195,9 +195,9 @@ export default function Sponsors() {
           {/* Title Sponsor - occupying 4 tiles */}
           {titleSponsor && (
             <a
-              href={titleSponsor.url || undefined}
-              target={titleSponsor.url ? "_blank" : undefined}
-              rel={titleSponsor.url ? "noopener noreferrer" : undefined}
+              href={titleSponsor.url || "https://www.hclcyclothon.com"}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`${styles.sponsorCard} col-span-1 md:col-span-2 lg:col-span-4 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center cursor-pointer`}
             >
               <span className="text-xl md:text-2xl font-bold uppercase tracking-widest text-white mb-4">
