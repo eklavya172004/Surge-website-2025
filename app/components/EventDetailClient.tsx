@@ -33,6 +33,54 @@ function formatDate(d?: string | Date | null) {
   }
 }
 
+const CLOSED_ATHLETICS_SLUGS = new Set([
+  "400m-men",
+  "800m-men",
+  "800m-women",
+  "1500m-men",
+  "1500m-women",
+  "5000m-men",
+  "5000m-women",
+  "4x100m-men",
+  "4x100m-women",
+  "4x100m-mixed",
+  "4x400m-men",
+  "4x400m-women",
+  "4x400m-mixed",
+  "long-jump-men",
+  "long-jump-women",
+  "shot-put-men",
+  "shot-put-women",
+  "discus-throw-men",
+  "discus-throw-women",
+]);
+
+function isEventRegistrationClosed(event: { slug?: string | null; name: string } | null | undefined): boolean {
+  if (!event) return false;
+  const slug = event.slug || "";
+  const name = event.name.toLowerCase();
+
+  if (slug === "cricket-men" || name === "cricket men") return true;
+  if (slug === "football" || name === "football" || name === "football men") return true;
+  if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return true;
+  if (slug === "basketball-women" || name === "basketball women") return true;
+  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return true;
+
+  return false;
+}
+
+function getClosedEventEmoji(event: { slug?: string | null; name: string } | null | undefined): string {
+  if (!event) return "";
+  const slug = event.slug || "";
+  const name = event.name.toLowerCase();
+  if (slug === "cricket-men" || name === "cricket men") return "🏏";
+  if (slug === "football" || name === "football" || name === "football men") return "⚽";
+  if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return "🏋️";
+  if (slug === "basketball-women" || name === "basketball women") return "🏀";
+  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return "🏃";
+  return "";
+}
+
 export default function EventDetailClient({ slug }: Props) {
   const { data: events, isLoading, error } = trpc.event.getAllEvents.useQuery();
   const router = useRouter();
@@ -42,50 +90,9 @@ export default function EventDetailClient({ slug }: Props) {
     [events, slug]
   );
 
-  const isCricketMen = Boolean(
-    event &&
-      (event.slug === "cricket-men" ||
-        event.name.toLowerCase() === "cricket men")
-  );
-
-  const isFootballMen = Boolean(
-    event &&
-      (event.slug === "football" ||
-        event.name.toLowerCase() === "football" ||
-        event.name.toLowerCase() === "football men")
-  );
-
-  const isPowerlifting = Boolean(
-    event &&
-      (event.slug?.startsWith("powerlifting-") ||
-        event.name.toLowerCase().includes("powerlifting"))
-  );
-
-  const isBasketballWomen = Boolean(
-    event &&
-      (event.slug === "basketball-women" ||
-        event.name.toLowerCase() === "basketball women")
-  );
-
-  const isClosed = isCricketMen || isFootballMen || isPowerlifting || isBasketballWomen;
-  const closedName = isCricketMen
-    ? "Cricket Men"
-    : isFootballMen
-    ? "Football Men"
-    : isBasketballWomen
-    ? "Basketball Women"
-    : isPowerlifting
-    ? event?.name || "Powerlifting"
-    : "";
-  const closedEmoji = isCricketMen
-    ? "🏏"
-    : isFootballMen
-    ? "⚽"
-    : isBasketballWomen
-    ? "🏀"
-    : isPowerlifting
-    ? "🏋️"
-    : "";
+  const isClosed = isEventRegistrationClosed(event);
+  const closedName = event?.name || "";
+  const closedEmoji = getClosedEventEmoji(event);
 
   const [players, setPlayers] = useState<number>(1);
   const [accommodation, setAccommodation] = useState<boolean>(false);

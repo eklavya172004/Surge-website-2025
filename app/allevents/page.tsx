@@ -54,7 +54,7 @@ export default function AllEventsGrid() {
             >
               Update
             </span>
-            Registration is closed for <strong>Cricket Men</strong>, <strong>Football Men</strong>, <strong>Powerlifting</strong> & <strong>Basketball Women</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Other sports are still open.
+            Registration is closed for <strong>Cricket Men</strong>, <strong>Football Men</strong>, <strong>Powerlifting</strong>, <strong>Basketball Women</strong> & <strong>Select Athletics Events</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Other sports are still open.
           </div>
         </div>
 
@@ -75,6 +75,26 @@ export default function AllEventsGrid() {
                   alt="Gradient"
                 />
                 <div className={styles.overlay_text_small}>Athletics</div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "12px",
+                    right: "12px",
+                    backgroundColor: "#dc2626",
+                    color: "#ffffff",
+                    fontSize: "10px",
+                    fontWeight: "800",
+                    padding: "3px 8px",
+                    borderRadius: "9999px",
+                    boxShadow: "0 2px 8px rgba(220, 38, 38, 0.5)",
+                    zIndex: 10,
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase",
+                    border: "1px solid rgba(255, 255, 255, 0.4)",
+                  }}
+                >
+                  Select Closed
+                </div>
               </div>
               <div className={styles.image_wrapper}>
                 <Image

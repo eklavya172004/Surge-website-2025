@@ -61,6 +61,54 @@ function isAthleticsEvent(event: { slug?: string | null; name: string }) {
   );
 }
 
+const CLOSED_ATHLETICS_SLUGS = new Set([
+  "400m-men",
+  "800m-men",
+  "800m-women",
+  "1500m-men",
+  "1500m-women",
+  "5000m-men",
+  "5000m-women",
+  "4x100m-men",
+  "4x100m-women",
+  "4x100m-mixed",
+  "4x400m-men",
+  "4x400m-women",
+  "4x400m-mixed",
+  "long-jump-men",
+  "long-jump-women",
+  "shot-put-men",
+  "shot-put-women",
+  "discus-throw-men",
+  "discus-throw-women",
+]);
+
+function isEventRegistrationClosed(event: { slug?: string | null; name: string } | null | undefined): boolean {
+  if (!event) return false;
+  const slug = event.slug || "";
+  const name = event.name.toLowerCase();
+
+  if (slug === "cricket-men" || name === "cricket men") return true;
+  if (slug === "football" || name === "football" || name === "football men") return true;
+  if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return true;
+  if (slug === "basketball-women" || name === "basketball women") return true;
+  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return true;
+
+  return false;
+}
+
+function getClosedEventEmoji(event: { slug?: string | null; name: string } | null | undefined): string {
+  if (!event) return "";
+  const slug = event.slug || "";
+  const name = event.name.toLowerCase();
+  if (slug === "cricket-men" || name === "cricket men") return "🏏";
+  if (slug === "football" || name === "football" || name === "football men") return "⚽";
+  if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return "🏋️";
+  if (slug === "basketball-women" || name === "basketball women") return "🏀";
+  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return "🏃";
+  return "";
+}
+
 type PlayerDetails = {
   name: string;
   email: string;
@@ -142,50 +190,9 @@ export default function RegisterPage() {
   }, [selectedEvent, eventDetails]);
 
   const selectedEventData = eventDetails;
-  const isCricketMen = Boolean(
-    selectedEventData &&
-    (selectedEventData.slug === "cricket-men" ||
-      selectedEventData.name.toLowerCase() === "cricket men")
-  );
-
-  const isFootballMen = Boolean(
-    selectedEventData &&
-    (selectedEventData.slug === "football" ||
-      selectedEventData.name.toLowerCase() === "football" ||
-      selectedEventData.name.toLowerCase() === "football men")
-  );
-
-  const isPowerlifting = Boolean(
-    selectedEventData &&
-    (selectedEventData.slug?.startsWith("powerlifting-") ||
-      selectedEventData.name.toLowerCase().includes("powerlifting"))
-  );
-
-  const isBasketballWomen = Boolean(
-    selectedEventData &&
-    (selectedEventData.slug === "basketball-women" ||
-      selectedEventData.name.toLowerCase() === "basketball women")
-  );
-
-  const isClosedEvent = isCricketMen || isFootballMen || isPowerlifting || isBasketballWomen;
-  const closedEventName = isCricketMen
-    ? "Cricket Men"
-    : isFootballMen
-    ? "Football Men"
-    : isBasketballWomen
-    ? "Basketball Women"
-    : isPowerlifting
-    ? selectedEventData?.name || "Powerlifting"
-    : "";
-  const closedEventEmoji = isCricketMen
-    ? "🏏"
-    : isFootballMen
-    ? "⚽"
-    : isBasketballWomen
-    ? "🏀"
-    : isPowerlifting
-    ? "🏋️"
-    : "";
+  const isClosedEvent = isEventRegistrationClosed(selectedEventData);
+  const closedEventName = selectedEventData?.name || "";
+  const closedEventEmoji = getClosedEventEmoji(selectedEventData);
 
   useEffect(() => {
     if (!message) return;
@@ -400,16 +407,7 @@ export default function RegisterPage() {
               {mainSports.length > 0 && (
                 <optgroup label="Main Sports" className="font-bold text-gray-900 bg-gray-50">
                   {mainSports.map((event) => {
-                    const isClosed =
-                      event.slug === "cricket-men" ||
-                      event.name.toLowerCase() === "cricket men" ||
-                      event.slug === "football" ||
-                      event.name.toLowerCase() === "football" ||
-                      event.name.toLowerCase() === "football men" ||
-                      event.slug === "basketball-women" ||
-                      event.name.toLowerCase() === "basketball women" ||
-                      (event.slug?.startsWith("powerlifting-") ?? false) ||
-                      event.name.toLowerCase().includes("powerlifting");
+                    const isClosed = isEventRegistrationClosed(event);
                     return (
                       <option
                         key={event.id}
@@ -426,16 +424,7 @@ export default function RegisterPage() {
               {athleticsEvents.length > 0 && (
                 <optgroup label="Athletics" className="font-bold text-gray-900 bg-gray-50">
                   {athleticsEvents.map((event) => {
-                    const isClosed =
-                      event.slug === "cricket-men" ||
-                      event.name.toLowerCase() === "cricket men" ||
-                      event.slug === "football" ||
-                      event.name.toLowerCase() === "football" ||
-                      event.name.toLowerCase() === "football men" ||
-                      event.slug === "basketball-women" ||
-                      event.name.toLowerCase() === "basketball women" ||
-                      (event.slug?.startsWith("powerlifting-") ?? false) ||
-                      event.name.toLowerCase().includes("powerlifting");
+                    const isClosed = isEventRegistrationClosed(event);
                     return (
                       <option
                         key={event.id}
