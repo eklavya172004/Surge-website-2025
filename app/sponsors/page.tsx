@@ -8,7 +8,7 @@ export default function Sponsors() {
   const titleSponsor = {
     tier: "Title Sponsor",
     name: "HCL Sports",
-    url: "https://www.hclsports.com",
+    url: "https://www.hclcyclothon.com",
     logo: "/sponsors/hcl-sports-transparent-4k.png",
   };
 
