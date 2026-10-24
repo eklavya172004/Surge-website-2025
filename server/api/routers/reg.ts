@@ -75,6 +75,32 @@ export const regRouter = createTRPCRouter({
       ) {
         throw new Error("Registration is closed for Basketball Women (Closed due to excess participants, hope to see you in Surge’27!!)");
       }
+
+      // Block registration for all athletics events except 100m M/W, 200m M/W, 400m W
+      const CLOSED_ATHLETICS_SLUGS = new Set([
+        "400m-men",
+        "800m-men",
+        "800m-women",
+        "1500m-men",
+        "1500m-women",
+        "5000m-men",
+        "5000m-women",
+        "4x100m-men",
+        "4x100m-women",
+        "4x100m-mixed",
+        "4x400m-men",
+        "4x400m-women",
+        "4x400m-mixed",
+        "long-jump-men",
+        "long-jump-women",
+        "shot-put-men",
+        "shot-put-women",
+        "discus-throw-men",
+        "discus-throw-women",
+      ]);
+      if (CLOSED_ATHLETICS_SLUGS.has(event.slug)) {
+        throw new Error(`Registration is closed for ${event.name} (Closed due to excess participants, hope to see you in Surge’27!!)`);
+      }
       
       // Validate player count
       const playerCount = players.length;
