@@ -19,8 +19,8 @@ export default function ContactUs() {
       phone: "",
     },
     {
-      name: "TBA",
-      image: "/placeholder-avatar.svg",
+      name: "Avi Popli",
+      image: "/team/sports-secretary.jpg",
       role: "Sports Secretary",
       phone: "",
     },
@@ -31,7 +31,7 @@ export default function ContactUs() {
       phone: "",
     },
     {
-      name: "Appy",
+      name: "Somanshu Rajnish",
       image: "/team/administrator-appy.jpg",
       role: "Administrator",
       phone: "",
@@ -55,15 +55,15 @@ export default function ContactUs() {
       category: "PR",
       members: [
         {
-          name: "Veda",
+          name: "Veda Rana",
           image: "/team/pr-veda.jpg",
         },
         {
-          name: "Riddhi",
+          name: "Riddhi Jain",
           image: "/team/pr-riddhi.jpg",
         },
         {
-          name: "Lakshya",
+          name: "Lakshay Mahajan",
           image: "/team/pr-lakshya.jpg",
         },
       ],
@@ -72,7 +72,7 @@ export default function ContactUs() {
       category: "Sponsorship",
       members: [
         {
-          name: "Thanikachalam",
+          name: "Thanikachalam Lakshmanan",
           image: "/team/sponsorship-thanikachalam.jpg",
         },
       ],
@@ -94,12 +94,16 @@ export default function ContactUs() {
       category: "Marketing",
       members: [
         {
-          name: "Shreyansh",
+          name: "Shreyansh Jain",
           image: "/team/marketing-shreyansh.jpg",
         },
         {
-          name: "Anshikha",
+          name: "Anshika Bagra",
           image: "/team/marketing-anshikha.jpg",
+        },
+        {
+          name: "Mrinmayee Gorakati",
+          image: "/team/marketing-lead-3.jpg",
         },
       ],
     },
@@ -107,11 +111,11 @@ export default function ContactUs() {
       category: "Esports",
       members: [
         {
-          name: "Rohit",
+          name: "S Rohit Kumar",
           image: "/team/esports-rohit.jpg",
         },
         {
-          name: "Sanjith",
+          name: "Sanjith Arun",
           image: "/team/esports-sanjith.jpg",
         },
       ],
@@ -133,12 +137,141 @@ export default function ContactUs() {
       category: "Design",
       members: [
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Anushka Dey",
+          image: "/team/design-lead-1.jpg",
         },
         {
-          name: "TBA",
-          image: "/placeholder-avatar.svg",
+          name: "Sai Asmita",
+          image: "/team/design-lead-2.jpg",
+        },
+      ],
+    },
+    {
+      category: "Accommodation",
+      members: [
+        {
+          name: "Adarsh Chetri",
+          image: "/team/accommodation-1.jpg",
+        },
+        {
+          name: "Anvitha Juvadi",
+          image: "/team/accommodation-2.jpg",
+        },
+        {
+          name: "Ayesha Hussain",
+          image: "/team/accommodation-3.jpg",
+        },
+        {
+          name: "Shekhar",
+          image: "/team/accommodation-4.jpg",
+        },
+      ],
+    },
+    {
+      category: "Hospitality",
+      members: [
+        {
+          name: "Gaurav Krishna Mishra",
+          image: "/team/hospitality-1.jpg",
+        },
+        {
+          name: "Hasini Patnayakuni",
+          image: "/team/hospitality-2.jpg",
+        },
+        {
+          name: "Yatharth Mittal",
+          image: "/team/hospitality-3.jpg",
+        },
+      ],
+    },
+    {
+      category: "Security",
+      members: [
+        {
+          name: "Srihari Veerasamy V M",
+          image: "/team/security-1.jpg",
+        },
+        {
+          name: "Hanshika",
+          image: "/team/security-2.jpg",
+        },
+      ],
+    },
+    {
+      category: "Logistics",
+      members: [
+        {
+          name: "Neerav Nagori",
+          image: "/team/logistics-1.jpg",
+        },
+        {
+          name: "Laasya D Sudhakar",
+          image: "/team/logistics-2.jpg",
+        },
+        {
+          name: "Arsavin Tandel",
+          image: "/team/logistics-3.jpg",
+        },
+      ],
+    },
+    {
+      category: "Production",
+      members: [
+        {
+          name: "Sanav Khullar",
+          image: "/team/production-1.jpg",
+        },
+        {
+          name: "Budhil",
+          image: "/team/production-2.jpg",
+        },
+      ],
+    },
+    {
+      category: "Decor",
+      members: [
+        {
+          name: "Anandita Yadav",
+          image: "/team/decor-1.jpg",
+        },
+        {
+          name: "Saina Malik",
+          image: "/team/decor-2.jpg",
+        },
+      ],
+    },
+    {
+      category: "Event Management",
+      members: [
+        {
+          name: "Arsh Bhasin",
+          image: "/team/event-management-1.jpg",
+        },
+      ],
+    },
+    {
+      category: "Transport",
+      members: [
+        {
+          name: "Vaibhav Sharma",
+          image: "/team/transport-1.jpg",
+        },
+      ],
+    },
+    {
+      category: "Head of Operations",
+      members: [
+        {
+          name: "Arnav Punia",
+          image: "/team/head-of-operations-1.jpg",
+        },
+        {
+          name: "Krishna Dubey",
+          image: "/team/head-of-operations-2.jpg",
+        },
+        {
+          name: "Namritaa Ramesh Kumar",
+          image: "/team/head-of-operations-3.jpg",
         },
       ],
     },
@@ -212,15 +345,25 @@ export default function ContactUs() {
           >
             THE LEADS
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
             {leads.map((group, idx) => {
-              const isLastSingle = idx === leads.length - 1 && leads.length % 3 === 1;
+              // On desktop 6-col grid (3 visual columns of span 2):
+              // If there are 2 cards in the final row (e.g. 11 items), center them by starting the first at col 2
+              const isFirstOfTwoOnDesktop = idx === leads.length - 2 && leads.length % 3 === 2;
+              // If there is 1 solitary card in the final row (e.g. 10 items), center it at col 3 (or col 2 of 3)
+              const isLastSingleOnDesktop = idx === leads.length - 1 && leads.length % 3 === 1;
+              // On tablet 2-col grid, if the last item is alone in its row, center it across both columns
+              const isLastSingleOnTablet = idx === leads.length - 1 && leads.length % 2 === 1;
               return (
                 <div
                   key={idx}
-                  className={`${styles.teamCard} rounded-2xl p-6 flex flex-col ${
-                    isLastSingle
-                      ? "md:col-span-2 md:max-w-md md:mx-auto md:w-full lg:col-span-1 lg:col-start-2 lg:max-w-none"
+                  className={`${styles.teamCard} rounded-2xl p-6 flex flex-col col-span-1 md:col-span-1 lg:col-span-2 ${
+                    isFirstOfTwoOnDesktop ? "lg:col-start-2" : ""
+                  } ${
+                    isLastSingleOnDesktop ? "lg:col-start-3" : ""
+                  } ${
+                    isLastSingleOnTablet
+                      ? "md:col-span-2 md:max-w-md md:mx-auto md:w-full lg:max-w-none lg:mx-0"
                       : ""
                   }`}
                 >
@@ -232,6 +375,8 @@ export default function ContactUs() {
                       className={`grid ${
                         group.members.length === 1
                           ? "grid-cols-1 max-w-[200px] mx-auto gap-4"
+                          : group.members.length === 4
+                          ? "grid-cols-4 gap-2 sm:gap-2.5"
                           : group.members.length === 3
                           ? "grid-cols-3 gap-2.5 sm:gap-3"
                           : "grid-cols-2 gap-4"
@@ -248,8 +393,12 @@ export default function ContactUs() {
                           </div>
                           <h4
                             className={`${
-                              group.members.length === 3 ? "text-sm" : "text-base"
-                            } font-semibold text-white text-center`}
+                              group.members.length === 4
+                                ? "text-xs"
+                                : group.members.length === 3
+                                ? "text-sm"
+                                : "text-base"
+                            } font-semibold text-white text-center leading-tight`}
                           >
                             {member.name}
                           </h4>
