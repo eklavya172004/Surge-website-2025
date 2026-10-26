@@ -345,7 +345,7 @@ async function main() {
       rules: "",
       winnerPrize: 14000,
       runnerUpPrize: 8000,
-      minPlayers: 3,
+      minPlayers: 2,
       maxPlayers: 4,
       pricePerPlayer: 779,
       venue: "Shiv Nadar University- Tennis Court",
