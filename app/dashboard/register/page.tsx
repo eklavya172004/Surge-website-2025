@@ -62,6 +62,8 @@ function isAthleticsEvent(event: { slug?: string | null; name: string }) {
 }
 
 const CLOSED_ATHLETICS_SLUGS = new Set([
+  "100m-men",
+  "100m-women",
   "400m-men",
   "800m-men",
   "800m-women",

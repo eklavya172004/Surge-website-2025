@@ -76,8 +76,10 @@ export const regRouter = createTRPCRouter({
         throw new Error("Registration is closed for Basketball Women (Closed due to excess participants, hope to see you in Surge’27!!)");
       }
 
-      // Block registration for all athletics events except 100m M/W, 200m M/W, 400m W
+      // Block registration for closed athletics events
       const CLOSED_ATHLETICS_SLUGS = new Set([
+        "100m-men",
+        "100m-women",
         "400m-men",
         "800m-men",
         "800m-women",
