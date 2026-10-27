@@ -34,6 +34,8 @@ function formatDate(d?: string | Date | null) {
 }
 
 const CLOSED_ATHLETICS_SLUGS = new Set([
+  "100m-men",
+  "100m-women",
   "400m-men",
   "800m-men",
   "800m-women",
