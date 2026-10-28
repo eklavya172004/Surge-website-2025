@@ -61,54 +61,27 @@ function isAthleticsEvent(event: { slug?: string | null; name: string }) {
   );
 }
 
-const CLOSED_ATHLETICS_SLUGS = new Set([
-  "100m-men",
-  "100m-women",
-  "400m-men",
-  "800m-men",
-  "800m-women",
-  "1500m-men",
-  "1500m-women",
-  "5000m-men",
-  "5000m-women",
-  "4x100m-men",
-  "4x100m-women",
-  "4x100m-mixed",
-  "4x400m-men",
-  "4x400m-women",
-  "4x400m-mixed",
-  "long-jump-men",
-  "long-jump-women",
-  "shot-put-men",
-  "shot-put-women",
-  "discus-throw-men",
-  "discus-throw-women",
-]);
-
 function isEventRegistrationClosed(event: { slug?: string | null; name: string } | null | undefined): boolean {
-  if (!event) return false;
-  const slug = event.slug || "";
-  const name = event.name.toLowerCase();
-
-  if (slug === "cricket-men" || name === "cricket men") return true;
-  if (slug === "football" || name === "football" || name === "football men") return true;
-  if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return true;
-  if (slug === "basketball-women" || name === "basketball women") return true;
-  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return true;
-
-  return false;
+  return true;
 }
 
 function getClosedEventEmoji(event: { slug?: string | null; name: string } | null | undefined): string {
-  if (!event) return "";
+  if (!event) return "🏆";
   const slug = event.slug || "";
   const name = event.name.toLowerCase();
-  if (slug === "cricket-men" || name === "cricket men") return "🏏";
-  if (slug === "football" || name === "football" || name === "football men") return "⚽";
+  if (slug === "cricket-men" || name.includes("cricket")) return "🏏";
+  if (slug === "football" || name.includes("football") || name.includes("futsal")) return "⚽";
   if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return "🏋️";
-  if (slug === "basketball-women" || name === "basketball women") return "🏀";
-  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return "🏃";
-  return "";
+  if (slug.includes("basketball")) return "🏀";
+  if (slug.includes("badminton")) return "🏸";
+  if (slug.includes("tennis")) return "🎾";
+  if (slug.includes("table-tennis") || slug.startsWith("tt-")) return "🏓";
+  if (slug.includes("volleyball") || slug.includes("vollyball")) return "🏐";
+  if (slug.includes("chess")) return "♟️";
+  if (slug.includes("pool")) return "🎱";
+  if (slug.includes("squash")) return "🎾";
+  if (isAthleticsEvent(event)) return "🏃";
+  return "🏆";
 }
 
 type PlayerDetails = {
@@ -386,6 +359,29 @@ export default function RegisterPage() {
           </p>
         </motion.div>
 
+        {/* Global Registration Closed Banner */}
+        <motion.div
+          className="max-w-4xl mx-auto mb-8 p-5 sm:p-7 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white shadow-xl flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 border-2 border-red-400"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center shrink-0 shadow-inner">
+            <AlertOctagon className="w-8 h-8 text-white" />
+          </div>
+          <div className="text-center sm:text-left">
+            <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-black uppercase tracking-widest mb-2 border border-white/30">
+              Registrations Ended
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight">
+              Surge 2026 Registrations Are Officially Closed
+            </h2>
+            <p className="text-sm sm:text-base text-red-100 font-medium mt-1 leading-relaxed">
+              Registrations are now officially closed across all sports and athletics events due to full capacity. Thank you for the massive response — hope to see you in Surge’27!!
+            </p>
+          </div>
+        </motion.div>
+
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           {/* Event Selection Card */}
           <motion.div
@@ -416,7 +412,7 @@ export default function RegisterPage() {
                         className={isClosed ? "text-red-600 font-bold bg-red-50" : "text-gray-800 font-normal bg-white"}
                         value={event.slug || event.id}
                       >
-                        {event.name} {isClosed ? "— [CLOSED: Excess Participants]" : ""}
+                        {event.name} {isClosed ? "— [REGISTRATION CLOSED]" : ""}
                       </option>
                     );
                   })}
@@ -433,7 +429,7 @@ export default function RegisterPage() {
                         className={isClosed ? "text-red-600 font-bold bg-red-50" : "text-gray-800 font-normal bg-white"}
                         value={event.slug || event.id}
                       >
-                        {event.name} {isClosed ? "— [CLOSED: Excess Participants]" : ""}
+                        {event.name} {isClosed ? "— [REGISTRATION CLOSED]" : ""}
                       </option>
                     );
                   })}
@@ -621,20 +617,15 @@ export default function RegisterPage() {
                     <p className="text-red-600 font-bold text-base sm:text-xl max-w-lg mx-auto mb-3">
                       Closed due to excess participants, hope to see you in Surge’27!!
                     </p>
-                    <p className="text-gray-500 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
-                      We have reached full participant capacity for {closedEventName}. Registration for all other sports events remain open.
+                    <p className="text-gray-500 text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
+                      We have reached full participant capacity across all sports and athletics events. Registrations are now officially over.
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedEvent("");
-                        setPlayers(1);
-                        setPlayerDetails([{ name: "", email: "", rollNumber: "", phone: "" }]);
-                      }}
-                      className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all"
+                    <Link
+                      href="/dashboard/myevents"
+                      className="inline-block px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all"
                     >
-                      Browse Other Available Sports
-                    </button>
+                      View Registered Events
+                    </Link>
                   </div>
                 ) : (
                   <>

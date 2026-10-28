@@ -33,54 +33,26 @@ function formatDate(d?: string | Date | null) {
   }
 }
 
-const CLOSED_ATHLETICS_SLUGS = new Set([
-  "100m-men",
-  "100m-women",
-  "400m-men",
-  "800m-men",
-  "800m-women",
-  "1500m-men",
-  "1500m-women",
-  "5000m-men",
-  "5000m-women",
-  "4x100m-men",
-  "4x100m-women",
-  "4x100m-mixed",
-  "4x400m-men",
-  "4x400m-women",
-  "4x400m-mixed",
-  "long-jump-men",
-  "long-jump-women",
-  "shot-put-men",
-  "shot-put-women",
-  "discus-throw-men",
-  "discus-throw-women",
-]);
-
 function isEventRegistrationClosed(event: { slug?: string | null; name: string } | null | undefined): boolean {
-  if (!event) return false;
-  const slug = event.slug || "";
-  const name = event.name.toLowerCase();
-
-  if (slug === "cricket-men" || name === "cricket men") return true;
-  if (slug === "football" || name === "football" || name === "football men") return true;
-  if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return true;
-  if (slug === "basketball-women" || name === "basketball women") return true;
-  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return true;
-
-  return false;
+  return true;
 }
 
 function getClosedEventEmoji(event: { slug?: string | null; name: string } | null | undefined): string {
-  if (!event) return "";
+  if (!event) return "🏆";
   const slug = event.slug || "";
   const name = event.name.toLowerCase();
-  if (slug === "cricket-men" || name === "cricket men") return "🏏";
-  if (slug === "football" || name === "football" || name === "football men") return "⚽";
+  if (slug === "cricket-men" || name.includes("cricket")) return "🏏";
+  if (slug === "football" || name.includes("football") || name.includes("futsal")) return "⚽";
   if (slug.startsWith("powerlifting-") || name.includes("powerlifting")) return "🏋️";
-  if (slug === "basketball-women" || name === "basketball women") return "🏀";
-  if (CLOSED_ATHLETICS_SLUGS.has(slug)) return "🏃";
-  return "";
+  if (slug.includes("basketball")) return "🏀";
+  if (slug.includes("badminton")) return "🏸";
+  if (slug.includes("tennis")) return "🎾";
+  if (slug.includes("table-tennis") || slug.startsWith("tt-")) return "🏓";
+  if (slug.includes("volleyball") || slug.includes("vollyball")) return "🏐";
+  if (slug.includes("chess")) return "♟️";
+  if (slug.includes("pool")) return "🎱";
+  if (slug.includes("squash")) return "🎾";
+  return "🏃";
 }
 
 export default function EventDetailClient({ slug }: Props) {
