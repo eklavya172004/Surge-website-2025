@@ -90,9 +90,9 @@ export default function SportsGrid() {
                 letterSpacing: "0.5px",
               }}
             >
-              Update
+              Registrations Closed
             </span>
-            Registration is closed for <strong>Cricket Men</strong>, <strong>Football Men</strong>, <strong>Powerlifting</strong>, <strong>Basketball Women</strong> & <strong>Select Athletics Events</strong> (Closed due to excess participants, hope to see you in Surge’27!!). Other sports are still open.
+            Registration is officially closed for <strong>all sports and athletics events</strong> (Closed due to excess participants, hope to see you in Surge’27!!).
           </div>
         </motion.div>
 
@@ -132,28 +132,26 @@ export default function SportsGrid() {
                     />
                     <div className={styles.color_overlay} />
                     <div className={styles.overlay_text_small}>{sport.name}</div>
-                    {(sport.name === "Cricket" || sport.name === "Football" || sport.name === "Powerlifting" || sport.name === "Basketball" || sport.name === "Athletics") && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "12px",
-                          right: "12px",
-                          backgroundColor: "#dc2626",
-                          color: "#ffffff",
-                          fontSize: "10px",
-                          fontWeight: "800",
-                          padding: "3px 8px",
-                          borderRadius: "9999px",
-                          boxShadow: "0 2px 8px rgba(220, 38, 38, 0.5)",
-                          zIndex: 10,
-                          letterSpacing: "0.5px",
-                          textTransform: "uppercase",
-                          border: "1px solid rgba(255, 255, 255, 0.4)",
-                        }}
-                      >
-                        {sport.name === "Powerlifting" ? "Closed" : sport.name === "Basketball" ? "Women Closed" : sport.name === "Athletics" ? "Select Closed" : "Men Closed"}
-                      </div>
-                    )}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "12px",
+                        right: "12px",
+                        backgroundColor: "#dc2626",
+                        color: "#ffffff",
+                        fontSize: "10px",
+                        fontWeight: "800",
+                        padding: "3px 8px",
+                        borderRadius: "9999px",
+                        boxShadow: "0 2px 8px rgba(220, 38, 38, 0.5)",
+                        zIndex: 10,
+                        letterSpacing: "0.5px",
+                        textTransform: "uppercase",
+                        border: "1px solid rgba(255, 255, 255, 0.4)",
+                      }}
+                    >
+                      Closed
+                    </div>
                   </Link>
                 </motion.div>
               ))}
